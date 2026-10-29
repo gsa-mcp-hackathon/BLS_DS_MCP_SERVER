@@ -46,3 +46,6 @@ select = ["E", "F", "I"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+markers = [
+    "live: marks tests that make real network calls (run with '-m live')",
+]

@@ -6,6 +6,7 @@ Every field can be overridden by an environment variable of the same name
 
 from __future__ import annotations
 
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -28,12 +29,37 @@ class Settings(BaseSettings):
     mcp_host: str = "0.0.0.0"
     mcp_port: int = 8000
 
-    # ── Dataset API keys ──────────────────────────────────────────────────────
-    # Add a typed field for each API key your tools need, then read it from
-    # `settings.<field>` in your tool. Document the matching env var in
-    # `.env.example`. Example:
-    #
-    #   example_api_key: str = ""   # ← set EXAMPLE_API_KEY in the environment
+    # ── BLS Public Data API ───────────────────────────────────────────────────
+    # Optional registration key for the BLS Public Data API v2.
+    # When set, the server automatically uses v2 (higher limits).
+    # When absent, the server uses v1 (unauthenticated, lower limits).
+    # Register at: https://data.bls.gov/registrationEngine/
+    # Never commit a real key — set BLS_API_KEY in the environment or .env.
+    bls_api_key: SecretStr = SecretStr("")
 
 
 settings = Settings()
+
+# ── BLS API endpoint base URLs ────────────────────────────────────────────────
+BLS_V1_BASE_URL = "https://api.bls.gov/publicAPI/v1/"
+BLS_V2_BASE_URL = "https://api.bls.gov/publicAPI/v2/"
+
+# ── BLS API per-version limits ────────────────────────────────────────────────
+# v1 (unauthenticated):  25 series/request, 10-year range, 25 requests/day
+# v2 (registered key):   50 series/request, 20-year range, 500 requests/day
+BLS_V1_MAX_SERIES = 25
+BLS_V1_MAX_YEAR_RANGE = 10
+BLS_V1_DAILY_LIMIT = 25
+
+BLS_V2_MAX_SERIES = 50
+BLS_V2_MAX_YEAR_RANGE = 20
+BLS_V2_DAILY_LIMIT = 500
+
+
+def get_bls_api_version() -> str:
+    """Return the BLS API version to use based on the configured key.
+
+    Returns "v2" when BLS_API_KEY is configured (non-empty), "v1" otherwise.
+    The key value is never read outside of the HTTP client that injects it.
+    """
+    return "v2" if settings.bls_api_key.get_secret_value() else "v1"
