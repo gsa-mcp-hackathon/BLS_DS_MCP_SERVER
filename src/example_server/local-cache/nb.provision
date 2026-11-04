@@ -1,0 +1,1233 @@
+provision_code	provision_text	display_level	selectable	sort_sequence
+007	Access to both medical care and retirement benefits	2	T	10
+008	Access to medical care and no retirement benefits	2	T	11
+009	Access to retirement and no medical care benefits	2	T	12
+010	Access to no medical care and no retirement benefits	2	T	13
+011	Access to both medical care benefits and life insurance plans	2	T	15
+012	Access to medical care benefits and no life insurance plans	2	T	16
+013	Access to life insurance plans and no medical care benefits	2	T	17
+014	Access to no medical care benefits and no life insurance plans	2	T	18
+015	Access to both medical care benefits and defined benefit plans	2	T	21
+016	Access to defined benefit plans and no medical care benefits	2	T	22
+017	Access to medical care benefits and no defined benefit plans	2	T	23
+018	Access to no medical care benefits and no defined benefit plans	2	T	24
+019	Access to both medical care benefits and defined contribution plans	2	T	26
+020	Access to defined contribution plans and no medical care benefits	2	T	27
+021	Access to medical care and no defined contribution plans	2	T	28
+022	Access to no medical care benefits and no defined contribution plans	2	T	29
+023	Access to personal leave, sick leave, paid family leave, or vacation	2	T	32
+024	Access to personal leave, sick leave, or paid family leave	2	T	33
+025	Access to both sick leave and vacation	1	T	34
+026	Access to both personal leave and sick leave	1	T	35
+027	Access to personal leave, vacation, or holidays	1	T	37
+028	Access to both personal leave and vacation	1	T	38
+029	Access to both vacation and holidays	1	T	39
+030	Access to paid vacation	1	T	2
+031	Paid vacation: average number of days after 1 year of service	3	T	5
+032	Paid vacation: median number of days after 1 year of service	3	T	6
+033	Paid vacation: less than 5 days after 1 year of service	4	T	8
+034	Paid vacation: 5 to 9 days after 1 year of service	4	T	9
+035	Paid vacation: 10 to 14 days after 1 year of service	4	T	10
+036	Paid vacation: 15 to 19 days after 1 year of service	4	T	11
+037	Paid vacation: 20 to 24 days after 1 year of service	4	T	12
+038	Paid vacation: more than 24 days after 1 year of service	4	T	13
+039	Paid vacation: average number of days after 5 years of service	3	T	15
+040	Paid vacation: median number of days after 5 years of service	3	T	16
+041	Paid vacation: less than 5 days after 5 years of service	4	T	18
+042	Paid vacation: 5 to 9 days after 5 years of service	4	T	19
+043	Paid vacation: 10 to 14 days after 5 years of service	4	T	20
+044	Paid vacation: 15 to 19 days after 5 years of service	4	T	21
+045	Paid vacation: 20 to 24 days after 5 years of service	4	T	22
+046	Paid vacation: more than 24 days after 5 years of service	4	T	23
+047	Paid vacation: average number of days after 10 years of service	3	T	25
+048	Paid vacation: median number of days after 10 years of service	3	T	26
+049	Paid vacation: less than 5 days after 10 years of service	4	T	28
+050	Paid vacation: 5 to 9 days after 10 years of service	4	T	29
+051	Paid vacation: 10 to 14 days after 10 years of service	4	T	30
+052	Paid vacation: 15 to 19 days after 10 years of service	4	T	31
+053	Paid vacation: 20 to 24 days after 10 years of service	4	T	32
+054	Paid vacation: more than 24 days after 10 years of service	4	T	33
+055	Paid vacation: average number of days after 20 years of service	3	T	35
+056	Paid vacation: median number of days after 20 years of service	3	T	36
+057	Paid vacation: less than 5 days after 20 years of service	4	T	38
+058	Paid vacation: 5 to 9 days after 20 years of service	4	T	39
+059	Paid vacation: 10 to 14 days after 20 years of service	4	T	40
+060	Paid vacation: 15 to 19 days after 20 years of service	4	T	41
+061	Paid vacation: 20 to 24 days after 20 years of service	4	T	42
+062	Paid vacation: more than 24 days after 20 years of service	4	T	43
+063	Paid vacation: part of consolidated leave plan	2	T	45
+064	Paid vacation: average number of days after 1 year of service, part of consolidated leave plan	3	T	47
+065	Paid vacation: average number of days after 5 years of service, part of consolidated leave plan	3	T	48
+066	Paid vacation: average number of days after 10 years of service, part of consolidated leave plan	3	T	49
+067	Paid vacation: average number of days after 20 years of service, part of consolidated leave plan	3	T	50
+068	Paid vacation: not part of consolidated leave plan	2	T	51
+069	Paid vacation: average number of days after 1 year of service, not part of consolidated leave plan	3	T	53
+070	Paid vacation: average number of days after 5 years of service, not part of consolidated leave plan	3	T	54
+071	Paid vacation: average number of days after 10 years of service, not part of consolidated leave plan	3	T	55
+072	Paid vacation: average number of days after 20 years of service, not part of consolidated leave plan	3	T	56
+073	Access to paid holidays	1	T	2
+074	Paid holidays: average number of days	2	T	4
+075	Paid holidays: median number of days	2	T	5
+076	Access to less than 6 paid holidays	3	T	9
+077	Paid holidays: 6 days	3	T	10
+078	Paid holidays: 7 days	3	T	11
+079	Paid holidays: 8 days	3	T	12
+080	Paid holidays: 9 days	3	T	13
+081	Paid holidays: 10 days	3	T	14
+082	Paid holidays: 11 days	3	T	15
+083	Paid holidays: 12 days	3	T	16
+084	Paid holidays: 13 days	3	T	17
+085	Paid holidays: 14 days	3	T	18
+086	Paid holidays: more than 14 days	3	T	19
+087	Access to paid sick leave	1	T	2
+088	Paid sick leave: fixed number of days per year	2	T	4
+089	Paid sick leave: fixed number of days per year with carryover	4	T	6
+090	Paid sick leave: fixed number of days per year with unlimited accumulation carryover	5	T	7
+091	Paid sick leave: fixed number of days per year with limited accumulation carryover	5	T	8
+092	Paid sick leave: fixed number of days with limited accumulation carryover (10th percentile)	7	T	10
+093	Paid sick leave: fixed number of days with limited accumulation carryover (25th percentile)	7	T	11
+094	Paid sick leave: fixed number of days with limited accumulation carryover (50th percentile)	7	T	12
+095	Paid sick leave: fixed number of days with limited accumulation carryover (75th percentile)	7	T	13
+096	Paid sick leave: fixed number of days with limited accumulation carryover (90th percentile)	7	T	14
+100	Paid sick leave: average fixed number of days with limited accumulation carryover	7	T	15
+102	Paid sick leave: fixed number of days per year with no carryover	4	T	21
+103	Paid sick leave: granted as needed	2	T	22
+104	Paid sick leave: part of consolidated leave plan	2	T	23
+105	Paid sick leave: average number of days after 1 year of service	3	T	26
+106	Paid sick leave: median number of days after 1 year of service	3	T	27
+107	Paid sick leave: less than 5 days after 1 year of service	4	T	29
+108	Paid sick leave: 5 to 9 days after 1 year of service	4	T	30
+109	Paid sick leave: 10 to 14 days after 1 year of service	4	T	31
+110	Paid sick leave: 15 to 29 days after 1 year of service	4	T	32
+111	Paid sick leave: more than 29 days after 1 year of service	4	T	33
+112	Paid sick leave: average number of days after 5 years of service	3	T	35
+113	Paid sick leave: median number of days after 5 years of service	3	T	36
+114	Paid sick leave: less than 5 days after 5 years of service	4	T	38
+115	Paid sick leave: 5 to 9 days after 5 years of service	4	T	39
+116	Paid sick leave: 10 to 14 days after 5 years of service	4	T	40
+117	Paid sick leave: 15 to 29 days after 5 years of service	4	T	41
+118	Paid sick leave: more than 29 days after 5 years of service	4	T	42
+119	Paid sick leave: average number of days after 10 years of service	3	T	44
+120	Paid sick leave: median number of days after 10 years of service	3	T	45
+121	Paid sick leave: less than 5 days after 10 years of service	4	T	47
+122	Paid sick leave: 5 to 9 days after 10 years of service	4	T	48
+123	Paid sick leave: 10 to 14 days after 10 years of service	4	T	49
+124	Paid sick leave: 15 to 29 days after 10 years of service	4	T	50
+125	Paid sick leave: more than 29 days after 10 years of service	4	T	51
+126	Paid sick leave: average number of days after 20 years of service	3	T	53
+127	Paid sick leave: median number of days after 20 years of service	3	T	54
+128	Paid sick leave: less than 5 days after 20 years of service	4	T	56
+129	Paid sick leave: 5 to 9 days after 20 years of service	4	T	57
+130	Paid sick leave: 10 to 14 days after 20 years of service	4	T	58
+131	Paid sick leave: 15 to 29 days after 20 years of service	4	T	59
+132	Paid sick leave: more than 29 days after 20 years of service	4	T	60
+133	Access to nonproduction bonuses	1	T	2
+134	Nonproduction bonuses: cash profit-sharing bonus	1	T	3
+135	Nonproduction bonuses: employee recognition bonus	1	T	4
+136	Nonproduction bonuses: end-of-year bonus	1	T	5
+137	Nonproduction bonuses: holiday bonus	1	T	6
+138	Nonproduction bonuses: payment in lieu of benefits bonus	1	T	7
+139	Nonproduction bonuses: longevity bonus	1	T	8
+140	Nonproduction bonuses: referral bonus	1	T	9
+141	Nonproduction bonuses: other bonus	1	T	10
+142	Access to life insurance plans	1	T	2
+143	Participation rate for life insurance plans	1	T	3
+144	Take-up rate for life insurance plans	1	T	4
+145	Life insurance: employee contribution not required	2	T	6
+146	Life insurance: employee contribution required	2	T	7
+147	Life insurance: fixed multiple of annual earnings payment method	2	T	9
+148	Life insurance: average fixed multiple of annual earnings	3	T	11
+149	Life insurance: median fixed multiple of annual earnings	3	T	12
+150	Life insurance: fixed multiple less than 1.0 times of annual earnings	3	T	14
+151	Life insurance: fixed multiple equal to 1.0 times of annual earnings	3	T	15
+152	Life insurance: fixed multiple over 1.0 and under 2.0 times of annual earnings	3	T	16
+153	Life insurance: fixed multiple equal to 2.0 times of annual earnings	3	T	17
+154	Life insurance: fixed multiple greater than 2.0 times of annual earnings	3	T	18
+155	Life insurance: fixed multiple of earnings with maximum benefit amount	3	T	20
+156	Life insurance: fixed multiple of earnings with no maximum benefit amount	3	T	21
+157	Life insurance: maximum benefit dollar amount with fixed multiple of earnings (10th percentile)	4	T	23
+158	Life insurance: maximum benefit dollar amount with fixed multiple of earnings (25th percentile)	4	T	24
+159	Life insurance: maximum benefit dollar amount with fixed multiple of earnings (50th percentile)	4	T	25
+160	Life insurance: maximum benefit dollar amount with fixed multiple of earnings (75th percentile)	4	T	26
+161	Life insurance: maximum benefit dollar amount with fixed multiple of earnings (90th percentile)	4	T	27
+162	Life insurance: variable multiple of annual earnings payment method	2	T	28
+163	Life insurance: flat dollar amount payment method	2	T	29
+164	Life insurance: flat dollar amount (10th percentile)	3	T	31
+165	Life insurance: flat dollar amount (25th percentile)	3	T	32
+166	Life insurance: flat dollar amount (50th percentile)	3	T	33
+167	Life insurance: flat dollar amount (75th percentile)	3	T	34
+168	Life insurance: flat dollar amount (90th percentile)	3	T	35
+169	Life insurance: variable dollar amount payment method	2	T	36
+170	Life insurance: other payment method	2	T	37
+171	Access to healthcare benefits	1	T	2
+172	Participation rate for healthcare benefits	1	T	3
+173	Take-up rate for healthcare benefits	1	T	4
+174	Er share of health prems for single coverage	3	T	7
+175	Ee share of health prems for single coverage	3	T	8
+176	Er share of health prems for family coverage	3	T	10
+177	Ee share of health prems for family coverage	3	T	11
+178	Access to medical care benefits	2	T	13
+179	Participation rate for medical care benefits	2	T	14
+180	Take-up rate for medical care benefits	2	T	15
+181	Medical care: single coverage	4	T	18
+182	Medical care: single coverage average flat monthly employer premium amount	4	T	19
+183	Medical care: single coverage with employee contribution not required	5	T	21
+184	Medical care: single coverage average flat monthly employer premium amount with employee contribution not required	5	T	22
+185	Medical care: single coverage with employee contribution required	5	T	24
+186	Medical care: single coverage average flat monthly employer premium amount with employee contribution required	5	T	25
+187	Medical care: single coverage average flat monthly employee premium amount with employee contribution required	5	T	26
+188	All workers w/ contributory coverage for single coverage = 100 percent	6	T	28
+189	Medical care: single coverage employee contribution by flat dollar amount	7	T	30
+191	Medical care: single coverage monthly employee contribution flat dollar amount (10th percentile)	8	T	33
+192	Medical care: single coverage monthly employee contribution flat dollar amount (25th percentile)	8	T	34
+193	Medical care: single coverage monthly employee contribution flat dollar amount (50th percentile)	8	T	35
+194	Medical care: single coverage monthly employee contribution flat dollar amount (75th percentile)	8	T	36
+195	Medical care: single coverage monthly employee contribution flat dollar amount (90th percentile)	8	T	37
+196	Medical care benefits, single coverage: ee participation by type of contrib. (Composite rate)	7	T	39
+198	Medical care: single coverage employee contribution varies	7	T	42
+200	Medical care benefits, single coverage: ee participation by type of contrib. (Flexible benefits)	7	T	45
+202	Medical care benefits, single coverage: ee participation by type of contrib. (% of earnings)	7	T	48
+204	Medical care: single coverage employee contribution exists but amount unknown	7	T	51
+206	Medical care: single coverage employee contribution by other types	7	T	54
+208	Medical care: single coverage employer share of premiums	5	T	57
+209	Medical care: single coverage employee share of premiums	5	T	58
+210	Medical care: family coverage	4	T	60
+211	Medical care: family coverage average flat monthly employer premium amount	4	T	61
+212	Medical care: family coverage with employee contribution not required	5	T	63
+213	Medical care: family coverage average flat monthly employer premium amount with employee contribution not required	5	T	64
+214	Medical care: family coverage with employee contribution required	5	T	66
+215	Medical care: family coverage average flat monthly employer premium amount with employee contribution required	5	T	67
+216	Medical care: family coverage average flat monthly employee premium amount with employee contribution required	5	T	68
+217	All workers w/ contributory coverage for family coverage = 100 percent	6	T	70
+218	Medical care: family coverage employee contribution by flat dollar amount	7	T	72
+220	Medical care: family coverage monthly employee contribution flat dollar amount (10th percentile)	8	T	75
+221	Medical care: family coverage monthly employee contribution flat dollar amount (25th percentile)	8	T	76
+222	Medical care: family coverage monthly employee contribution flat dollar amount (50th percentile)	8	T	77
+223	Medical care: family coverage monthly employee contribution flat dollar amount (75th percentile)	8	T	78
+224	Medical care: family coverage monthly employee contribution flat dollar amount (90th percentile)	8	T	79
+225	Medical care benefits, family coverage: ee participation by type of contrib. (Composite rate)	7	T	81
+227	Medical care: family coverage employee contribution varies	7	T	84
+229	Medical care benefits, family coverage: ee participation by type of contrib. (Flexible benefits)	7	T	87
+231	Medical care benefits, family coverage: ee participation by type of contrib. (% of earnings)	7	T	90
+233	Medical care: family coverage employee contribution exists but amount unknown	7	T	93
+235	Medical care: family coverage employee contribution by other types	7	T	96
+237	Medical care: family coverage employer share of premiums	5	T	99
+238	Medical care: family coverage employee share of premiums	5	T	100
+239	Access to dental care benefits	2	T	102
+240	Participation rate for dental care benefits	2	T	103
+241	Take-up rate for dental care benefits	2	T	104
+242	Access to vision care benefits	2	T	106
+243	Participation rate for vision care benefits	2	T	107
+244	Take-up rate for vision care benefits	2	T	108
+245	Access to outpatient prescription drugs benefits	2	T	110
+246	Participation rate for outpatient prescription drugs benefits	2	T	111
+247	Take-up rate for outpatient prescription drugs benefits	2	T	112
+248	Access to short-term disability plans	1	T	2
+249	Participation rate for short-term disability plans	1	T	3
+250	Take-up rate for short-term disability plans	1	T	4
+251	Short-term disability: non-commercially insured method of funding	2	T	6
+252	Method of funding short-term disability plans is commercially insured	2	T	7
+253	Method of funding short-term disability plans is legally required	2	T	8
+254	Method of funding short-term disability plans is other	2	T	9
+255	Short-term disability: employee contribution not required	2	T	11
+256	Short-term disability: employee contribution required	2	T	12
+257	Short-term disability: flat dollar amount payment method	2	T	14
+263	Short-term disability: variable dollar amount payment method	2	T	21
+264	Short-term disability: fixed percent of annual earnings	2	T	22
+265	Short-term disability: fixed percent of annual earnings less than 50%	4	T	25
+266	Short-term disability: fixed percent of annual earnings equal to 50%	4	T	26
+267	Short-term disability: fixed percent of annual earnings greater than 50% and less than 60%	4	T	27
+268	Short-term disability: fixed percent of annual earnings equal to 60%	4	T	28
+269	Short-term disability: fixed percent of annual earnings greater than 60% and less than 70%	4	T	29
+270	Short-term disability: fixed percent of annual earnings greater than or equal to 70%	4	T	30
+271	Short-term disability: average fixed percent of annual earnings	3	T	31
+272	Short-term disability: median fixed percent of annual earnings	3	T	32
+273	Short-term disability: fixed percent of annual earnings with maximum benefit amount	4	T	34
+274	Short-term disability: maximum weekly benefit dollar amount for fixed percent of annual earnings (10th percentile)	5	T	36
+275	Short-term disability: maximum weekly benefit dollar amount for fixed percent of annual earnings (25th percentile)	5	T	37
+276	Short-term disability: maximum weekly benefit dollar amount for fixed percent of annual earnings (50th percentile)	5	T	38
+277	Short-term disability: maximum weekly benefit dollar amount for fixed percent of annual earnings (75th percentile)	5	T	39
+278	Short-term disability: maximum weekly benefit dollar amount for fixed percent of annual earnings (90th percentile)	5	T	40
+279	Short-term disability: fixed percent of annual earnings with no maximum benefit amount	4	T	41
+280	Short-term disability: variable percent by annual earnings payment method	2	T	42
+281	Short-term disability: other payment method	2	T	43
+282	Short-term disability: fixed duration of benefits	2	T	45
+283	Short-term disability: number of weeks (10th percentile)	3	T	47
+284	Short-term disability: number of weeks (25th percentile)	3	T	48
+285	Short-term disability: number of weeks (50th percentile)	3	T	49
+286	Short-term disability: number of weeks (75th percentile)	3	T	50
+287	Short-term disability: number of weeks (90th percentile)	3	T	51
+288	Short-term disability: variable duration of benefits	2	T	52
+290	Access to defined benefit plans	1	T	3
+291	Participation rate for defined benefit plans	1	T	4
+292	Take-up rate for defined benefit plans	1	T	5
+293	Defined benefit: employee contribution required	2	T	7
+294	Defined benefit: employee contributed fixed percent of annual earnings	3	T	9
+295	Defined benefit: average fixed percent of annual earnings contributed by employee	3	T	10
+296	Defined benefit: median fixed percent of annual earnings contributed by employee	3	T	11
+297	Defined benefit: employee contribution not required	2	T	12
+298	Defined benefit: open plans	2	T	14
+299	% of workers participating in defined benefit plans: Frozen plans	2	T	15
+300	% of workers w/ frozen defined benefit plans: All existing participants to continue benefit accrual	3	T	22
+301	% of workers w/ frozen defined benefit plans: Some existing participants to continue benefit accrual	3	T	23
+302	% of workers w/ frozen defined benefit plans: No existing participants to continue benefit accrual	3	T	24
+303	Time since frozen def. benefit plan closed to new workers or stopped accruing benefits (1 yr)	3	T	26
+304	Time since frozen def. benefit plan closed to new workers or stopped accruing benefits (2 - 5 yrs)	3	T	27
+305	Time since frozen def. benefit plan closed to new workers or stopped accruing benefits ( > 5 yrs)	3	T	28
+306	Defined benefit: frozen plans with alternatives	3	T	30
+307	Defined benefit: frozen plans with new defined benefit plan alternative	4	T	33
+308	Defined benefit: frozen plans with enhanced existing defined contribution plan alternative	4	T	34
+309	Defined benefit: frozen plans with new defined contribution plan alternative	4	T	35
+310	Defined benefit: frozen plans with other plan alternative	4	T	36
+311	Defined benefit: frozen plans with no alternatives	3	T	37
+312	Access to defined contribution plans	1	T	2
+313	Participation rate for defined contribution plans	1	T	3
+314	Take-up rate for defined contribution plans	1	T	4
+315	Defined contribution: employee contribution required	2	T	6
+316	Defined contribution: employee contribution not required	2	T	7
+317	Defined contribution: employee contribution (pretax)	2	T	9
+318	Defined contribution: employee contribution (not pretax)	2	T	10
+319	Access to all retirement benefits	1	T	2
+320	Participation rate for all retirement benefits	1	T	3
+321	Take-up rate for all retirement benefits	1	T	4
+322	Access to long-term disability plans	1	T	2
+323	Participation rate for long-term disability plans	1	T	3
+324	Take-up rate for long-term disability plans	1	T	4
+325	Long-term disability: employee contribution not required	2	T	6
+326	Long-term disability: employee contribution required	2	T	7
+327	Long-term disability: fixed percent of annual earnings	2	T	9
+328	Long-term disability: average fixed percent of annual earnings	3	T	11
+329	Long-term disability: median fixed percent of annual earnings	3	T	12
+330	Long-term disability: fixed percent of annual earnings less than 60%	4	T	14
+331	Long-term disability: fixed percent of annual earnings equal to 60%	4	T	15
+332	Long-term disability: fixed percent of annual earnings greater than 60% and less than 67%	4	T	16
+333	Long-term disability: fixed percent of annual earnings equal to 67%	4	T	17
+334	Long-term disability: fixed percent of annual earnings greater than 67%	4	T	18
+335	Long-term disability: fixed percent of annual earnings with maximum benefit amount	4	T	20
+336	Long-term disability: maximum monthly benefit dollar amount with fixed percent of annual earnings (10th percentile)	5	T	22
+337	Long-term disability: maximum monthly benefit dollar amount with fixed percent of annual earnings (25th percentile)	5	T	23
+338	Long-term disability: maximum monthly benefit dollar amount with fixed percent of annual earnings (50th percentile)	5	T	24
+339	Long-term disability: maximum monthly benefit dollar amount with fixed percent of annual earnings (75th percentile)	5	T	25
+340	Long-term disability: maximum monthly benefit dollar amount with fixed percent of annual earnings (90th percentile)	5	T	26
+341	Long-term disability: fixed percent of annual earnings with no maximum benefit amount	4	T	27
+342	Long-term disability: variable percent by annual earnings payment method	2	T	28
+343	Long-term disability: flat dollar amount payment method	2	T	29
+344	Long-term disability: other payment method	2	T	30
+345	Access to paid funeral leave	1	T	2
+346	Access to paid jury duty leave	1	T	3
+347	Access to paid military leave	1	T	4
+348	Access to paid personal leave	1	T	5
+349	Access to paid family leave	2	T	7
+350	Access to unpaid family leave	2	T	8
+351	Access to childcare	1	T	10
+352	Access to financial planning	1	T	11
+353	Access to wellness programs	1	T	12
+354	Access to employee assistance programs	1	T	13
+355	Access to subsidized commuting	1	T	14
+356	Access to long-term care insurance	1	T	15
+357	Access to flexible workplace	1	T	16
+358	Access to retiree healthcare benefits under age 65	1	T	18
+359	Access to retiree healthcare benefits at age 65 and over	1	T	19
+360	Access to health savings account	1	T	21
+361	Access to savings plans with no employer contribution	1	T	22
+362	Access to section 125 flexible benefits	2	T	24
+363	Access to section 125 healthcare flexible spending account	2	T	25
+364	Access to section 125 dependent care flexible spending account	2	T	26
+365	Access to stock options	1	T	28
+366	Access to other stock options	1	T	29
+367	Access to performance stock options	1	T	30
+368	Access to signing stock options	1	T	31
+369	Private industry establishments offering healthcare benefits	1	T	2
+370	Private industry establishments offering retirement benefits	1	T	3
+371	Private industry establishments offering defined benefit plans	2	T	5
+372	Private industry establishments offering defined contribution plans	2	T	6
+373	Access to same sex unmarried domestic partner defined benefit retirement survivor benefits	1	T	2
+374	Access to opposite sex unmarried domestic partner defined benefit retirement survivor benefits	1	T	3
+375	Access to same sex unmarried domestic partner healthcare benefits	1	T	4
+376	Access to opposite sex unmarried domestic partner healthcare benefits	1	T	5
+381	Access to payroll deduction Individual Retirement Account (IRA)	1	T	1
+382	Paid holidays: less than 5 days	3	T	7
+383	Paid holidays: 5 days	3	T	8
+384	Access to both defined benefit and defined contribution plans	1	T	6
+385	Access to defined benefit and no defined contribution plans	1	T	7
+386	Access to defined contribution and no defined benefit plans	1	T	8
+387	Defined benefit: soft frozen with all participants still accruing benefits	3	T	18
+388	Defined benefit: soft frozen with some participants still accruing benefits	3	T	19
+389	Defined benefit: hard frozen	2	T	20
+390	Defined benefit: frozen plans with modified existing defined benefit plan alternative	4	T	32
+397	Medical care: one plan network	0	T	1
+398	Medical care: two plan networks	0	T	2
+399	Medical care: more than two plan networks	0	T	3
+400	Medical care: with plan network	1	T	1
+401	Medical care: with no plan network	1	T	2
+402	Medical care: with plan network not determinable	1	T	3
+403	Medical care: non-emergency services allowed outside network	1	T	4
+404	Medical care: non-emergency services not allowed outside network	1	T	5
+405	Medical care: non-emergency services outside network not determinable	1	T	6
+406	Medical care plans: With primary care physician	1	T	7
+407	Medical care plans: With no primary care physician	1	T	8
+408	Medical care plans: With primary care physician not determinable	1	T	9
+409	Medical care: coverage for hospital room and board	1	T	10
+410	Medical care plans: Coverage for inpatient surgery	1	T	11
+411	Medical care: coverage for physician office visit	1	T	12
+412	Medical care plans: Coverage for outpatient surgery	1	T	13
+413	Medical care: with service requirement	1	T	14
+414	Medical care: with 1 month service requirement	1	T	15
+415	Medical care: with 2 months service requirement	1	T	16
+416	Medical care: with 3 months service requirement	1	T	17
+417	Medical care: with greater than 3 months service requirement	1	T	18
+418	Medical care: with service requirement time not determinable	1	T	19
+419	Medical care: median service requirement for eligibility in months	1	T	20
+420	Medical care: with no service requirement	1	T	21
+421	Medical care: service requirement not determinable	1	T	22
+422	Medical care: with non-high deductible health plans	1	T	23
+423	Non-high deductible health plans: With flexible spending account	1	T	24
+424	Non-high deductible health plans: with health reimbursement arrangement	1	T	25
+425	Non-high deductible health plans: with annual individual deductible	1	T	26
+426	Non-high deductible health plans: annual individual deductible amount (10th percentile)	1	T	27
+427	Non-high deductible health plans: annual individual deductible amount (25th percentile)	1	T	28
+428	Non-high deductible health plans: annual individual deductible amount (50th percentile)	1	T	29
+429	Non-high deductible health plans: annual individual deductible amount (75th percentile)	1	T	30
+430	Non-high deductible health plans: annual individual deductible amount (90th percentile)	1	T	31
+431	Non-high deductible health plans: with no annual individual deductible	1	T	32
+432	Medical care: with high deductible health plans	1	T	33
+433	High deductible health plans: With flexible spending account	1	T	34
+434	High deductible health plans: with health reimbursement arrangement	1	T	35
+435	High deductible health plans: with health savings account	1	T	36
+436	High deductible health plans: annual individual deductible amount (10th percentile)	1	T	37
+437	High deductible health plans: annual individual deductible amount (25th percentile)	1	T	38
+438	High deductible health plans: annual individual deductible amount (50th percentile)	1	T	39
+439	High deductible health plans: annual individual deductible amount (75th percentile)	1	T	40
+440	High deductible health plans: annual individual deductible amount (90th percentile)	1	T	41
+441	Fee-for-service plans: Total	1	T	42
+442	Fee-for-service plans: Traditional	1	T	43
+443	Fee-for-service plans: Exclusive provider organization	1	T	44
+444	Fee-for-service plans: Preferred provider organization	1	T	45
+445	Fee-for-service plans: Point of service	1	T	46
+446	Fee-for-service plans: Type of plan not determinable	1	T	47
+447	Fee-for-service plans: With annual deductible	1	T	48
+448	Fee-for-service plans: With no annual deductible	1	T	49
+449	Fee-for-service plans: With annual deductible not determinable	1	T	50
+450	Fee-for-service plans: With annual individual deductible	2	T	51
+451	Fee-for-service plans: Annual individual deductible (10th percentile)	2	T	52
+452	Fee-for-service plans: Annual individual deductible (25th percentile)	2	T	53
+453	Fee-for-service plans: Annual individual deductible (50th percentile-median)	2	T	54
+454	Fee-for-service plans: Annual individual deductible (75th percentile)	2	T	55
+455	Fee-for-service plans: Annual individual deductible (90th percentile)	2	T	56
+456	Fee-for-service plans: With no annual individual deductible	2	T	57
+457	Fee-for-service plans: With fixed annual individual deductible	2	T	58
+458	Fee-for-service plans: Annual fixed individual deductible, median amount	2	T	59
+459	Fee-for-service plans: With annual variable individual deductible	2	T	60
+460	Fee-for-service plans: Median annual variable individual deductible (most generous coverage)	2	T	61
+461	Fee-for-service plans: Median annual variable individual deductible amount (in-network)	2	T	62
+462	Fee-for-service plans: Median annual variable individual deductible amount (out-of-network)	2	T	63
+464	Fee-for-service plans: With annual family deductible	2	T	65
+465	Fee-for-service plans: Annual family deductible (10th percentile)	2	T	66
+466	Fee-for-service plans: Annual family deductible (25th percentile)	2	T	67
+467	Fee-for-service plans: Annual family deductible (50th percentile-median)	2	T	68
+468	Fee-for-service plans: Annual family deductible (75th percentile)	2	T	69
+469	Fee-for-service plans: Annual family deductible (90th percentile)	2	T	70
+470	Fee-for-service plans: With no annual family deductible	2	T	71
+471	Fee-for-service plans: With fixed annual family deductible	2	T	72
+472	Fee-for-service plans: Annual fixed family deductible, median amount	2	T	73
+473	Fee-for-service plans: With annual variable family deductible	3	T	74
+474	Fee-for-service plans: Median annual variable family deductible (most generous coverage)	3	T	75
+475	Fee-for-service plans: Median annual variable family deductible amount (in-network)	3	T	76
+476	Fee-for-service plans: Median annual variable family deductible amount (out-of-network)	3	T	77
+477	Fee-for-service plans: With coinsurance	1	T	78
+478	Fee-for-service plans: With no coinsurance	1	T	79
+479	Fee-for-service plans: With coinsurance not determinable	1	T	80
+480	Fee-for-service plans: With fixed coinsurance	1	T	81
+481	Fee-for-service plans: With variable coinsurance	1	T	82
+483	Fee-for-service plans: Median coinsurance percentage	2	T	84
+484	Fee-for-service plans: Median variable coinsurance percentage (most generous coverage)	2	T	85
+485	Fee-for-service plans: Median variable coinsurance percentage (in-network)	2	T	86
+486	Fee-for-service plans: Median variable coinsurance percentage (out-of-network)	1	T	87
+487	Fee-for-service plans: With annual out-of-pocket maximum	1	T	88
+488	Fee-for-service plans: With no annual out-of-pocket maximum	2	T	89
+489	Fee-for-service plans: Annual individual with out-of-pocket maximum	2	T	90
+490	Fee-for-service plans: Annual individual out-of-pocket maximum amount (10th percentile)	2	T	91
+491	Fee-for-service plans: Annual individual out-of-pocket maximum amount (25th percentile)	2	T	92
+492	Fee-for-service plans: Annual individual out-of-pocket maximum amount (50th percentile-median)	2	T	93
+493	Fee-for-service plans: Annual individual out-of-pocket maximum amount (75th percentile)	2	T	94
+494	Fee-for-service plans: Annual individual out-of-pocket maximum amount (90th percentile)	2	T	95
+495	Fee-for-service plans: With no annual individual out-of-pocket maximum	2	T	96
+496	Fee-for-service plans: With annual individual out-of-pocket maximum not determinable	2	T	97
+497	Fee-for-service plans: With annual family out-of-pocket maximum	2	T	98
+498	Fee-for-service plans: Annual family out-of-pocket maximum amount (10th percentile)	2	T	99
+499	Fee-for-service plans: Annual family out-of-pocket maximum amount (25th percentile)	2	T	100
+4H5	Hospital room and board: median coinsurance percentage	1	T	260
+4M2	Medical care: with health reimbursement arrangement	1	T	268
+4S0	Medical care: coverage for specialist office visit	1	T	265
+4S2	Specialist office visit: coverage not determinable	1	T	256
+4S3	Specialist office visit: coverage with limits	1	T	257
+4S4	Specialist office visit: full coverage	1	T	258
+4S5	Specialist office visit: median coinsurance percentage	1	T	259
+4S6	Specialist office visit: copayment only	1	T	261
+4S7	Specialist office visit: coinsurance only	1	T	262
+4S8	Specialist office visit: median copayment per visit	1	T	263
+4S9	Specialist office visit: copayment and coinsurance	1	T	264
+500	Fee-for-service plans: Annual family out-of-pocket maximum amount (50th percentile-median)	2	T	101
+501	Fee-for-service plans: Annual family out-of-pocket maximum amount (75th percentile)	2	T	102
+502	Fee-for-service plans: Annual family out-of-pocket maximum amount (90th percentile)	2	T	103
+503	Fee-for-service plans: With no annual family out-of-pocket maximum	2	T	104
+504	Fee-for-service plans: Coverage for mental health care, inpatient mental	1	T	105
+505	Fee-for-service plans: Coverage for mental health care, outpatient mental	1	T	106
+506	Fee-for-service plans: Coverage for selected services, hospital room and board	1	T	107
+507	Fee-for-service plans: Coverage for selected services, inpatient surgery	1	T	108
+508	Fee-for-service plans: Coverage for selected services, physician office visit	1	T	109
+509	Fee-for-service plans: Coverage for selected services, outpatient surgery	1	T	110
+510	Health maintenance organizations: Total	1	T	111
+511	Health maintenance organizations: Traditional	1	T	112
+512	Health maintenance organizations: Open access	1	T	113
+513	Health maintenance organizations: Type of plan not determinable	1	T	114
+514	Health maintenance organizations: With annual deductible	1	T	115
+515	Health maintenance organizations: With no annual deductible	1	T	116
+516	Health maintenance organizations: With annual deductible not determinable	1	T	117
+532	Health maintenance organizations: With coinsurance	1	T	133
+533	Health maintenance organizations: With no coinsurance	1	T	134
+534	Health maintenance organizations: With coinsurance not determinable	1	T	135
+542	Health maintenance organizations: With annual out-of-pocket maximum	1	T	143
+543	Health maintenance organizations: With no annual out-of-pocket maximum	1	T	144
+544	Health maintenance organizations: With annual out-of-pocket maximum not determinable	1	T	145
+545	Health maintenance organizations: With annual family out-of-pocket maximum	2	T	146
+546	Health maintenance organizations: With no annual family out-of-pocket maximum	2	T	147
+547	Health maintenance organizations: With annual individual out-of-pocket maximum	2	T	148
+548	Health maintenance organizations: Amount of annual individual out-of-pocket maximum (10th percentile)	2	T	149
+549	Health maintenance organizations: Amount of annual individual out-of-pocket maximum (25th percentile)	2	T	150
+550	Health maintenance organizations: Amount of annual individual out-of-pocket maximum (50th percentile-median)	2	T	151
+551	Health maintenance organizations: Amount of annual individual out-of-pocket maximum (75th percentile)	2	T	152
+552	Health maintenance organizations: Amount of annual individual out-of-pocket maximum (90th percentile)	2	T	153
+553	Health maintenance organizations: With no annual individual out-of-pocket maximum	2	T	154
+554	Health maintenance organizations: Amount of annual family out-of-pocket maximum (10th percentile)	2	T	155
+555	Health maintenance organizations: Amount of annual family out-of-pocket maximum (25th percentile)	2	T	156
+556	Health maintenance organizations: Amount of annual family out-of-pocket maximum (50th percentile-median)	2	T	157
+557	Health maintenance organizations: Amount of annual family out-of-pocket maximum (75th percentile)	2	T	158
+558	Health maintenance organizations: Amount of annual family out-of-pocket maximum (90th percentile)	2	T	159
+559	Health maintenance organizations: Coverage for inpatient mental health care	1	T	160
+560	Health maintenance organizations: Coverage for outpatient mental health care	1	T	161
+561	Health maintenance organizations: Coverage for hospital room and board	1	T	162
+562	Health maintenance organizations: Coverage for inpatient surgery	1	T	163
+563	Health maintenance organizations: Coverage for physician office visit	1	T	164
+564	Health maintenance organizations: Coverage for outpatient surgery	1	T	165
+565	Hospital room and board: coverage not determinable	1	T	166
+566	Hospital room and board: coverage with limits	1	T	167
+567	Hospital room and board: full coverage	1	T	168
+568	Hospital room and board benefits: Fee-for-service plans coverage not determinable	1	T	169
+569	Hospital room and board benefits: Fee-for-service plans, coverage with limits	1	T	170
+570	Hospital room and board benefits: Fee-for-service plans, full coverage	1	T	171
+571	Hospital room and board benefits: Health maintenance organizations plans, coverage not determinable	1	T	172
+572	Hospital room and board benefits: Health maintenance organizations plans, coverage with limits	1	T	173
+573	Hospital room and board benefits: Health maintenance organizations plans, full coverage	1	T	174
+574	Hospital room and board: coinsurance only	1	T	175
+575	Hospital room and board: copayment and coinsurance	1	T	176
+576	Hospital room and board: copayment only	1	T	177
+577	Hospital room and board: median copayment per visit	1	T	178
+578	Hospital room and board benefits: Fee-for-service plans, coinsurance only	1	T	179
+579	Hospital room and board benefits: Fee-for-service plans, copayment and coinsurance	1	T	180
+580	Hospital room and board benefits: Fee-for-service plans, copayment only	1	T	181
+581	Hospital room and board benefits: Fee-for-service, median copayment per visit	1	T	182
+582	Hospital room and board benefits: Health maintenance organizations plans, coinsurance only	1	T	183
+583	Hospital room and board benefits: Health maintenance organizations plans, copayment and coinsurance	1	T	184
+584	Hospital room and board benefits: Health maintenance organizations plans, copayment only	1	T	185
+585	Hospital room and board benefits: Health maintenance organizations plans, median copayment per visit	1	T	186
+586	Inpatient mental health care benefits: All medical plans, coverage not determinable	1	T	187
+587	Inpatient mental health care benefits: All medical plans, coverage with limits	1	T	188
+588	Inpatient mental health care benefits: All medical plans, full coverage	1	T	189
+589	Inpatient mental health care benefits: Fee-for-service plans, coverage not determinable	1	T	190
+590	Inpatient mental health care benefits: Fee-for-service plans, coverage with limits	1	T	191
+591	Inpatient mental health care benefits: Fee-for-service plans, full coverage	1	T	192
+592	Inpatient mental health care benefits: Health maintenance organizations plans, coverage not determinable	1	T	193
+593	Inpatient mental health care benefits: Health maintenance organizations plans, coverage with limits	1	T	194
+594	Inpatient mental health care benefits: Health maintenance organizations plans, full coverage	1	T	195
+595	Inpatient surgery benefits: All medical plans, coverage not determinable	1	T	196
+596	Inpatient surgery benefits: All medical plans, coverage with limits	1	T	197
+597	Inpatient surgery benefits: All medical plans, full coverage	1	T	198
+598	Inpatient surgery benefits: Fee-for-service plans, coverage not determinable	1	T	199
+599	Inpatient surgery benefits: Fee-for-service plans, coverage with limits	1	T	200
+600	Inpatient surgery benefits: Fee-for-service plans, full coverage	1	T	201
+601	Inpatient surgery benefits: Health maintenance organizations plans, coverage not determinable	1	T	202
+602	Inpatient surgery benefits: Health maintenance organizations plans, coverage with limits	1	T	203
+603	Inpatient surgery benefits: Health maintenance organizations plans, full coverage	1	T	204
+604	Mental health care treatment benefits: Coverage for inpatient mental	1	T	205
+605	Mental health care treatment benefits: Coverage for outpatient mental	1	T	206
+606	Outpatient mental health care benefits: Health maintenance organizations plans, coverage not determinable	1	T	207
+607	Outpatient mental health care benefits: Health maintenance organizations plans, coverage with limits	1	T	208
+608	Outpatient mental health care benefits: All medical plans, coverage not determinable	1	T	209
+609	Outpatient mental health care benefits: All medical plans, coverage with limits	1	T	210
+610	Outpatient mental health care benefits: All medical plans, full coverage	1	T	211
+611	Outpatient mental health care benefits: Fee-for-service plans, coverage not determinable	1	T	212
+612	Outpatient mental health care benefits: Fee-for-service plans, coverage with limits	1	T	213
+613	Outpatient mental health care benefits: Fee-for-service plans, full coverage	1	T	214
+614	Outpatient prescription drug: brand-name drugs not on formulary	1	T	215
+615	Outpatient prescription drug: brand-name drugs on formulary	1	T	216
+616	Outpatient prescription drug benefits: Brand-name drugs on formulary with copayment	1	T	217
+617	Outpatient prescription drug benefits: Brand-name drugs on formulary with no copayment	1	T	218
+618	Outpatient prescription drug: brand-name drugs on formulary with copayment not determinable	1	T	219
+619	Outpatient prescription drug: median copayment per prescription for brand-name drugs on formulary	1	T	220
+620	Outpatient prescription drug benefits: Brand-name drugs not on formulary with copayment	1	T	221
+621	Outpatient prescription drug benefits: Brand-name drugs not on formulary with no copayment	1	T	222
+622	Outpatient prescription drug: brand-name drugs not on formulary with copayment not determinable	1	T	223
+623	Outpatient prescription drug: median copayment per prescription for brand-name drugs not on formulary	1	T	224
+624	Outpatient prescription drug: generic drugs with copayment not determinable	1	T	225
+625	Outpatient prescription drug: generic drugs coverage	1	T	226
+626	Outpatient prescription drug benefits: Generic drugs with copayment	1	T	227
+627	Outpatient prescription drug benefits: Generic drugs with no copayment	1	T	228
+628	Outpatient prescription drug: median copayment per prescription for generic drugs	1	T	229
+629	Outpatient prescription drug: mail order drugs coverage	1	T	230
+630	Outpatient surgery benefits: Health maintenance organizations plans, coverage not determinable	1	T	231
+631	Outpatient surgery benefits: Health maintenance organizations plans, coverage with limits	1	T	232
+632	Outpatient surgery benefits: Health maintenance organizations plans, full coverage	1	T	233
+633	Outpatient surgery benefits: Health maintenance organizations plans, median copayment per visit	1	T	234
+634	Outpatient surgery benefits: All medical plans, coverage not determinable	1	T	235
+635	Outpatient surgery benefits: All medical plans, coverage with limits	1	T	236
+636	Outpatient surgery benefits: All medical plans, full coverage	1	T	237
+637	Outpatient surgery benefits: All medical plans, median copayment per visit	1	T	238
+638	Outpatient surgery benefits: Fee-for-service plans, coverage not determinable	1	T	239
+639	Outpatient surgery benefits: Fee-for-service plans, coverage with limits	1	T	240
+640	Outpatient surgery benefits: Fee-for-service plans, full coverage	1	T	241
+641	Outpatient surgery benefits: Fee-for-service, median copayment per visit	1	T	242
+642	Physician office visit benefits: Health maintenance organizations plans, coverage not determinable	1	T	243
+643	Physician office visit benefits: Health maintenance organizations plans, coverage with limits	1	T	244
+644	Physician office visit benefits: Health maintenance organizations plans, full coverage	1	T	245
+645	Physician office visit benefits: Health maintenance organizations, median copayment per visit	1	T	246
+646	Physician office visit: coverage not determinable	1	T	247
+647	Physician office visit: coverage with limits	1	T	248
+648	Physician office visit: full coverage	1	T	249
+649	Physician office visit: median copayment per visit	1	T	250
+650	Physician office visit benefits: Fee-for-service plans, coverage not determinable	1	T	251
+651	Physician office visit benefits: Fee-for-service plans, coverage with limits	1	T	252
+652	Physician office visit benefits: Fee-for-service plans, full coverage	1	T	253
+653	Physician office visit benefits: Fee-for-service, median copayment per visit	1	T	254
+654	Dental care benefits: Preventative services coverage	2	T	255
+655	Dental care benefits: Basic services coverage	2	T	256
+656	Dental care benefits: Major services coverage	2	T	257
+657	Dental care benefits: Coverage for orthodontia, total	3	T	258
+658	Dental care benefits: Coverage for orthodontia, employee and dependent	3	T	259
+659	Dental care benefits: Coverage for orthodontia, dependent only	3	T	260
+660	Dental care benefits: Coverage for preventive services, full coverage	3	T	261
+661	Dental care benefits: Coverage for preventive services, coverage with limits	3	T	262
+662	Dental care benefits: Coverage for preventive services not determinable	3	T	263
+663	Dental care benefits: Coverage for basic services, full coverage	3	T	264
+664	Dental care benefits: Coverage for basic services, coverage with limits	3	T	265
+665	Dental care benefits: Coverage for basic services not determinable	3	T	266
+666	Dental care benefits: Coverage for major services, coverage with limits	3	T	267
+667	Dental care benefits: Coverage for major services, no coverage	3	T	268
+668	Dental care benefits: Coverage for major services not determinable	3	T	269
+669	Dental care benefits: Median percent of covered charges paid by plan for preventative services	3	T	270
+670	Dental care benefits: Median percent of covered charges paid by plan for basic services	3	T	271
+671	Dental care benefits: Median percent of covered charges paid by plan for major services	3	T	272
+672	Dental care benefits: Employee and dependent coverage for orthodontia, coverage with limits	3	T	273
+673	Dental care benefits: Employee and dependent coverage for orthodontia, no coverage	3	T	274
+674	Dental care benefits: Employee and dependent coverage for orthodontia, not determinable	3	T	275
+675	Dental care benefits: Employee and dependent coverage for orthodontia, median percent of covered charges	3	T	276
+676	Dental care benefits: Dependent only coverage for orthodontia, coverage with limits	3	T	277
+677	Dental care benefits: Dependent only coverage for orthodontia, no coverage	3	T	278
+678	Dental care benefits: Dependent only coverage for orthodontia not determinable	3	T	279
+679	Dental care benefits: Dependent only coverage for orthodontia, median percent covered of charges	3	T	280
+680	Dental care benefits: Coverage for orthodontia, median lifetime maximum	3	T	281
+681	Dental care benefits: With annual individual deductible	3	T	282
+682	Dental care benefits: Amount of annual individual deductible (10th percentile)	3	T	283
+683	Dental care benefits: Amount of annual individual deductible (25th percentile)	3	T	284
+684	Dental care benefits: Amount of annual individual deductible (50th percentile-median)	3	T	285
+685	Dental care benefits: Amount of annual individual deductible (75th percentile)	3	T	286
+686	Dental care benefits: Amount of annual individual deductible (90th percentile)	3	T	287
+687	Dental care benefits: With no annual individual deductible	3	T	288
+688	Dental care benefits: With annual individual deductible not determinable	3	T	289
+689	Dental care benefits: With annual family deductible	3	T	290
+690	Dental care benefits: Amount of annual family deductible (10th percentile)	3	T	291
+691	Dental care benefits: Amount of annual family deductible (25th percentile)	3	T	292
+692	Dental care benefits: Amount of annual family deductible (50th percentile-median)	3	T	293
+693	Dental care benefits: Amount of annual family deductible (75th percentile)	3	T	294
+694	Dental care benefits: Amount of annual family deductible (90th percentile)	3	T	295
+695	Dental care benefits: With no annual family deductible	3	T	296
+696	Dental care benefits: With annual plan maximum	3	T	297
+697	Dental care benefits: Amount of annual plan maximum (10th percentile)	3	T	298
+698	Dental care benefits: Amount of annual plan maximum (25th percentile)	3	T	299
+699	Dental care benefits: Amount of annual plan maximum (50th percentile-median)	3	T	300
+700	Dental care benefits: Amount of annual plan maximum (75th percentile)	3	T	301
+701	Dental care benefits: Amount of annual plan maximum (90th percentile)	3	T	302
+702	Dental care benefits: With no annual plan maximum	3	T	303
+703	Dental care benefits: With annual plan maximum not determinable	3	T	304
+704	Vision care benefits: Coverage for eye exams	2	T	305
+705	Vision care benefits: Extent of coverage for eye exams, full coverage	2	T	306
+706	Vision care benefits: Extent of coverage for eye exams, coverage with limits	2	T	307
+707	Vision care benefits: Extent of coverage for eye exams not determinable	2	T	308
+708	Vision care benefits: Median copayments for eye exams	2	T	309
+709	Vision care benefits: Coverage for glasses	2	T	310
+710	Vision care benefits: Extent of coverage for glasses, full coverage	2	T	311
+711	Vision care benefits: Extent of coverage for glasses, coverage with limits	2	T	312
+712	Vision care benefits: Extent of coverage for glasses not determinable	2	T	313
+713	Vision care benefits: Median copayments for glasses	2	T	314
+714	Vision care benefits: Coverage for contact lenses	2	T	315
+715	Vision care benefits: Extent of coverage for contact lenses, full coverage	2	T	316
+716	Vision care benefits: Extent of coverage for contact lenses, coverage with limits	2	T	317
+717	Vision care benefits: Extent of coverage for contact lenses not determinable	2	T	318
+718	Vision care benefits: Median copayments for contact lenses	2	T	319
+719	Medical care: with coinsurance	1	T	607
+720	Medical care: with no coinsurance	1	T	608
+722	Medical care: with annual out-of-pocket maximum	1	T	610
+723	Medical care: with no annual out-of-pocket maximum	1	T	611
+724	Medical care: with annual out-of-pocket maximum not determinable	1	T	612
+725	Medical care: with annual deductible	1	T	613
+726	Medical care: with no annual deductible	1	T	614
+727	Medical care: with annual deductible not determinable	1	T	615
+728	Medical care: with fixed annual individual deductible	1	T	616
+729	Medical care: with variable annual individual deductible	1	T	617
+730	Medical care: with other annual individual deductible	1	T	618
+731	Medical care: with fixed annual family deductible	1	T	619
+732	Medical care: with variable annual family deductible	1	T	620
+733	Medical care: with annual individual deductible	1	T	621
+734	Medical care: with no annual individual deductible	1	T	622
+735	Medical care: with annual family deductible	1	T	623
+736	Medical care: with no annual family deductible	1	T	624
+737	Medical care: with individual out-of-pocket maximum	1	T	625
+738	Medical care: with no individual out-of-pocket maximum	1	T	626
+739	Medical care: with family out-of-pocket maximum	1	T	627
+740	Medical care: with no family out-of-pocket maximum	1	T	628
+741	Medical care: median fixed annual individual deductible amount	1	T	629
+742	Medical care: median variable annual individual deductible amount for in-network coverage	1	T	630
+743	Medical care: median variable annual individual deductible amount for out-of-network coverage	1	T	631
+744	Medical care: median variable annual individual deductible amount for most generous coverage	1	T	632
+745	Medical care: median fixed annual family deductible amount	1	T	633
+746	Medical care: median variable in-network annual family deductible amount	1	T	634
+747	Medical care: median variable out-of-network annual family deductible amount	1	T	635
+748	Medical care: median variable most-generous coverage annual family deductible amount	1	T	636
+749	Medical care: annual individual deductible amount (10th percentile)	1	T	637
+750	Medical care: annual individual deductible amount (25th percentile)	1	T	638
+751	Medical care: annual individual deductible amount (50th percentile)	1	T	639
+752	Medical care: annual individual deductible amount (75th percentile)	1	T	640
+753	Medical care: annual individual deductible amount (90th percentile)	1	T	641
+754	Medical care: annual family deductible amount (10th percentile)	1	T	642
+755	Medical care: annual family deductible amount (25th percentile)	1	T	643
+756	Medical care: annual family deductible amount (50th percentile)	1	T	644
+757	Medical care: annual family deductible amount (75th percentile)	1	T	645
+758	Medical care: annual family deductible amount (90th percentile)	1	T	646
+759	Medical care: with variable coinsurance	1	T	647
+761	Medical care: with fixed coinsurance	1	T	649
+762	Medical care: median fixed coinsurance percentage	1	T	650
+763	Medical care: median variable coinsurance percentage for in-network coverage	1	T	651
+764	Medical care: median variable coinsurance percentage for out-of-network coverage	1	T	652
+765	Medical care: median variable coinsurance percentage for most generous coverage	1	T	653
+766	Medical care: annual individual out-of-pocket maximum amount (10th percentile)	1	T	654
+767	Medical care: annual individual out-of-pocket maximum amount (25th percentile)	1	T	655
+768	Medical care: annual individual out-of-pocket maximum amount (50th percentile)	1	T	656
+769	Medical care: annual individual out-of-pocket maximum amount (75th percentile)	1	T	657
+770	Medical care: annual individual out-of-pocket maximum amount (90th percentile)	1	T	658
+771	Medical care: annual family out-of-pocket maximum (10th percentile)	1	T	659
+772	Medical care: annual family out-of-pocket maximum (25th percentile)	1	T	660
+773	Medical care: annual family out-of-pocket maximum (50th percentile)	1	T	661
+774	Medical care: annual family out-of-pocket maximum (75th percentile)	1	T	662
+775	Medical care: annual family out-of-pocket maximum (90th percentile)	1	T	663
+776	Outpatient prescription drug: subject to an annual deductible	2	T	664
+777	Outpatient prescription drug: generic drugs subject to coinsurance	2	T	665
+778	Outpatient prescription drug: generic drugs subject to coinsurance (floor or ceiling)	2	T	666
+779	Outpatient prescription drug: generic drugs subject to copayment and coinsurance or other limits	2	T	667
+780	Outpatient prescription drug: with no cost per fill or refill for generic drugs	2	T	668
+781	Outpatient prescription drug: generic drugs subject to copayment	2	T	669
+782	Outpatient prescription drug: median coinsurance per generic drugs prescription	2	T	670
+783	Outpatient prescription drug: brand-name drugs on formulary subject to coinsurance	2	T	671
+784	Outpatient prescription drug: brand-name drugs on formulary subject to coinsurance (floor or ceiling)	2	T	672
+785	Outpatient prescription drug: brand-name drugs on formulary subject to copayment and coinsurance or other limits	2	T	673
+786	Outpatient prescription drug: with no cost per fill or refill for brand-name drugs on formulary	2	T	674
+787	Outpatient prescription drug: brand-name drugs on formulary subject to copayment	2	T	675
+788	Outpatient prescription drug: median coinsurance per brand-name drugs on formulary prescription	2	T	676
+789	Outpatient prescription drug: brand-name drugs not on formulary subject to coinsurance	2	T	677
+790	Outpatient prescription drug: brand-name drugs not on formulary subject to coinsurance (floor or ceiling)	2	T	678
+791	Outpatient prescription drug: brand-name drugs not on formulary subject to copayment and coinsurance or other limits	2	T	679
+792	Outpatient prescription drug: with no cost per fill or refill for brand-name drugs not on formulary	2	T	680
+793	Outpatient prescription drug: brand-name drugs not on formulary subject to copayment	2	T	681
+794	Outpatient prescription drug: median coinsurance per brand-name drugs not on formulary prescription	2	T	682
+800	Defined benefit: traditional primary formula	2	T	320
+801	Defined benefit: non-traditional primary formula	2	T	321
+802	Defined benefit: single employer plan sponsor	2	T	322
+803	Defined benefit: multi-employer plan sponsor	2	T	323
+804	Defined benefit: open to new employees	2	T	324
+805	Defined benefit: not open to new employees	2	T	325
+806	Defined benefit: open to new employees not determinable	2	T	326
+808	Defined benefit: open to new employees, no minimum age or service requirement	3	T	328
+809	Defined benefit: open to new employees, minimum age and service requirement	3	T	329
+810	Defined benefit: open to new employees, minimum service requirement only	3	T	330
+811	Defined benefit: open to new employees, minimum age and service requirement not determinable	3	T	331
+812	Defined benefit: benefits integrated with Social Security	2	T	332
+813	Defined benefit: Social Security breakpoint integrated formula	3	T	333
+814	Defined benefit: Social Security cash balance integrated formula	3	T	334
+815	Defined benefit: Social Security offset integrated formula	3	T	335
+816	Defined benefit: benefits not integrated with Social Security	2	T	336
+817	Defined benefit: not covered under Social Security	2	T	337
+818	Defined benefit: immediate full vesting requirement	2	T	338
+819	Defined benefit: cliff vesting requirement	2	T	339
+820	Defined benefit: average years required for cliff vesting	3	T	340
+821	Defined benefit: years required for cliff vesting, 50th percentile (median)	3	T	341
+822	Defined benefit: graded vesting requirement	2	T	342
+823	Defined benefit: vesting requirement not determinable	2	T	343
+824	Non-traditional defined benefit: single employer plan sponsor	3	T	344
+826	Non-traditional defined benefit: cash balance, employer contribution varying by age	4	T	346
+829	Non-traditional defined benefit: cash balance, employer contribution varying by service	4	T	349
+830	Non-traditional defined benefit: cash balance, employer contribution varying by Social Security taxable wage base	4	T	350
+831	Non-traditional defined benefit: cash balance, variable employer contribution percentage	3	T	351
+832	Non-traditional defined benefit: lump-sum payment at normal retirement	3	T	352
+833	Non-traditional defined benefit: cash balance, primary plan formula	3	T	353
+835	Non-traditional defined benefit: pension equity, primary plan formula	3	T	355
+837	Non-traditional defined benefit: cash balance, flat employer contribution percentage	3	T	357
+839	Non-traditional defined benefit: cash balance, average flat employer contribution percentage	3	T	359
+840	Non-traditional defined benefit: disability retirement available	3	T	360
+841	Non-traditional defined benefit: joint-and-survivor annuity	3	T	361
+842	Non-traditional defined benefit: pre-retirement survivor benefits	3	T	362
+843	Traditional defined benefit: multi-employer plan sponsor	3	T	363
+844	Traditional defined benefit: disability retirement available	3	T	364
+845	Traditional defined benefit: disability retirement not available	3	T	365
+846	Traditional defined benefit: disability retirement beginning immediately	4	T	366
+847	Traditional defined benefit: deferred disability retirement	4	T	367
+848	Traditional defined benefit: actuarial early retirement reductions	5	T	368
+849	Traditional defined benefit: yearly flat percentage early retirement reductions	5	T	369
+850	Traditional defined benefit: variable years terminal earnings formula	3	T	370
+851	Traditional defined benefit: early retirement reductions varying by age or service	5	T	371
+852	Traditional defined benefit: joint-and-survivor annuity, fixed 50 percent	4	T	372
+853	Traditional defined benefit: joint-and-survivor annuity, choice of percentages	4	T	373
+854	Traditional defined benefit: joint-and-survivor annuity, other fixed percentage	4	T	374
+855	Traditional defined benefit: normal retirement requiring an age less than 65 and 10 or more years of service	4	T	375
+856	Traditional defined benefit: normal retirement requiring an age less than 65 and less than 10 years of service	4	T	376
+857	Traditional defined benefit: normal retirement requiring an age of 65 and 10 or more years of service	4	T	377
+858	Traditional defined benefit: normal retirement requiring an age of 65 and less than 10 years of service	4	T	378
+859	Traditional defined benefit: normal retirement requirement, age and service	3	T	379
+860	Traditional defined benefit: normal retirement requirement, age only	3	T	380
+861	Traditional defined benefit: normal retirement requirement, age plus service	3	T	381
+862	Traditional defined benefit: normal retirement requirement, service only	3	T	382
+863	Traditional defined benefit: normal retirement years of service requirement, 10th percentile	3	T	383
+864	Traditional defined benefit: normal retirement years of service requirement, 25th percentile	3	T	384
+865	Traditional defined benefit: normal retirement years of service requirement, 50th percentile (median)	3	T	385
+866	Traditional defined benefit: normal retirement years of service requirement, 75th percentile	3	T	386
+867	Traditional defined benefit: normal retirement years of service requirement, 90th percentile	3	T	387
+868	Traditional defined benefit: post-retirement survivor benefits, joint-and-survivor annuity	3	T	388
+869	Traditional defined benefit: flat percentage per year of service terminal earnings formula	3	T	389
+870	Traditional defined benefit: flat percentage per year of service terminal earnings, 10th percentile	4	T	390
+871	Traditional defined benefit: flat percentage per year of service terminal earnings, 25th percentile	4	T	391
+872	Traditional defined benefit: flat percentage per year of service terminal earnings, 50th percentile (median)	4	T	392
+873	Traditional defined benefit: flat percentage per year of service terminal earnings, 75th percentile	4	T	393
+874	Traditional defined benefit: flat percentage per year of service terminal earnings, 90th percentile	4	T	394
+875	Traditional defined benefit: availability of early retirement with sum of age and service requirement	4	T	395
+876	Traditional defined benefit: early retirement with age requirement, 10th percentile	4	T	396
+877	Traditional defined benefit: early retirement with age requirement, 25th percentile	4	T	397
+878	Traditional defined benefit: early retirement with age requirement, 50th percentile (median)	4	T	398
+879	Traditional defined benefit: early retirement with age requirement, 75th percentile	4	T	399
+880	Traditional defined benefit: early retirement with age requirement, 90th percentile	4	T	400
+881	Traditional defined benefit: early retirement available	3	T	401
+882	Traditional defined benefit: early retirement with service requirement, 10th percentile	5	T	402
+883	Traditional defined benefit: early retirement with service requirement, 25th percentile	5	T	403
+884	Traditional defined benefit: early retirement with service requirement, 50th percentile (median)	5	T	404
+885	Traditional defined benefit: early retirement with service requirement, 75th percentile	5	T	405
+886	Traditional defined benefit: early retirement with service requirement, 90th percentile	5	T	406
+887	Traditional defined benefit: full lump-sum payment	4	T	407
+888	Traditional defined benefit: lump-sum payment available	3	T	408
+889	Traditional defined benefit: lump-sum payment not available	3	T	409
+890	Traditional defined benefit: maximum years of credited service, 10th percentile	4	T	410
+891	Traditional defined benefit: maximum years of credited service, 25th percentile	4	T	411
+892	Traditional defined benefit: maximum years of credited service, 50th percentile (median)	4	T	412
+893	Traditional defined benefit: maximum years of credited service, 75th percentile	4	T	413
+894	Traditional defined benefit: maximum years of credited service, 90th percentile	4	T	414
+895	Traditional defined benefit: not subject to maximum years of credited service	3	T	415
+896	Traditional defined benefit: partial lump-sum payment with reduced annuity	4	T	416
+897	Traditional defined benefit: pre-retirement survivor benefits	3	T	417
+898	Traditional defined benefit: subject to maximum years of credited service	3	T	418
+899	Traditional defined benefit: primary plan formula, dollar times years	3	T	419
+900	Traditional defined benefit: primary plan formula, percent of career earnings	3	T	420
+901	Traditional defined benefit: primary plan formula, percent of employer contribution	3	T	421
+902	Traditional defined benefit: primary plan formula, percent of terminal earnings	3	T	422
+903	Traditional defined benefit: single employer plan sponsor	3	T	423
+904	Traditional defined benefit: disability retirement coverage beginning not determinable	4	T	424
+905	Traditional defined benefit: disability retirement coverage not determinable	4	T	425
+906	Traditional defined benefit: early retirement reductions not determinable	5	T	426
+908	Traditional defined benefit: early retirement requirement of age 55 and 10 or more years of service	4	T	428
+909	Traditional defined benefit: early retirement requirement of age 55 and less than 10 years of service	4	T	429
+910	Traditional defined benefit: normal retirement age requirement, 10th percentile	3	T	430
+911	Traditional defined benefit: normal retirement age requirement, 25th percentile	3	T	431
+912	Traditional defined benefit: normal retirement age requirement, 50th percentile (median)	3	T	432
+913	Traditional defined benefit: normal retirement age requirement, 75th percentile	3	T	433
+914	Traditional defined benefit: normal retirement age requirement, 90th percentile	3	T	434
+915	Traditional defined benefit: post-retirement survivor benefits, other annuity	3	T	435
+916	Traditional defined benefit: terminal earnings formula, not determinable	3	T	436
+917	Traditional defined benefit: terminal earnings formula, high consecutive five year	5	T	437
+918	Traditional defined benefit: terminal earnings formula, high five year	5	T	438
+919	Traditional defined benefit: terminal earnings formula, other period	4	T	439
+920	Traditional defined benefit: terminal earnings formula, percent per year varying by Social Security taxable wage base only	4	T	440
+921	Traditional defined benefit: terminal earnings formula, percent/year varying by Social Security taxable wage base and service	4	T	441
+922	Traditional defined benefit: terminal earnings formula, percent per year varying by other method	3	T	442
+923	Traditional defined benefit: terminal earnings formula, percent per year varying by service only	4	T	443
+924	Traditional defined benefit: terminal earnings formula, total five year	5	T	444
+925	Traditional defined benefit: lump-sum payment not determinable	3	T	445
+926	Defined benefit: state government plan sponsor	3	T	1
+927	Defined benefit: local government plan sponsor	3	T	2
+928	Defined benefit: open to new employees, minimum age or service requirement	3	T	328
+930	Defined benefit: open to new employees, service requirement of 6 months or less	3	T	329
+932	Traditional defined benefit: terminal earnings formula, total three years	5	T	575
+933	Traditional defined benefit: terminal earnings formula, high consecutive three years	5	T	576
+934	Traditional defined benefit: terminal earnings formula, high three years	5	T	577
+935	Traditional defined benefit: terminal earnings formula, one year	5	T	578
+936	Traditional defined benefit: terminal earnings formula, other period	5	T	579
+939	Traditional defined benefit: normal retirement requirement with age of 55 and 30 or more years of service	3	T	580
+940	Traditional defined benefit: normal retirement requirement with age of 62 and 10 or more years of service	3	T	581
+941	Traditional defined benefit: early retirement not available	3	T	582
+942	Traditional defined benefit: early retirement not determinable	3	T	583
+943	Traditional defined benefit: subject to maximum years of credited service not determinable	3	T	584
+944	Traditional defined benefit: pre-retirement survivor benefits not available	3	T	585
+945	Traditional defined benefit: pre-retirement survivor benefits not determinable	3	T	586
+946	Traditional defined benefit: normal retirement requiring an age of 55 and less than 30 years of service	4	T	587
+947	Traditional defined benefit: normal retirement requiring an age of 62 and less than 10 years of service	4	T	588
+948	Traditional defined benefit: normal retirement with no age requirement and 30 years of service	3	T	589
+949	Traditional defined benefit: normal retirement requiring an age less than 62 and less than 10 years of service	3	T	590
+950	Traditional defined benefit: normal retirement requiring an age less than 62 and 10 or more years of service	3	T	591
+951	Traditional defined benefit: normal retirement requiring an age less than 65 and less than 10 years of service	3	T	592
+952	Traditional defined benefit: normal retirement requiring an age less than 65 and 10 or more years of service	3	T	593
+953	Traditional defined benefit: early retirement requiring an age less than 55 and 10 or more years of service	3	T	594
+955	Traditional defined benefit: early retirement requiring an age of 55 and 10 or more years of service	6	T	596
+956	Traditional defined benefit: early retirement requiring an age less than 55 and less than 10 years of service	6	T	597
+957	Traditional defined benefit: early retirement requiring an age of 55 and less than 10 years of service	6	T	598
+958	Traditional defined benefit: early retirement with no minimum age requirement	6	T	599
+959	Traditional defined benefit: normal retirement requirement, combined age plus service in years, 50th percentile (median)	3	T	600
+960	Traditional defined benefit: normal retirement requirement, average combined age plus service in years	3	T	601
+966	Traditional defined benefit: terminal earnings formula, percent per year varying by other method	3	T	590
+967	Access to student loan repayment	3	T	642
+968	Access to flexible work schedule	3	T	643
+969	Medical care: single coverage employer contribution by flat dollar amount	1	T	664
+970	Medical care: single coverage employer contribution varies	1	T	665
+971	Medical care: single coverage employer contribution by other types	1	T	666
+972	Medical care: family coverage employer contribution by flat dollar amount	1	T	667
+973	Medical care: family coverage employer contribution varies	1	T	668
+974	Medical care: family coverage employer contribution by other types	1	T	669
+975	Traditional defined benefit: joint-and-survivor annuity, 50 percent	4	T	683
+976	Traditional defined benefit: joint-and-survivor annuity, 67 percent	4	T	684
+977	Traditional defined benefit: joint-and-survivor annuity, 75 percent	4	T	685
+978	Traditional defined benefit: joint-and-survivor annuity, 100 percent	4	T	686
+979	Traditional defined benefit: joint-and-survivor annuity, choice of percentage not listed	4	T	687
+981	Defined benefit: frozen plans closed to new workers or stopped accruing benefits for less than 6 years	3	T	693
+982	Defined benefit: frozen plans closed to new workers or stopped accruing benefits for 6 to 10 years	3	T	694
+983	Defined benefit: frozen plans closed to new workers or stopped accruing benefits for 11 to 15 years	3	T	695
+984	Defined benefit: frozen plans closed to new workers or stopped accruing benefits for more than 15 years	3	T	696
+985	Defined benefit: years since frozen plans closed to new workers or stopped accruing benefits (10th percentile)	3	T	697
+986	Defined benefit: years since frozen plans closed to new workers or stopped accruing benefits (25th percentile)	3	T	698
+987	Defined benefit: years since frozen plans closed to new workers or stopped accruing benefits (50th percentile)	3	T	699
+988	Defined benefit: years since frozen plans closed to new workers or stopped accruing benefits (75th percentile)	3	T	700
+989	Defined benefit: years since frozen plans closed to new workers or stopped accruing benefits (90th percentile)	3	T	701
+990	Short-term disability: insured method of funding	2	T	702
+991	Life insurance: retiree coverage offered	2	T	703
+992	Life insurance: retiree coverage not offered	2	T	704
+993	Defined contribution: savings and thrift	2	T	704
+994	Defined contribution: SIMPLE	2	T	705
+995	Defined contribution: deferred profit sharing	2	T	706
+996	Defined contribution: ESOP	2	T	707
+997	Defined contribution: money purchase pension	2	T	708
+998	Defined contribution: SEP	2	T	709
+999	Defined contribution: other	2	T	710
+A01	Benefit combinations	0	F	1
+A02	Medical care benefit combinations	0	F	8
+A03	Medical care and retirement benefits	1	F	9
+A04	Medical care and life insurance benefits	1	F	14
+A05	Retirement benefit combinations	0	F	19
+A06	Medical care benefits and defined benefit retirement	1	F	20
+A07	Medical care benefits and defined contrib. retirement	1	F	25
+A08	Paid leave combinations	0	F	30
+A09	Illness leave	1	F	31
+A10	Leisure leave options	0	F	36
+B01	Paid vacation days	0	F	1
+B02	Paid vacations: # of annual days by service requirement	1	F	3
+B03	Paid vacation days after one yr	2	F	4
+B04	Paid vacations days by length of service after one yr	3	F	7
+B05	Paid vacation days after five yrs	2	F	14
+B06	Paid vacations days by length of service after five yrs	3	F	17
+B07	Paid vacation days after ten yrs	2	F	24
+B08	Paid vacations days by length of service after ten yrs	3	F	27
+B09	Paid vacation days after twenty yrs	2	F	34
+B10	Paid vacations days by length of service after twenty yrs	3	F	37
+B11	Consolidated leave plans	1	F	44
+B12	Paid days w/ consolidated leave by length of service (Mean # of days)	2	F	46
+B13	Paid vacation days w/out consolidated leave by length of service (Mean # of days)	2	F	52
+C01	Paid holiday plans	0	F	1
+C02	# of holidays provided	1	F	3
+C03	Paid holidays	2	F	6
+D01	Paid sick leave plans	0	F	1
+D02	Type of sick leave provision	1	F	3
+D03	Sick leave carryover provision	3	F	5
+D04	Sick leave limit on days accumulated	6	F	9
+D05	# of days w/ a limit on sick days accumulated	6	F	18
+D06	Paid sick leave: # of annual days by service requirement	1	F	24
+D07	Paid sick leave after one yr	2	F	25
+D08	Paid sick days by length of service after one yr	3	F	28
+D09	Paid sick leave after five yrs	2	F	34
+D10	Paid sick days by length of service after five yrs	3	F	37
+D11	Paid sick leave after ten yrs	2	F	43
+D12	Paid sick days by length of service after ten yrs	3	F	46
+D13	Paid sick leave after twenty yrs	2	F	52
+D14	Paid sick days by length of service after twenty yrs	3	F	55
+E01	Nonproduction bonuses	0	F	1
+F01	Life insurance plans	0	F	1
+F02	Life insurance: ee contrib. requirement	1	F	5
+F03	Life insurance: Method of benefit payment	1	F	8
+F04	Life insurance: Fixed multiple of annual earnings benefit formulas	2	F	10
+F05	Life insurance: Fixed multiple of annual earnings amount	2	F	13
+F06	Life insurance: Fixed multiple of annual earnings maximum benefit amount	2	F	19
+F07	Life insurance: Maximum benefit amount	3	F	22
+F08	Life insurance: Flat dollar amount	2	F	30
+G01	All health care plans	0	F	1
+G02	Health care: Share of prems paid by er and ee	1	F	5
+G03	Health care: Single coverage share of prems	2	F	6
+G04	Health care: Family coverage share of prems	2	F	9
+G05	Medical care plans	1	F	12
+G06	Medical care: er and ee prems	2	F	16
+G07	Medical care: Single coverage er and ee prems	3	F	17
+G08	Medical care: Single coverage ee contrib. not req.	4	F	20
+G09	Medical care: Single coverage ee contrib. req.	4	F	23
+G10	Medical care: Single coverage type of contrib.	5	F	27
+G11	Medical care: Single coverage type of contrib. (Flat dollar amount)	6	F	29
+G12	Medical care: Single coverage flat dollar amount ee contributions	7	F	32
+G13	Medical care: Single coverage type of contrib. (Composite rate)	6	F	38
+G14	Medical care: Single coverage type of contrib. (Varies)	6	F	41
+G15	Medical care: Single coverage type of contrib. (Flexible benefits)	6	F	44
+G16	Medical care: Single coverage type of contrib. (% of earnings)	6	F	47
+G17	Medical care: Single coverage type of contrib. (Exists, but unknown)	6	F	50
+G18	Medical care: Single coverage type of contrib. (Other)	6	F	53
+G19	Medical care: Single coverage share of prems paid by er and ee	4	F	56
+G20	Medical care: Family coverage er and ee prems	3	F	59
+G21	Medical care: Family coverage ee contrib. not req.	4	F	62
+G22	Medical care: Family coverage ee contrib. req.	4	F	65
+G23	Medical care: Family coverage type of contrib.	5	F	69
+G24	Medical care: Family coverage type of contrib. (Flat dollar amount)	6	F	71
+G25	Medical care: Family coverage flat dollar amount ee contributions	7	F	74
+G26	Medical care: Family coverage type of contrib. (Composite rate)	6	F	80
+G27	Medical care: Family coverage type of contrib. (Varies)	6	F	83
+G28	Medical care: Family coverage type of contrib. (Flexible benefits)	6	F	86
+G29	Medical care: Family coverage type of contrib. (% of earnings )	6	F	89
+G30	Medical care: Family coverage type of contrib. (Exists, but unknown)	6	F	92
+G31	Medical care: Family coverage type of contrib. (Other)	6	F	95
+G32	Medical care: Family coverage share of prems paid by er and ee	4	F	98
+G33	Dental care plans	1	F	101
+G34	Vision care plans	1	F	105
+G35	Outpatient prescription drug coverage	1	F	109
+H01	Short-term disability plans	0	F	1
+H02	Short-term disability: Method of funding	1	F	5
+H03	Short-term disability: ee contrib. requirement	1	F	10
+H04	Short-term disability: Method of payment	1	F	13
+H05	Flat dollar amount benefit per week	2	F	15
+H06	Short-term disability: Fixed % of earnings	2	F	23
+H07	Short-term disability: % of ees w/ fixed % of annual earnings	3	F	24
+H08	Short-term disability: Maximum benefit	3	F	33
+H09	Short-term disability: Maximum weekly benefit amount	4	F	35
+H10	Short-term disability: Duration of benefits	1	F	44
+H11	Short-term disability: Fixed duration of weeks	2	F	46
+I01	Defined benefit retirement plans	0	F	1
+I02	Defined benefit retirement plans: ee contrib. requirement and method of contrib.	1	F	6
+I03	Defined benefit retirement plans: Fixed % of annual earnings	2	F	8
+I04	Defined benefit retirement plans: Open and frozen plans	1	F	13
+I05	Defined benefit frozen retirement plans: Benefit accrual	2	F	21
+I06	Defined benefit frozen retirement plans: Selected attributes	2	F	25
+I07	Defined benefit frozen retirement plans: Plan alternatives	2	F	29
+I08	Defined benefit frozen retirement plans: Alternatives to frozen plans	3	F	31
+I09	Defined benefit retirement plans: Open, soft and hard freeze plans	1	F	16
+I10	Defined benefit retirement plans: Soft freeze	2	F	17
+J01	Defined contrib. retirement plans	0	F	1
+J02	Defined contrib. retirement plans: ee contrib. requirement	1	F	5
+J03	Defined contrib. retirement plans: ee contrib. option	1	F	8
+K01	All retirement benefit plans	0	F	1
+K02	Retirement benefits combinations: Access	0	F	5
+L01	Access to paid family and medical leave	2	T	15
+L02	Access to personal leave, sick leave, or paid family and medical leave	2	T	16
+L03	Access to personal leave, sick leave, paid family and medical leave, or vacation	2	T	17
+L04	Access to sick leave and paid family and medical leave	2	T	18
+L05	Access to paid family and medical leave and short-term disability	2	T	19
+L06	Long-term disability plans: Maximum fixed % of annual earnings	3	F	19
+L07	Long-term disability plans: Maximum monthly fixed % of annual earnings amount	4	F	21
+M01	Leave benefits: Access	0	F	1
+M02	Family leave	1	F	6
+M03	Quality of life benefits - Access	0	F	9
+M04	Retiree health care benefits	0	F	17
+M05	Financial benefits: Access	0	F	20
+M06	Section 125 cafeteria benefits	1	F	23
+M07	Stock options - Access	0	F	27
+N01	% of establishments offering benefits	0	F	1
+N02	% of establishments offering retirement benefits	1	F	4
+P01	Unmarried Domestic Partner Benefits	0	F	1
+R01	Defined contribution: plan type, deferred profit sharing	2	T	446
+R02	Defined contribution: plan type, employee stock ownership	2	T	447
+R03	Defined contribution: plan type, money purchase pension	2	T	448
+R05	Defined contribution: plan type, savings and thrift	2	T	450
+R06	Defined contribution: plan type, savings incentive match plan (SIMPLE)	2	T	451
+R08	Defined contribution: deferred profit-sharing, distribution method available as annuity	4	T	453
+R09	Defined contribution: deferred profit-sharing, annuity availability not determinable	4	T	454
+R10	Defined contribution: deferred profit-sharing, annuity not available	4	T	455
+R11	Defined contribution: deferred profit-sharing, employee contribution allowed	3	T	456
+R12	Defined contribution: deferred profit-sharing, employee contribution not allowed	3	T	463
+R13	Defined contribution: deferred profit-sharing, method of employer contribution not determinable	3	T	465
+R14	Defined contribution: deferred profit-sharing, employer contribution not based on pre-determined formula	3	T	466
+R15	Defined contribution: deferred profit-sharing, employee contribution not determinable	4	T	464
+R16	Defined contribution: deferred profit-sharing, pre-tax employee contribution allowed not determinable	4	T	459
+R17	Defined contribution: deferred profit-sharing, post-tax employee contribution allowed	4	T	460
+R18	Defined contribution: deferred profit-sharing, post-tax employee contribution not allowed	4	T	461
+R19	Defined contribution: deferred profit-sharing, post-tax employee contribution not determinable	4	T	462
+R20	Defined contribution: deferred profit-sharing, pre-tax employee contribution allowed	4	T	457
+R22	Defined contribution: money purchase, annuity availability not determinable	3	T	469
+R23	Defined contribution: money purchase, distribution method available as annuity	3	T	467
+R24	Defined contribution: money purchase, annuity not available	3	T	468
+R25	Defined contribution: money purchase, employee contribution allowed	3	T	470
+R26	Defined contribution: money purchase, employee contribution not allowed	3	T	477
+R27	Defined contribution: money purchase, employee contribution allowed not determinable	3	T	478
+R28	Defined contribution: money purchase, employer contribution as fixed percent of earnings	3	T	479
+R29	Defined contribution: money purchase, employer contribution as fixed percent of earnings, 10th percentile	4	T	480
+R30	Defined contribution: money purchase, employer contribution as fixed percent of earnings, 25th percentile	4	T	481
+R31	Defined contribution: money purchase, employer contribution as fixed percent of earnings, 50th percentile (median)	4	T	482
+R32	Defined contribution: money purchase, employer contribution as fixed percent of earnings, 75th percentile	4	T	483
+R33	Defined contribution: money purchase, employer contribution as fixed percent of earnings, 90th percentile	4	T	484
+R34	Defined contribution: money purchase, method of employer contribution as other	3	T	485
+R35	Defined contribution: money purchase, post-tax employee contribution allowed	4	T	474
+R36	Defined contribution: money purchase, post-tax employee contribution not allowed	4	T	475
+R37	Defined contribution: money purchase, post-tax employee contribution allowed not determinable	4	T	476
+R38	Defined contribution: money purchase, pre-tax employee contribution allowed	4	T	471
+R40	Defined contribution: money purchase, pre-tax employee contribution allowed not determinable	4	T	473
+R41	Defined contribution: money purchase, maximum employee contribution as a percent of earnings, up to IRS limit	3	T	607
+R42	Defined contribution: money purchase, maximum employee contribution as any amount, up to IRS limit	3	T	608
+R44	Defined contribution: money purchase, method of employer contribution as variable percent of earnings	3	T	610
+R45	Defined contribution: money purchase, method of employer contribution as flat amount	3	T	611
+R47	Defined contribution: money purchase, method of employer contribution as variable percent of earnings by age	3	T	613
+R48	Defined contribution: money purchase, method of employer contribution as variable percent of earnings by length of service	3	T	614
+R49	Defined contribution: money purchase, method of employer contribution as variable percent of earnings by other criteria	3	T	615
+R50	Defined contribution: money purchase, maximum employee contribution as percent of earnings, 10th percentile	4	T	643
+R51	Defined contribution: money purchase, maximum employee contribution as percent of earnings, 25th percentile	4	T	644
+R52	Defined contribution: money purchase, maximum employee contribution as percent of earnings, 50th percentile (median)	4	T	645
+R53	Defined contribution: money purchase, maximum employee contribution as percent of earnings, 75th percentile	4	T	646
+R54	Defined contribution: money purchase, maximum employee contribution as percent of earnings, 90th percentile	4	T	647
+R55	Defined contribution: money purchase, distribution method available as lump-sum	3	T	591
+R56	Defined contribution: money purchase, distribution method available as installments	3	T	592
+R58	Defined contribution: money purchase, distribution method not determinable	3	T	594
+R59	Defined contribution: deferred profit-sharing, distribution method available as lump-sum	3	T	595
+R60	Defined contribution: deferred profit-sharing, distribution method available as installments	3	T	596
+R62	Defined contribution: deferred profit-sharing, distribution method not determinable	3	T	598
+R64	Defined contribution: deferred profit-sharing, allocation formula proportional to earnings	3	T	600
+R65	Defined contribution: deferred profit-sharing, allocation formula proportional to employee contribution	3	T	601
+R66	Defined contribution: deferred profit-sharing, allocation formula proportional to earnings and service	3	T	602
+R69	Defined contribution: deferred profit-sharing, allocation formula not determinable	3	T	605
+R70	Defined contribution: deferred profit-sharing, employer contribution based on pre-determined formula	3	T	606
+R71	Defined contribution: money purchase, employer contribution based on employee contribution	3	T	689
+R72	Defined contribution: money purchase, employee contribution amount, 50th percentile (median)	3	T	690
+R73	Defined contribution: money purchase, employer contribution not based on employee contribution	3	T	691
+R75	Defined contribution: single employer plan sponsor	2	T	703
+S01	Defined contribution: savings and thrift, pre-tax contribution	2	T	486
+S02	Defined contribution: savings and thrift, post-tax contribution	2	T	487
+S03	Defined contribution: savings and thrift, immediate full vesting	3	T	488
+S04	Defined contribution: savings and thrift, cliff vesting	3	T	489
+S05	Defined contribution: savings and thrift, graded vesting	3	T	490
+S06	Defined contribution: savings and thrift, not determinable vesting requirement	3	T	491
+S07	Defined contribution: savings and thrift, minimum age or service eligibility requirement	3	T	492
+S08	Defined contribution: savings and thrift, age eligibility requirement in years, 50th percentile (median)	4	T	493
+S09	Defined contribution: savings and thrift, service eligibility requirement in months, 50th percentile (median)	4	T	494
+S10	Defined contribution: savings and thrift, no minimum age or service eligibility requirement	3	T	495
+S11	Defined contribution: savings and thrift, not determinable eligibility requirement	3	T	496
+S12	Defined contribution: savings and thrift, not determinable maximum employee contribution	4	T	497
+S13	Defined contribution: savings and thrift, not determinable method of employer matching contribution	4	T	498
+S14	Defined contribution: savings and thrift, distribution method available as annuity	2	T	499
+S15	Defined contribution: savings and thrift, distribution method available as installments	3	T	500
+S16	Defined contribution: savings and thrift, distribution method available as lump-sum	3	T	501
+S17	Defined contribution: savings and thrift, distribution method available as other method	3	T	502
+S18	Defined contribution: savings and thrift, distribution method not determinable	3	T	503
+S19	Defined contribution: savings and thrift, max employee contribution matched by employer specified percent, 10th percentile	4	T	504
+S1A	Defined contribution: savings and thrift, loans not allowed	3	T	623
+S1B	Defined contribution: savings and thrift, loans not determinable	3	T	624
+S1C	Defined contribution: savings and thrift, investment choice for employee funds not determinable	4	T	625
+S1P	Defined contribution: savings and thrift, employer matching contribution, two-tiered matching percent	3	T	638
+S1Q	Defined contribution: savings and thrift, discretionary match employer contribution	3	T	639
+S1R	Defined contribution: savings and thrift, employer contribution based on length of service	3	T	640
+S1S	Defined contribution: savings and thrift, other employer matching contribution	3	T	641
+S1T	Defined contribution: savings and thrift, maximum employee contribution as average percent of earnings up to IRS code	4	T	642
+S20	Defined contribution: savings and thrift, max employee contribution matched by employer specified percent, 25th percentile	4	T	505
+S21	Defined contribution: savings and thrift, max employee cont matched by employer specified percent, 50th percentile (median)	4	T	506
+S22	Defined contribution: savings and thrift, max employee contribution matched by employer specified percent, 75th percentile	4	T	507
+S23	Defined contribution: savings and thrift, max employee contribution matched by employer specified percent, 90th percentile	4	T	508
+S24	Defined contribution: savings and thrift, maximum employee contribution as percent of earnings	3	T	509
+S25	Defined contribution: savings and thrift, maximum employee contribution as percent of earnings, 10th percentile	4	T	510
+S26	Defined contribution: savings and thrift, maximum employee contribution as percent of earnings, 25th percentile	4	T	511
+S27	Defined contribution: savings and thrift, maximum employee contribution as percent of earnings, 50th percentile (median)	4	T	512
+S28	Defined contribution: savings and thrift, maximum employee contribution as percent of earnings, 75th percentile	4	T	513
+S29	Defined contribution: savings and thrift, maximum employee contribution as percent of earnings, 90th percentile	4	T	514
+S30	Defined contribution: savings and thrift, maximum employee contribution as any amount, up to IRS limit	3	T	515
+S31	Defined contribution: savings and thrift, maximum employee contribution as other	3	T	516
+S32	Defined contribution: savings and thrift, maximum potential employer contribution, 10th percentile	3	T	517
+S33	Defined contribution: savings and thrift, maximum potential employer contribution, 25th percentile	3	T	518
+S34	Defined contribution: savings and thrift, maximum potential employer contribution, 50th percentile (median)	3	T	519
+S35	Defined contribution: savings and thrift, maximum potential employer contribution, 75th percentile	3	T	520
+S36	Defined contribution: savings and thrift, maximum potential employer contribution, 90th percentile	3	T	521
+S37	Defined contribution: savings and thrift, employer matching contribution, specified matching percent	3	T	522
+S38	Defined contribution: savings and thrift, employer matching contribution, specified matching percent, 10th percentile	4	T	523
+S39	Defined contribution: savings and thrift, employer matching contribution, specified matching percent, 25th percentile	4	T	524
+S40	Defined contribution: savings and thrift, employer matching cont, specified matching percent, 50th percentile (median)	4	T	525
+S41	Defined contribution: savings and thrift, employer matching contribution, specified matching percent, 75th percentile	4	T	526
+S42	Defined contribution: savings and thrift, employer matching contribution, specified matching percent, 90th percentile	4	T	527
+S43	Defined contribution: savings and thrift, other employer matching contribution	3	T	528
+S44	Defined contribution: savings and thrift, automatic enrollment feature available	4	T	529
+S45	Defined contribution: savings and thrift, default enrollment percent of maximum employer match amount, 10th percentile	4	T	530
+S46	Defined contribution: savings and thrift, default enrollment percent of maximum employer match amount, 25th percentile	4	T	531
+S47	Defined contribution: savings and thrift, default enrollment percent of maximum employer match amt, 50th percentile (median)	4	T	532
+S48	Defined contribution: savings and thrift, default enrollment percent of maximum employer match amount, 75th percentile	4	T	533
+S49	Defined contribution: savings and thrift, default enrollment percent of maximum employer match amount, 90th percentile	4	T	534
+S50	Defined contribution: savings and thrift, automatic enrollment feature not available	4	T	535
+S51	Defined contribution: savings and thrift, automatic enrollment feature not determinable	4	T	536
+S52	Defined contribution: savings and thrift, automatic enrollment and default contribution as percent of earnings	4	T	537
+S53	Defined contribution: savings and thrift, automatic enrollment & default contribution as percent of earnings, 10th percentile	5	T	538
+S54	Defined contribution: savings and thrift, automatic enrollment & default contribution as percent of earnings, 25th percentile	5	T	539
+S55	Defined contribution: savings and thrift, auto enrollment & default cont as percent of earnings, 50th percentile (median)	5	T	540
+S56	Defined contribution: savings and thrift, automatic enrollment & default contribution as percent of earnings, 75th percentile	5	T	541
+S57	Defined contribution: savings and thrift, automatic enrollment & default contribution as percent of earnings, 90th percentile	5	T	542
+S59	Defined contribution: savings and thrift, automatic enrollment and default contribution not determinable	4	T	544
+S60	Defined contribution: savings and thrift, automatic escalation feature available	2	T	545
+S61	Defined contribution: savings and thrift, automatic enrollment and automatic escalation available	3	T	546
+S62	Defined contribution: savings and thrift, automatic enrollment available and automatic escalation not available	3	T	547
+S63	Defined contribution: savings and thrift, automatic enrollment available and automatic escalation not determinable	3	T	548
+S64	Defined contribution: savings and thrift, employee contribution that escalates for a predetermined number of years	4	T	549
+S65	Defined contribution: savings and thrift, number of predetermined years employee cont escalates, 50th percentile (median)	5	T	550
+S66	Defined contribution: savings and thrift, employee contribution escalates to specified percentage of earnings	4	T	551
+S67	Defined contribution: savings and thrift, percent of earnings after maximum automatic escalation, 50th percentile (median)	5	T	552
+S68	Defined contribution: savings and thrift: auto enroll amt after max escalation as percent of employer match, 10th percentile	3	T	553
+S69	Defined contribution: savings and thrift: auto enroll amt after max escalation as percent of employer match, 25th percentile	3	T	554
+S70	Defined contribution: savings and thrift: auto enroll amt after max escalation as percent of employer match, 50th percentile	3	T	555
+S71	Defined contribution: savings and thrift: auto enroll amt after max escalation as percent of employer match, 75th percentile	3	T	556
+S72	Defined contribution: savings and thrift: auto enroll amt after max escalation as percent of employer match, 90th percentile	3	T	557
+S73	Defined contribution: savings and thrift, allowing employee to direct the investment of employee funds	2	T	558
+S74	Defined contribution: savings and thrift, allowing employee funds to be invested in company stock	3	T	559
+S75	Defined contribution: savings and thrift, allowing employee funds to be invested in common stock	3	T	560
+S76	Defined contribution: savings and thrift, allowing employee funds to be invested in diversified investments	3	T	561
+S77	Defined contribution: savings and thrift, allowing employee funds to be invested in lifecycle funds	3	T	562
+S78	Defined contribution: savings and thrift, allowing employee funds to be invested in other investment choices	3	T	563
+S79	Defined contribution: savings and thrift, allowing employee funds to be invested, but investment choices are not determinable	3	T	564
+S81	Defined contribution: savings and thrift, allowing employee to direct the investment of employer funds	2	T	566
+S82	Defined contribution: savings and thrift, allowing employer funds to be invested in company stock	4	T	567
+S83	Defined contribution: savings and thrift, allowing employer funds to be invested in common stock	4	T	568
+S84	Defined contribution: savings and thrift, allowing employer funds to be invested in diversified investments	4	T	569
+S85	Defined contribution: savings and thrift, allowing employer funds to be invested in lifecycle funds	4	T	570
+S86	Defined contribution: savings and thrift, allowing employer funds to be invested in other investment choices	4	T	571
+S87	Defined contribution: savings and thrift, allowing employer funds to be invested, but investment choices are not determinable	4	T	572
+S88	Defined contribution: savings and thrift, no investment choice for employer funds	2	T	573
+S89	Defined contribution: savings and thrift, investment choices for employer funds not determinable	3	T	574
+S93	Defined contribution: savings and thrift, rollovers allowed	3	T	616
+S94	Defined contribution: savings and thrift, rollovers not allowed	3	T	617
+S95	Defined contribution: savings and thrift, rollovers not determinable	3	T	618
+S96	Defined contribution: savings and thrift, withdrawals allowed	3	T	619
+S97	Defined contribution: savings and thrift, withdrawals not allowed	3	T	620
+S98	Defined contribution: savings and thrift, withdrawals not determinable	3	T	621
+S99	Defined contribution: savings and thrift, loans allowed	3	T	622
+T01	Defined contribution: savings and thrift, maximum potential employer contribution (specified and two-tiered), 10th percentile	3	T	693
+T02	Defined contribution: savings and thrift, maximum potential employer contribution (specified and two-tiered), 25th percentile	3	T	694
+T03	Defined contribution: savings and thrift, maximum potential employer contribution (specified and two-tiered), 50th percentile	3	T	695
+T04	Defined contribution: savings and thrift, maximum potential employer contribution (specified and two-tiered), 75th percentile	3	T	696
+T05	Defined contribution: savings and thrift, maximum potential employer contribution (specified and two-tiered), 90th percentile	3	T	697
+T06	Physician office visit: median coinsurance percentage	2	T	710
+T07	Physician office visit: copayment only	2	T	711
+T08	Physician office visit: coinsurance only	2	T	712
+T09	Physician office visit: copayment and coinsurance	2	T	713
+T10	Nonproduction bonuses: employee incentive awards	2	T	714
+T11	Nonproduction bonuses: hiring bonus	2	T	715
+T12	Nonproduction bonuses: retention bonus	2	T	716
+T13	Nonproduction bonuses: performance-based awards	2	T	717
+T14	Nonproduction bonuses: management incentive bonus	2	T	718
+T15	Nonproduction bonuses: recognition awards	2	T	719
+T16	Nonproduction bonuses: attendance bonus	2	T	720
+T17	Nonproduction bonuses: safety bonus	2	T	721
+T18	Nonproduction bonuses: suggestion bonus	2	T	722
+T19	Nonproduction bonuses: union-related bonus	2	T	723
+T20	Nonproduction bonuses: other bonus (beginning 2024)	2	T	724
