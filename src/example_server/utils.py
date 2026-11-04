@@ -145,9 +145,7 @@ async def fetch_bls(
     # Copy payload before injecting key — never mutate the caller's dict.
     request_payload = dict(payload)
     if version == "v2":
-        request_payload["registrationKey"] = (
-            settings.bls_api_key.get_secret_value()
-        )
+        request_payload["registrationKey"] = settings.bls_api_key.get_secret_value()
 
     endpoint = f"{base_url}timeseries/data/"
     try:
@@ -212,13 +210,9 @@ def unwrap_bls_response(payload: dict[str, Any]) -> list[dict[str, Any]]:
         # Extract BLS message lines for the error, but never include any value
         # that could be the API key (keys are 32-char hex strings).
         raw_messages = payload.get("message", [])
-        safe_messages = [
-            m for m in raw_messages if not _contains_api_key(str(m))
-        ]
+        safe_messages = [m for m in raw_messages if not _contains_api_key(str(m))]
         detail = "; ".join(safe_messages) if safe_messages else "No details provided."
-        raise BLSAPIError(
-            f"BLS API returned status '{status}': {detail}"
-        )
+        raise BLSAPIError(f"BLS API returned status '{status}': {detail}")
 
     results = payload.get("Results")
     if results is None:

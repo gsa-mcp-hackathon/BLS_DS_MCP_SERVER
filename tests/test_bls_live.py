@@ -72,8 +72,7 @@ async def test_live_v1_retrieval(_force_v1: None) -> None:
 
     # Envelope status
     assert raw.get("status") == "REQUEST_SUCCEEDED", (
-        f"BLS returned status '{raw.get('status')}'. "
-        f"Messages: {raw.get('message', [])}"
+        f"BLS returned status '{raw.get('status')}'. Messages: {raw.get('message', [])}"
     )
 
     series_list = unwrap_bls_response(raw)
@@ -128,8 +127,7 @@ async def test_live_v2_retrieval() -> None:
 
     # Envelope status
     assert raw.get("status") == "REQUEST_SUCCEEDED", (
-        f"BLS returned status '{raw.get('status')}'. "
-        f"Messages: {raw.get('message', [])}"
+        f"BLS returned status '{raw.get('status')}'. Messages: {raw.get('message', [])}"
     )
 
     series_list = unwrap_bls_response(raw)
@@ -155,15 +153,16 @@ async def test_live_v2_retrieval() -> None:
 
 # ── Reporting helper ───────────────────────────────────────────────────────────
 
+
 def _report(version: str, raw: dict, series: dict) -> None:
     """Print a structured connectivity report to stdout (visible with -s)."""
     data = series.get("data", [])
     first = data[0] if data else {}
     messages = raw.get("message") or "none"
 
-    print(f"\n{'='*56}")
+    print(f"\n{'=' * 56}")
     print(f"  BLS Live Connectivity Report — {version.upper()}")
-    print(f"{'='*56}")
+    print(f"{'=' * 56}")
     print(f"  API version used    : {version}")
     print(f"  BLS status          : {raw.get('status')}")
     print(f"  Series ID returned  : {series.get('seriesID')}")
@@ -178,4 +177,4 @@ def _report(version: str, raw: dict, series: dict) -> None:
     print(f"  BLS messages        : {messages}")
     if version == "v2":
         print("  Key displayed       : [REDACTED]")
-    print(f"{'='*56}")
+    print(f"{'=' * 56}")

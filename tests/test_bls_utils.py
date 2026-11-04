@@ -33,6 +33,7 @@ from example_server.utils import (
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
+
 def _make_success_envelope(series_id: str = "CUUR0000SA0") -> dict[str, Any]:
     """Build a minimal BLS REQUEST_SUCCEEDED envelope with one observation."""
     return {
@@ -108,6 +109,7 @@ class _FakeBLSPost:
 
 # ── Version selection ──────────────────────────────────────────────────────────
 
+
 def test_version_selection_no_key(monkeypatch: pytest.MonkeyPatch) -> None:
     """get_bls_api_version() returns 'v1' when no key is configured."""
     import example_server.config as cfg
@@ -125,6 +127,7 @@ def test_version_selection_with_key(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 # ── fetch_bls: URL routing ─────────────────────────────────────────────────────
+
 
 async def test_fetch_bls_v1_posts_to_v1_url(monkeypatch: pytest.MonkeyPatch) -> None:
     """v1 POST uses BLS_V1_BASE_URL."""
@@ -153,6 +156,7 @@ async def test_fetch_bls_v2_posts_to_v2_url(monkeypatch: pytest.MonkeyPatch) -> 
 
 
 # ── fetch_bls: key injection ───────────────────────────────────────────────────
+
 
 async def test_fetch_bls_v1_no_registration_key(
     monkeypatch: pytest.MonkeyPatch,
@@ -201,6 +205,7 @@ async def test_fetch_bls_v2_does_not_mutate_caller_payload(
 
 
 # ── fetch_bls: error handling ─────────────────────────────────────────────────
+
 
 async def test_fetch_bls_key_not_in_error_message(
     monkeypatch: pytest.MonkeyPatch,
@@ -342,6 +347,7 @@ async def test_fetch_bls_response_size_limit(monkeypatch: pytest.MonkeyPatch) ->
 
 # ── unwrap_bls_response ────────────────────────────────────────────────────────
 
+
 def test_unwrap_success() -> None:
     """REQUEST_SUCCEEDED with valid Results.series returns the series list."""
     envelope = _make_success_envelope()
@@ -386,6 +392,7 @@ def test_unwrap_empty_series_list() -> None:
 
 
 # ── Data integrity ─────────────────────────────────────────────────────────────
+
 
 def test_unwrap_preserves_value_string() -> None:
     """Value strings must be returned exactly as BLS published them — no float cast."""
@@ -446,14 +453,13 @@ def test_unwrap_api_key_stripped_from_error_messages() -> None:
 
 # ── validate_series_request ────────────────────────────────────────────────────
 
+
 def test_validate_request_ok_v1(monkeypatch: pytest.MonkeyPatch) -> None:
     """A valid v1 request passes without error."""
     import example_server.config as cfg
 
     monkeypatch.setattr(cfg.settings, "bls_api_key", SecretStr(""))
-    req = BLSSeriesRequest(
-        series_ids=["CUUR0000SA0"], start_year=2022, end_year=2024
-    )
+    req = BLSSeriesRequest(series_ids=["CUUR0000SA0"], start_year=2022, end_year=2024)
     validate_series_request(req)  # must not raise
 
 
@@ -505,9 +511,7 @@ def test_validate_request_v1_year_range_exceeded(
     import example_server.config as cfg
 
     monkeypatch.setattr(cfg.settings, "bls_api_key", SecretStr(""))
-    req = BLSSeriesRequest(
-        series_ids=["CUUR0000SA0"], start_year=2010, end_year=2020
-    )
+    req = BLSSeriesRequest(series_ids=["CUUR0000SA0"], start_year=2010, end_year=2020)
     with pytest.raises(BLSAPIError) as exc_info:
         validate_series_request(req)
     assert "v2" in str(exc_info.value)
@@ -522,9 +526,7 @@ def test_validate_request_v2_year_range_exceeded(
 
     monkeypatch.setattr(cfg.settings, "bls_api_key", SecretStr("somekey"))
     # Construct with exactly 20 years (model limit), then patch end_year to 21
-    req = BLSSeriesRequest(
-        series_ids=["CUUR0000SA0"], start_year=2000, end_year=2019
-    )
+    req = BLSSeriesRequest(series_ids=["CUUR0000SA0"], start_year=2000, end_year=2019)
     # Force a 21-year span past model validation to exercise the function-level check.
     object.__setattr__(req, "end_year", 2020)
     with pytest.raises(BLSAPIError) as exc_info:
@@ -557,6 +559,7 @@ def test_validate_request_v1_annual_average_rejected(
 
 
 # ── BLSSeriesRequest model validators ─────────────────────────────────────────
+
 
 def test_bls_series_request_valid() -> None:
     """A well-formed request constructs without error."""
@@ -604,23 +607,17 @@ def test_bls_series_request_bad_year_too_short() -> None:
 def test_bls_series_request_year_order_violated() -> None:
     """start_year > end_year raises ValidationError."""
     with pytest.raises(ValidationError, match="must be <="):
-        BLSSeriesRequest(
-            series_ids=["CUUR0000SA0"], start_year=2024, end_year=2020
-        )
+        BLSSeriesRequest(series_ids=["CUUR0000SA0"], start_year=2024, end_year=2020)
 
 
 def test_bls_series_request_year_range_over_20() -> None:
     """Year range exceeding 20 years raises ValidationError at model level."""
     with pytest.raises(ValidationError, match="20 years"):
-        BLSSeriesRequest(
-            series_ids=["CUUR0000SA0"], start_year=2000, end_year=2021
-        )
+        BLSSeriesRequest(series_ids=["CUUR0000SA0"], start_year=2000, end_year=2021)
 
 
 def test_bls_series_request_exactly_20_years_ok() -> None:
     """A 20-year range is exactly at the model-level limit and must succeed."""
-    req = BLSSeriesRequest(
-        series_ids=["CUUR0000SA0"], start_year=2000, end_year=2019
-    )
+    req = BLSSeriesRequest(series_ids=["CUUR0000SA0"], start_year=2000, end_year=2019)
     assert req.start_year == 2000
     assert req.end_year == 2019
