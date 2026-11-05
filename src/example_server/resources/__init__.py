@@ -9,12 +9,13 @@ them into `register_resources(mcp)`.
 
 from __future__ import annotations
 
-from example_server.resources import example
+from example_server.resources import bls_surveys, example
 
 
 def register_resources(mcp) -> None:
     """Register all resources with the MCP server."""
     example.register(mcp)
+    bls_surveys.register(mcp)
 
 
 __all__ = ["register_resources"]
