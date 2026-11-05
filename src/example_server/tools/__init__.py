@@ -10,7 +10,6 @@ from __future__ import annotations
 from example_server.tools import (
     build_series_id,
     decode_series_id,
-    example_tool,
     get_series_data,
     get_series_metadata,
     lookup_area_code,
@@ -23,9 +22,6 @@ from example_server.tools import (
 
 def register_tools(mcp) -> None:
     """Register all tools with the MCP server."""
-    # Original example tool (kept for template reference)
-    example_tool.register(mcp)
-
     # BLS lookup helpers
     lookup_area_code.register(mcp)
     lookup_industry_code.register(mcp)

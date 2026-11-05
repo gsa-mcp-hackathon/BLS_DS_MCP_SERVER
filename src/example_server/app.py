@@ -20,6 +20,7 @@ from __future__ import annotations
 import os
 
 from fastmcp import FastMCP
+from fastmcp.server.transforms import ResourcesAsTools
 
 from example_server.config import settings
 from example_server.prompts import register_prompts
@@ -35,9 +36,10 @@ mcp = FastMCP(
         "and efficiently. Supports survey discovery, series ID lookup, "
         "construction, decoding, validation, and live data retrieval for "
         "SM, CE, LA, JT, and CU surveys via the BLS Public Data API (v1/v2). "
-        "Start by reading bls://surveys/overview to understand what surveys "
-        "and tools are available, then use suggest_series or search_series "
-        "to find series IDs before calling get_series_data."
+        "Start by calling list_resources or read_resource('bls://surveys/overview') "
+        "to understand what surveys and tools are available, then use "
+        "suggest_series or search_series to find series IDs before calling "
+        "get_series_data."
     ),
 )
 
@@ -46,6 +48,13 @@ register_tools(mcp)
 register_prompts(mcp)
 register_resources(mcp)
 register_routes(mcp)
+
+# Expose resources as callable tools so agents that only invoke tools (e.g.
+# watsonx Orchestrate) can discover and read them. Generates two tools:
+#   list_resources  — lists all registered resources and templates
+#   read_resource   — reads a resource by URI (e.g. "bls://surveys/overview")
+# The @mcp.resource decorators in resources/ are unchanged.
+mcp.add_transform(ResourcesAsTools(mcp))
 
 
 def main() -> None:

@@ -51,8 +51,23 @@ def test_routes_register_without_error():
 
 
 @pytest.mark.asyncio
-async def test_example_tool_is_discoverable():
-    """The example tool should be registered and discoverable via the MCP API."""
+async def test_bls_tools_are_discoverable():
+    """All BLS tools and resource-as-tool entries should be registered."""
     tools = await mcp.list_tools()
     tool_names = {t.name for t in tools}
-    assert "example_search_datasets" in tool_names
+    expected = {
+        "get_series_data",
+        "search_series",
+        "suggest_series",
+        "build_series_id",
+        "decode_series_id",
+        "validate_series_id",
+        "get_series_metadata",
+        "lookup_area_code",
+        "lookup_industry_code",
+        # ResourcesAsTools transform
+        "list_resources",
+        "read_resource",
+    }
+    assert expected <= tool_names, f"Missing tools: {expected - tool_names}"
+    assert "example_search_datasets" not in tool_names
