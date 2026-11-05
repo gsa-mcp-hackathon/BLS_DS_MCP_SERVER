@@ -29,11 +29,15 @@ from example_server.tools import register_tools
 
 # The server name is what MCP clients display. Rename it to your service.
 mcp = FastMCP(
-    name="Example MCP Server",
+    name="BLS Public Data Server",
     instructions=(
-        "Starter MCP server for the GSA MCP hackathon. "
-        "Replace this description, the tools, and the package name with your "
-        "own service. See the repo README to get started."
+        "Access Bureau of Labor Statistics (BLS) time series data accurately "
+        "and efficiently. Supports survey discovery, series ID lookup, "
+        "construction, decoding, validation, and live data retrieval for "
+        "SM, CE, LA, JT, and CU surveys via the BLS Public Data API (v1/v2). "
+        "Start by reading bls://surveys/overview to understand what surveys "
+        "and tools are available, then use suggest_series or search_series "
+        "to find series IDs before calling get_series_data."
     ),
 )
 

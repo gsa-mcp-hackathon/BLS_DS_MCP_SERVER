@@ -18,7 +18,7 @@ def test_server_is_importable():
 
 
 def test_server_has_name():
-    assert mcp.name == "Example MCP Server"
+    assert mcp.name == "BLS Public Data Server"
 
 
 def test_default_transport_is_stdio():
