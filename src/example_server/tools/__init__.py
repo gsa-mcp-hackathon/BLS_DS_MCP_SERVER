@@ -8,6 +8,7 @@ into a single `register_tools(mcp)` that `app.py` calls.
 from __future__ import annotations
 
 from example_server.tools import (
+    answer_bls_question,
     build_series_id,
     decode_series_id,
     get_series_data,
@@ -38,6 +39,9 @@ def register_tools(mcp) -> None:
     # Metadata and data retrieval
     get_series_metadata.register(mcp)
     get_series_data.register(mcp)
+
+    # Orchestrator — natural-language question answering
+    answer_bls_question.register(mcp)
 
 
 __all__ = ["register_tools"]
