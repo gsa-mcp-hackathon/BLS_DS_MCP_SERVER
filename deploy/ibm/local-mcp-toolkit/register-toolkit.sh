@@ -12,7 +12,8 @@
 #
 # Usage:
 #   set -a; source deploy/ibm/local-mcp-toolkit/.env; set +a
-#   #   export WXO_API_KEY="<your key>"     # else you'll be prompted (hidden)
+#   export WXO_API_KEY="<your Orchestrate key>"   # else prompted (hidden)
+#   export BLS_API_KEY="<your BLS key>"           # else prompted (hidden); omit to use v1
 #   bash deploy/ibm/local-mcp-toolkit/register-toolkit.sh
 set -euo pipefail
 
@@ -58,6 +59,19 @@ if [[ -z "${API_KEY}" ]]; then
   fi
 fi
 
+# --- Obtain the BLS API key (never written to disk) ---------------------------
+# Used to configure the bls_api_connection so Orchestrate injects BLS_API_KEY
+# as an env var when it starts the stdio process. Without a key the server runs
+# in BLS API v1 mode (25 req/day). Leave blank to skip and use v1.
+BLS_KEY="${BLS_API_KEY:-}"
+if [[ -z "${BLS_KEY}" ]]; then
+  echo "=== BLS Public Data API key ==="
+  echo "  Register free at: https://data.bls.gov/registrationEngine/"
+  echo "  Press Enter to skip — server will run in v1 mode (25 req/day)."
+  read -r -s -p "  BLS API key (input hidden, Enter to skip): " BLS_KEY
+  echo ""
+fi
+
 # --- Point the ADK at the instance and activate it ----------------------------
 echo "=== Configuring ADK environment '${WXO_ENV_NAME}' ==="
 if orchestrate env list 2>/dev/null | grep -q "${WXO_ENV_NAME}"; then
@@ -67,6 +81,25 @@ else
 fi
 orchestrate env activate "${WXO_ENV_NAME}" --api-key "${API_KEY}"
 orchestrate env list
+
+# --- Create or update the BLS API key connection ------------------------------
+# The bls_api_connection is a key_value connection that injects BLS_API_KEY
+# into the stdio process environment. It must exist before the toolkit import
+# references it. This block is idempotent: it creates on first run and updates
+# credentials on subsequent runs.
+echo "=== Configuring connection 'bls_api_connection' ==="
+# `connections add` fails if the connection already exists; suppress that error
+# with || true so the script continues to set-credentials either way.
+orchestrate connections add -a bls_api_connection 2>/dev/null || true
+for conn_env in draft live; do
+  orchestrate connections configure -a bls_api_connection \
+    --env "${conn_env}" --type team --kind key_value 2>/dev/null || true
+done
+for conn_env in draft live; do
+  orchestrate connections set-credentials -a bls_api_connection \
+    --env "${conn_env}" -e "BLS_API_KEY=${BLS_KEY}"
+done
+echo "  bls_api_connection configured for draft + live."
 
 # --- Build a minimal, self-contained staging package_root --------------------
 # Uploading the whole repo hits a 413 (virtualenvs are large) and can fail the
@@ -95,7 +128,7 @@ if orchestrate toolkits list 2>/dev/null | grep -q "${TOOLKIT_NAME}"; then
   orchestrate toolkits remove --name "${TOOLKIT_NAME}" || true
 fi
 
-orchestrate toolkits import -f "${TOOLKIT_YAML}"
+orchestrate toolkits import -f "${TOOLKIT_YAML}" --app-id bls_api_connection
 
 # --- Clean up generated artifacts --------------------------------------------
 rm -rf "${STAGE_DIR}" "${TOOLKIT_YAML}"

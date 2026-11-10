@@ -71,16 +71,26 @@ cp deploy/ibm/local-mcp-toolkit/.env.example deploy/ibm/local-mcp-toolkit/.env
 set -a; source deploy/ibm/local-mcp-toolkit/.env; set +a
 ```
 
-### 2.2 Provide your API key and run the register script
+### 2.2 Provide your API keys and run the register script
 
 ```bash
 export WXO_API_KEY="<your Orchestrate API key>"   # else prompted (hidden)
+export BLS_API_KEY="<your BLS API key>"           # else prompted (hidden); omit to use v1
 bash deploy/ibm/local-mcp-toolkit/register-toolkit.sh
 ```
 
-The script activates the ADK env, stages a minimal flattened `package_root`,
-imports the toolkit, lists toolkits to confirm, and cleans up. It is idempotent
-(re-runs pick up code/dependency changes).
+The script:
+1. Creates/updates the `bls_api_connection` key_value connection in Orchestrate,
+   injecting `BLS_API_KEY` for both `draft` and `live` environments.
+2. Activates the ADK env and stages a minimal flattened `package_root`.
+3. Imports (or re-imports) the toolkit, bound to `bls_api_connection`.
+4. Lists toolkits to confirm, then cleans up.
+
+It is idempotent — re-runs pick up code/dependency changes and refresh the key.
+
+> **BLS API key:** Register free at <https://data.bls.gov/registrationEngine/>.
+> Without a key the server falls back to BLS API v1 (25 req/day, 10-year range).
+> With a v2 key: 500 req/day, 20-year range.
 
 > **If you renamed the package** from `example_server`, run with
 > `PACKAGE_NAME=<your_pkg>` exported (and update `server.py`'s import).
@@ -130,19 +140,31 @@ clear instruction, and chat-test a question.
 
 ---
 
-## Connections (only if your server needs secrets)
+## BLS API key connection (`bls_api_connection`)
 
-This template's server needs **no credentials**, so `toolkit.yaml` declares no
-`connections`. If you adapt it for a server that needs secrets:
+The toolkit uses a `key_value` connection named `bls_api_connection` to inject
+`BLS_API_KEY` as an environment variable into the stdio process. The register
+script creates and configures it automatically — no manual UI steps needed.
+
+If you need to update the key without re-running the full register script:
 
 ```bash
-orchestrate connections add -a my_connection
+# Update the key in both environments
 for env in draft live; do
-  orchestrate connections configure -a my_connection --env $env --type team --kind key_value
-  orchestrate connections set-credentials -a my_connection --env $env -e "SECURE_VAR=value"
+  orchestrate connections set-credentials -a bls_api_connection \
+    --env "${env}" -e "BLS_API_KEY=<your_new_key>"
 done
-# then add `connections: [my_connection]` to toolkit.yaml
 ```
+
+To inspect the current connection configuration:
+
+```bash
+orchestrate connections list
+```
+
+> **Note:** Only `key_value` connections are supported for local MCP toolkits.
+> The `BLS_API_KEY` is stored in Orchestrate's secret store and never written
+> to disk or committed to version control.
 
 ---
 

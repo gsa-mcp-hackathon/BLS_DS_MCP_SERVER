@@ -13,14 +13,19 @@
 # Orchestrate uploads package_root, installs requirements.txt, and runs `command`
 # over stdio. `python server.py` imports `example_server.app:mcp` and runs it.
 #
-# This template's server needs NO credentials, so no `connections` are declared.
-# If your server needs secrets, add a connection (see README) and list it here.
+# This server uses a key_value connection to inject BLS_API_KEY into the
+# Orchestrate runtime at stdio startup. The register script creates/updates
+# the connection automatically — no manual UI steps required.
+# Register a free BLS API key at: https://data.bls.gov/registrationEngine/
+# Without a key the server falls back to BLS API v1 (25 req/day).
 spec_version: v1
 kind: mcp
-name: example_mcp_local
-description: "Example MCP server (local stdio). Replace name/description with your own server."
+name: gsa_ds_bls_toolkit
+description: "BLS Public Data MCP server (DS). Supports survey discovery, series ID lookup, construction, decoding, validation, and live data retrieval for SM, CE, LA, JT, and CU surveys via the BLS Public Data API."
 command: python server.py
 env: []
+connections:
+  - bls_api_connection
 tools:
   - "*"
 # Placeholder — the register script overwrites this with the staging dir path.
