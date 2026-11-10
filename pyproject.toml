@@ -40,8 +40,9 @@ line-length = 88
 target-version = "py311"
 exclude = [".venv", ".agents"]
 # Don't reformat Python code fences inside Markdown docs (they're illustrative
-# snippets, not runnable modules).
-extend-exclude = ["*.md"]
+# snippets, not runnable modules). Notebooks are exploratory/test code — exclude
+# them too so long print lines don't block CI.
+extend-exclude = ["*.md", "*.ipynb"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
