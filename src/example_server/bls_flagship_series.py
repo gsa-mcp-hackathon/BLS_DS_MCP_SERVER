@@ -580,9 +580,159 @@ _CU_ENTRIES: list[FlagshipEntry] = [
     ),
 ]
 
-# Master list — all entries across all five surveys.
+# ---------------------------------------------------------------------------
+# LN — Labor Force Statistics from the Current Population Survey (CPS)
+# Series IDs are opaque; only LNS (SA) / LNU (NSA) prefix is structural.
+# ---------------------------------------------------------------------------
+_LN_ENTRIES: list[FlagshipEntry] = [
+    FlagshipEntry(
+        series_id="LNS11300000",
+        survey="LN",
+        survey_name="Labor Force Statistics from the Current Population Survey",
+        description="Labor Force Participation Rate — Seasonally Adjusted",
+        keywords=[
+            "labor force participation rate",
+            "participation rate",
+            "labor force",
+            "lfpr",
+            "cps",
+            "ln",
+        ],
+        notes=(
+            "Monthly. Seasonally adjusted."
+            " Percent of civilian noninstitutional population 16+ in the labor force."
+        ),
+        concept="labor_force_participation_rate",
+        measure_type="rate",
+        unit="percent",
+    ),
+    FlagshipEntry(
+        series_id="LNU01300000",
+        survey="LN",
+        survey_name="Labor Force Statistics from the Current Population Survey",
+        description="Labor Force Participation Rate — Not Seasonally Adjusted",
+        keywords=[
+            "labor force participation rate",
+            "participation rate",
+            "labor force",
+            "lfpr",
+            "not seasonally adjusted",
+            "cps",
+            "ln",
+        ],
+        notes="Monthly. Not seasonally adjusted.",
+        concept="labor_force_participation_rate",
+        measure_type="rate",
+        unit="percent",
+    ),
+    FlagshipEntry(
+        series_id="LNS14000000",
+        survey="LN",
+        survey_name="Labor Force Statistics from the Current Population Survey",
+        description=(
+            "Unemployment Rate (U-3) — Seasonally Adjusted (CPS Household Survey)"
+        ),
+        keywords=[
+            "unemployment rate",
+            "u-3",
+            "cps",
+            "household survey",
+            "seasonally adjusted",
+            "ln",
+        ],
+        notes=(
+            "Monthly. Seasonally adjusted. CPS-based U-3 unemployment rate."
+            " Published alongside the payroll survey in the Employment Situation"
+            " release."
+        ),
+        concept="unemployment_rate",
+        measure_type="rate",
+        unit="percent",
+    ),
+    FlagshipEntry(
+        series_id="LNU04000000",
+        survey="LN",
+        survey_name="Labor Force Statistics from the Current Population Survey",
+        description=(
+            "Unemployment Rate (U-3) — Not Seasonally Adjusted (CPS Household Survey)"
+        ),
+        keywords=[
+            "unemployment rate",
+            "u-3",
+            "cps",
+            "household survey",
+            "not seasonally adjusted",
+            "ln",
+        ],
+        notes="Monthly. Not seasonally adjusted.",
+        concept="unemployment_rate",
+        measure_type="rate",
+        unit="percent",
+    ),
+    FlagshipEntry(
+        series_id="LNS12300000",
+        survey="LN",
+        survey_name="Labor Force Statistics from the Current Population Survey",
+        description="Employment-Population Ratio — Seasonally Adjusted",
+        keywords=[
+            "employment population ratio",
+            "employment rate",
+            "epop",
+            "e-pop",
+            "cps",
+            "ln",
+        ],
+        notes=(
+            "Monthly. Seasonally adjusted."
+            " Employed persons as percent of civilian noninstitutional population 16+."
+        ),
+        concept="employment_population_ratio",
+        measure_type="rate",
+        unit="percent",
+    ),
+    FlagshipEntry(
+        series_id="LNS12000000",
+        survey="LN",
+        survey_name="Labor Force Statistics from the Current Population Survey",
+        description="Civilian Employment Level — Seasonally Adjusted",
+        keywords=[
+            "civilian employment",
+            "employment level",
+            "employed",
+            "cps",
+            "household survey",
+            "ln",
+        ],
+        notes=(
+            "Monthly. Seasonally adjusted."
+            " Number of employed persons from the household survey (thousands)."
+        ),
+        concept="civilian_employment",
+        measure_type="level",
+        unit="thousands of persons",
+    ),
+    FlagshipEntry(
+        series_id="LNS11000000",
+        survey="LN",
+        survey_name="Labor Force Statistics from the Current Population Survey",
+        description="Civilian Labor Force Level — Seasonally Adjusted",
+        keywords=[
+            "civilian labor force",
+            "labor force level",
+            "labor force size",
+            "cps",
+            "ln",
+        ],
+        notes="Monthly. Seasonally adjusted. Total civilian labor force (thousands).",
+        concept="civilian_labor_force",
+        measure_type="level",
+        unit="thousands of persons",
+    ),
+]
+
+# Master list — all entries across all surveys.
 FLAGSHIP_SERIES: list[FlagshipEntry] = (
-    _SM_ENTRIES + _CE_ENTRIES + _LA_ENTRIES + _JT_ENTRIES + _CU_ENTRIES
+    _SM_ENTRIES + _CE_ENTRIES + _LA_ENTRIES + _JT_ENTRIES + _CU_ENTRIES + _LN_ENTRIES
 )
 
 # Quick lookup index by series ID.

@@ -93,6 +93,14 @@ _REGISTRY: dict[tuple[str, str], tuple[Path, bool, int, int]] = {
     ("nb", "ownership"): (_CACHE_DIR / "nb.ownership", False, 0, 1),
     ("nb", "provision"): (_CACHE_DIR / "nb.provision", False, 0, 1),
     ("nb", "subcell"): (_CACHE_DIR / "nb.subcell", False, 0, 1),
+    # LN — Labor Force Statistics from the Current Population Survey (CPS)
+    ("ln", "seasonal"): (_CACHE_DIR / "ln.seasonal", False, 0, 1),
+    ("ln", "lfst"): (_CACHE_DIR / "ln.lfst", False, 0, 1),
+    ("ln", "sexs"): (_CACHE_DIR / "ln.sexs", False, 0, 1),
+    ("ln", "ages"): (_CACHE_DIR / "ln.ages", False, 0, 1),
+    ("ln", "periodicity"): (_CACHE_DIR / "ln.periodicity", False, 0, 1),
+    # ln.series: col0=series_id (stripped), col3=series_title
+    ("ln", "series"): (_CACHE_DIR / "ln.series", False, 0, 3),
 }
 
 

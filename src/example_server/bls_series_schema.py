@@ -5,7 +5,7 @@ decode_id, and validate_series_id share one authoritative definition.
 
 Reference: https://www.bls.gov/help/hlpforma.htm
 
-Supported surveys: SM, CE, LA, JT, CU
+Supported surveys: SM, CE, LA, JT, CU, LN
 """
 
 from __future__ import annotations
@@ -156,6 +156,25 @@ _CU = SeriesSchema(
     ],
 )
 
+# LN — Labor Force Statistics from the Current Population Survey (CPS)
+# Format: LN(2) + seasonal(1) + opaque_body(8) = 11 (monthly series)
+# BLS documentation states: "The LN database has too many attributes to assign
+# each position of the series ID code to a specific attribute value."
+# Only the seasonal prefix (LNS/LNU) is structurally meaningful.
+# Quarterly series append "Q" (total 12 chars); annual append "A" (13 chars).
+# total_length=11 is the canonical monthly form; other lengths are flagged as
+# a length note but still decoded.
+_LN = SeriesSchema(
+    prefix="LN",
+    survey_name="Labor Force Statistics from the Current Population Survey",
+    total_length=11,
+    segments=[
+        SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("ln", "seasonal")),
+        # The remaining digits are an opaque series identifier — no catalog decode.
+        SeriesSegment("series_code", 1, 8, "Opaque series identifier", None),
+    ],
+)
+
 # Master registry
 SCHEMAS: dict[str, SeriesSchema] = {
     "SM": _SM,
@@ -163,6 +182,7 @@ SCHEMAS: dict[str, SeriesSchema] = {
     "LA": _LA,
     "JT": _JT,
     "CU": _CU,
+    "LN": _LN,
 }
 
 

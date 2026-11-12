@@ -255,6 +255,55 @@ _SURVEY_META: dict[str, dict] = {
             "SA0E=Energy, SAF1=Food"
         ),
     },
+    "LN": {
+        "full_name": (
+            "Labor Force Statistics from the Current Population Survey"
+        ),
+        "program": "Current Population Survey (CPS) — Labor Force Statistics",
+        "update_frequency": (
+            "Monthly — released first Friday of the following month "
+            "(Employment Situation report)"
+        ),
+        "seasonal_note": (
+            "Seasonally adjusted (LNS prefix) and not seasonally adjusted"
+            " (LNU prefix) series available. "
+            "Seasonal factors are revised annually at year-end."
+        ),
+        "unit_note": (
+            "Rates and ratios (participation rate, unemployment rate,"
+            " employment-population ratio) in percent. "
+            "Levels (employment, labor force) in thousands of persons."
+        ),
+        "data_api_note": (
+            "National estimates only. Series IDs are opaque — use"
+            " suggest_series or the ln.series catalog to find IDs. "
+            "v1: up to 25 series / 10-year range. "
+            "v2 (registered key): up to 50 series / 20-year range."
+        ),
+        "series_id_note": (
+            "LN series IDs cannot be decoded segment-by-segment. Only"
+            " the 3-char prefix is meaningful: LNS = Seasonally Adjusted,"
+            " LNU = Not Seasonally Adjusted. Use suggest_series or"
+            " search_series to find series IDs by topic."
+        ),
+        "catalog_dimensions": [
+            ("seasonal", "ln.seasonal", "S=Seasonally Adjusted, U=Not Seasonally Adjusted"),  # noqa: E501
+            ("lfst", "ln.lfst", "Labor force status code → status description"),
+            ("sexs", "ln.sexs", "Sex code → Both Sexes / Men / Women"),
+            ("ages", "ln.ages", "Age group code → age range description"),
+            ("periodicity", "ln.periodicity", "M=Monthly, Q=Quarterly, A=Annual"),
+            ("series", "ln.series", "Series ID → series title (~68k entries)"),
+        ],
+        "tool_guidance": (
+            "1. suggest_series(topic='labor force participation rate')"
+            " → returns LNS11300000\n"
+            "2. get_series_data — fetch observations (requires valid series ID)\n"
+            "3. get_series_metadata — decode the seasonal prefix and show"
+            " flagship notes\n"
+            "   Note: build_series_id is NOT supported for LN — IDs are opaque."
+            " Use suggest_series or search_series instead."
+        ),
+    },
 }
 
 
@@ -310,8 +359,8 @@ def _build_overview() -> str:
         "=" * 57,
         "",
         "This server provides access to BLS Public Data API v1 and v2.",
-        "Five survey families are fully supported for series ID construction,",
-        "decoding, validation, and live data retrieval.",
+        "Six survey families are fully supported for series ID decoding,",
+        "validation, and live data retrieval.",
         "",
         "Supported Survey Prefixes",
         "-" * 25,
@@ -367,7 +416,7 @@ def _build_overview() -> str:
         "",
         "For detail on a specific survey, read: bls://surveys/{survey_code}",
         "  e.g. bls://surveys/SM   bls://surveys/CE   bls://surveys/LA",
-        "       bls://surveys/JT   bls://surveys/CU",
+        "       bls://surveys/JT   bls://surveys/CU   bls://surveys/LN",
     ]
     return "\n".join(lines)
 
@@ -506,6 +555,7 @@ def register(mcp: FastMCP) -> None:
                 LA  — Local Area Unemployment Statistics
                 JT  — Job Openings and Labor Turnover Survey
                 CU  — Consumer Price Index, All Urban Consumers
+                LN  — Labor Force Statistics from the Current Population Survey
 
         For the full survey index: read bls://surveys/overview
         """

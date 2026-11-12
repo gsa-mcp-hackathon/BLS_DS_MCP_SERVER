@@ -16,13 +16,13 @@ from example_server.bls_flagship_series import (
 # ---------------------------------------------------------------------------
 
 
-def test_all_five_surveys_represented() -> None:
+def test_all_surveys_represented() -> None:
     surveys = {e.survey for e in FLAGSHIP_SERIES}
-    assert surveys == {"SM", "CE", "LA", "JT", "CU"}
+    assert surveys == {"SM", "CE", "LA", "JT", "CU", "LN"}
 
 
 def test_each_survey_has_at_least_six_entries() -> None:
-    for survey in ("SM", "CE", "LA", "JT", "CU"):
+    for survey in ("SM", "CE", "LA", "JT", "CU", "LN"):
         count = sum(1 for e in FLAGSHIP_SERIES if e.survey == survey)
         assert count >= 6, f"Survey {survey} has only {count} entries"
 
@@ -35,7 +35,7 @@ def test_no_duplicate_series_ids() -> None:
 @pytest.mark.parametrize("entry", FLAGSHIP_SERIES)
 def test_entry_has_required_fields(entry: FlagshipEntry) -> None:
     assert entry.series_id, "series_id must not be empty"
-    assert entry.survey in ("SM", "CE", "LA", "JT", "CU"), (
+    assert entry.survey in ("SM", "CE", "LA", "JT", "CU", "LN"), (
         f"Unknown survey: {entry.survey}"
     )
     assert entry.survey_name, "survey_name must not be empty"
@@ -242,3 +242,46 @@ def test_jt_openings_rate() -> None:
     assert e.concept == "job_openings_rate"
     assert e.measure_type == "rate"
     assert e.unit == "percent"
+
+
+# ---------------------------------------------------------------------------
+# LN — CPS / Labor Force Statistics
+# ---------------------------------------------------------------------------
+
+
+def test_ln_participation_rate_flagship() -> None:
+    e = get_flagship("LNS11300000")
+    assert e is not None
+    assert e.survey == "LN"
+    assert e.concept == "labor_force_participation_rate"
+    assert e.measure_type == "rate"
+    assert e.unit == "percent"
+
+
+def test_ln_unemployment_rate_flagship() -> None:
+    e = get_flagship("LNS14000000")
+    assert e is not None
+    assert e.survey == "LN"
+    assert e.concept == "unemployment_rate"
+    assert e.measure_type == "rate"
+    assert e.unit == "percent"
+
+
+def test_search_flagship_participation_rate() -> None:
+    hits = search_flagship("labor force participation rate")
+    assert len(hits) > 0
+    assert any(e.series_id == "LNS11300000" for e in hits)
+
+
+def test_search_flagship_cps_unemployment() -> None:
+    hits = search_flagship("cps unemployment rate")
+    assert any(e.survey == "LN" for e in hits)
+
+
+def test_ln_entries_are_rate_or_level() -> None:
+    ln_entries = [e for e in FLAGSHIP_SERIES if e.survey == "LN"]
+    assert len(ln_entries) >= 6
+    for e in ln_entries:
+        assert e.measure_type in {"rate", "level"}, (
+            f"{e.series_id}: unexpected measure_type '{e.measure_type}'"
+        )

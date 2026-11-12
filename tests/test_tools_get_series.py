@@ -87,6 +87,43 @@ def test_get_series_metadata_la_series() -> None:
     assert result["prefix"] == "LA"
 
 
+def test_get_series_metadata_ln_series_recognized() -> None:
+    import example_server.tools.get_series_metadata as mod
+
+    fn = _capture(mod)
+    # LNS11300000 = Labor Force Participation Rate SA (11 chars — canonical monthly)
+    result = fn(series_id="LNS11300000")
+    assert result["prefix"] == "LN"
+    # Length matches the canonical monthly schema so should be valid
+    assert result["valid"] is True
+    assert len(result["segments"]) == 2
+    seasonal_seg = result["segments"][0]
+    assert seasonal_seg["name"] == "seasonal"
+    assert seasonal_seg["value"] == "S"
+    assert seasonal_seg["label"] == "Seasonally Adjusted"
+
+
+def test_get_series_metadata_ln_flagship_enrichment() -> None:
+    import example_server.tools.get_series_metadata as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="LNS11300000")
+    # Flagship entry should enrich the result with concept/measure_type/unit
+    assert result.get("concept") == "labor_force_participation_rate"
+    assert result.get("measure_type") == "rate"
+    assert result.get("unit") == "percent"
+
+
+def test_get_series_metadata_ln_unknown_prefix_gone() -> None:
+    """LN prefix must no longer return an 'unrecognised prefix' error."""
+    import example_server.tools.get_series_metadata as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="LNS14000000")
+    assert result["valid"] is True
+    assert result["survey"] is not None
+
+
 # ---------------------------------------------------------------------------
 # Mock helpers for get_series_data
 # ---------------------------------------------------------------------------

@@ -249,3 +249,32 @@ def test_suggest_series_unemployment_concept_is_rate() -> None:
     assert rate_suggestions, "At least one rate suggestion expected for unemployment"
     for s in rate_suggestions:
         assert s["unit"] == "percent"
+
+
+def test_suggest_series_participation_rate() -> None:
+    import example_server.tools.suggest_series as mod
+
+    fn = _capture(mod)
+    result = fn(topic="labor force participation rate")
+    assert result["count"] > 0
+    ln_suggestions = [
+        s for s in result["suggestions"]
+        if s["survey_name"].startswith("Labor Force")
+    ]
+    assert ln_suggestions, "Expected at least one LN suggestion for participation rate"
+    for s in ln_suggestions:
+        assert s["unit"] == "percent"
+        assert s["measure_type"] == "rate"
+
+
+def test_suggest_series_cps_unemployment() -> None:
+    import example_server.tools.suggest_series as mod
+
+    fn = _capture(mod)
+    result = fn(topic="cps unemployment rate")
+    assert result["count"] > 0
+    ln_suggestions = [
+        s for s in result["suggestions"]
+        if s["survey_name"].startswith("Labor Force")
+    ]
+    assert ln_suggestions, "Expected LN suggestions for 'cps unemployment rate'"

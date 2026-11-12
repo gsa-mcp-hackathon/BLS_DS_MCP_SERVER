@@ -6,6 +6,7 @@ from typing import Annotated, Any
 
 from fastmcp import FastMCP
 
+from example_server.bls_flagship_series import search_flagship
 from example_server.bls_series_schema import SCHEMAS, build_id, decode_id
 from example_server.catalog import catalog
 from example_server.utils import paginate
@@ -86,6 +87,15 @@ _SURVEY_HINTS: dict[str, str] = {
     "nonfarm": "CE",
     "metro employment": "SM",
     "state employment": "SM",
+    # LN — CPS household survey
+    "labor force participation": "LN",
+    "participation rate": "LN",
+    "employment population ratio": "LN",
+    "employment-population ratio": "LN",
+    "epop": "LN",
+    "civilian labor force": "LN",
+    "civilian employment": "LN",
+    "cps": "LN",
 }
 
 
@@ -127,7 +137,7 @@ def register(mcp: FastMCP) -> None:
         ],
         survey: Annotated[
             str | None,
-            "Optional survey filter: 'SM', 'CE', 'LA', 'JT', or 'CU'.",
+            "Optional survey filter: 'SM', 'CE', 'LA', 'JT', 'CU', or 'LN'.",
         ] = None,
         limit: Annotated[int, "Maximum results to return (1–25)."] = 10,
     ) -> dict[str, Any]:
@@ -161,6 +171,8 @@ def register(mcp: FastMCP) -> None:
                 results.extend(_search_jt(query, seasonal, limit))
             elif sv == "CU":
                 results.extend(_search_cu(query, seasonal, limit))
+            elif sv == "LN":
+                results.extend(_search_ln(query, limit))
 
         # Deduplicate by series_id
         seen: set[str] = set()
@@ -359,6 +371,23 @@ def _search_jt(query: str, seasonal: str, limit: int) -> list[dict[str, Any]]:
         return []
     r = _make_result(sid, 2)
     return [r] if r else []
+
+
+def _search_ln(query: str, limit: int) -> list[dict[str, Any]]:
+    """Return LN (CPS) candidate series from the flagship table.
+
+    LN series IDs are opaque; they cannot be built from field segments.
+    We delegate to the flagship table, which holds the canonical CPS series.
+    """
+    hits = search_flagship(query, limit=limit)
+    results: list[dict[str, Any]] = []
+    for entry in hits:
+        if entry.survey != "LN":
+            continue
+        r = _make_result(entry.series_id, 2)
+        if r:
+            results.append(r)
+    return results
 
 
 def _search_cu(query: str, seasonal: str, limit: int) -> list[dict[str, Any]]:
