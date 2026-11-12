@@ -141,3 +141,104 @@ def test_search_flagship_nonfarm_payrolls() -> None:
 def test_search_flagship_jolts_quits() -> None:
     hits = search_flagship("quits")
     assert any(e.survey == "JT" for e in hits)
+
+
+# ---------------------------------------------------------------------------
+# New fields: concept, measure_type, unit
+# ---------------------------------------------------------------------------
+
+
+def test_flagship_entry_has_concept_field() -> None:
+    from example_server.bls_flagship_series import FlagshipEntry
+
+    e = FlagshipEntry(
+        series_id="TEST000001",
+        survey="CE",
+        survey_name="Test Survey",
+        description="Test",
+        keywords=["test"],
+        notes="Test notes.",
+        concept="test_concept",
+        measure_type="level",
+        unit="thousands of persons",
+    )
+    assert e.concept == "test_concept"
+    assert e.measure_type == "level"
+    assert e.unit == "thousands of persons"
+
+
+@pytest.mark.parametrize("entry", FLAGSHIP_SERIES)
+def test_all_entries_have_concept(entry: FlagshipEntry) -> None:
+    assert entry.concept, f"{entry.series_id}: concept must not be empty"
+
+
+@pytest.mark.parametrize("entry", FLAGSHIP_SERIES)
+def test_all_entries_have_measure_type(entry: FlagshipEntry) -> None:
+    valid = {"level", "rate", "index", "dollar_amount"}
+    assert entry.measure_type in valid, (
+        f"{entry.series_id}: measure_type '{entry.measure_type}' not in {valid}"
+    )
+
+
+@pytest.mark.parametrize("entry", FLAGSHIP_SERIES)
+def test_all_entries_have_unit(entry: FlagshipEntry) -> None:
+    assert entry.unit, f"{entry.series_id}: unit must not be empty"
+
+
+def test_cpi_entries_are_index_type() -> None:
+    from example_server.bls_flagship_series import get_flagship
+
+    for sid in ("CUUR0000SA0", "CUSR0000SA0", "CUUR0000SAF1"):
+        e = get_flagship(sid)
+        assert e is not None
+        assert e.measure_type == "index"
+        assert e.unit == "index 1982-84=100"
+
+
+def test_la_entries_are_rate_percent() -> None:
+    from example_server.bls_flagship_series import get_flagship
+
+    for sid in ("LAUST000000000000003", "LAUNT000000000000003"):
+        e = get_flagship(sid)
+        assert e is not None
+        assert e.measure_type == "rate"
+        assert e.unit == "percent"
+
+
+def test_ce_nonfarm_is_level_thousands() -> None:
+    from example_server.bls_flagship_series import get_flagship
+
+    e = get_flagship("CES0000000001")
+    assert e is not None
+    assert e.concept == "nonfarm_payrolls"
+    assert e.measure_type == "level"
+    assert e.unit == "thousands of persons"
+
+
+def test_ce_earnings_is_dollar_amount() -> None:
+    from example_server.bls_flagship_series import get_flagship
+
+    e = get_flagship("CES0500000003")
+    assert e is not None
+    assert e.concept == "average_hourly_earnings"
+    assert e.measure_type == "dollar_amount"
+    assert e.unit == "dollars per hour"
+
+
+def test_jt_openings_level() -> None:
+    from example_server.bls_flagship_series import get_flagship
+
+    e = get_flagship("JTS000000000000001")
+    assert e is not None
+    assert e.concept == "job_openings"
+    assert e.measure_type == "level"
+
+
+def test_jt_openings_rate() -> None:
+    from example_server.bls_flagship_series import get_flagship
+
+    e = get_flagship("JTS000000000000JOR")
+    assert e is not None
+    assert e.concept == "job_openings_rate"
+    assert e.measure_type == "rate"
+    assert e.unit == "percent"

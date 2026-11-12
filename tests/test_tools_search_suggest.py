@@ -184,3 +184,68 @@ def test_suggest_series_jolts_topic() -> None:
     fn = _capture(mod)
     result = fn(topic="job openings hires quits jolts")
     assert any("JT" in s["series_id"][:2] for s in result["suggestions"])
+
+
+# ---------------------------------------------------------------------------
+# New fields: concept, measure_type, unit in suggest_series
+# ---------------------------------------------------------------------------
+
+
+def test_suggest_series_result_has_concept() -> None:
+    import example_server.tools.suggest_series as mod
+
+    fn = _capture(mod)
+    result = fn(topic="consumer price inflation")
+    assert result["count"] >= 1
+    for s in result["suggestions"]:
+        assert "concept" in s, f"Missing 'concept' in suggestion: {s['series_id']}"
+
+
+def test_suggest_series_result_has_measure_type() -> None:
+    import example_server.tools.suggest_series as mod
+
+    fn = _capture(mod)
+    result = fn(topic="nonfarm payrolls")
+    assert result["count"] >= 1
+    for s in result["suggestions"]:
+        assert "measure_type" in s
+        assert s["measure_type"] in {"level", "rate", "index", "dollar_amount"}
+
+
+def test_suggest_series_result_has_unit() -> None:
+    import example_server.tools.suggest_series as mod
+
+    fn = _capture(mod)
+    result = fn(topic="unemployment rate national")
+    assert result["count"] >= 1
+    for s in result["suggestions"]:
+        assert "unit" in s
+        assert s["unit"]  # non-empty
+
+
+def test_suggest_series_cpi_concept_is_index() -> None:
+    import example_server.tools.suggest_series as mod
+
+    fn = _capture(mod)
+    result = fn(topic="cpi all items")
+    cpi_suggestions = [
+        s for s in result["suggestions"] if s["series_id"] == "CUUR0000SA0"
+    ]
+    assert cpi_suggestions, "CUUR0000SA0 should appear for 'cpi all items' topic"
+    s = cpi_suggestions[0]
+    assert s["concept"] == "cpi_all_items"
+    assert s["measure_type"] == "index"
+    assert s["unit"] == "index 1982-84=100"
+
+
+def test_suggest_series_unemployment_concept_is_rate() -> None:
+    import example_server.tools.suggest_series as mod
+
+    fn = _capture(mod)
+    result = fn(topic="unemployment rate national")
+    rate_suggestions = [
+        s for s in result["suggestions"] if s.get("measure_type") == "rate"
+    ]
+    assert rate_suggestions, "At least one rate suggestion expected for unemployment"
+    for s in rate_suggestions:
+        assert s["unit"] == "percent"

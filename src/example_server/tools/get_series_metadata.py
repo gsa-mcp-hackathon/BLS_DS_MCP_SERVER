@@ -45,7 +45,10 @@ def register(mcp: FastMCP) -> None:
               "survey": str,
               "prefix": str,
               "segments": [...],
-              "notes": str          # only present for flagship series
+              "notes": str         # only for flagship series
+              "concept": str       # only for flagship series
+              "measure_type": str  # only for flagship series
+              "unit": str          # only for flagship series
             }
         """
         sid = series_id.strip().upper()
@@ -100,5 +103,11 @@ def register(mcp: FastMCP) -> None:
         flagship = get_flagship(sid)
         if flagship is not None:
             result["notes"] = flagship.notes
+            if flagship.concept:
+                result["concept"] = flagship.concept
+            if flagship.measure_type:
+                result["measure_type"] = flagship.measure_type
+            if flagship.unit:
+                result["unit"] = flagship.unit
 
         return result

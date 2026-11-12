@@ -43,7 +43,8 @@ def register(mcp: FastMCP) -> None:
 
         Returns:
             {"topic": str, "suggestions": [...], "count": int}
-            Each suggestion: {"series_id", "survey_name", "description", "rationale"}
+            Each suggestion: {"series_id", "survey_name", "description", "rationale",
+                              "concept", "measure_type", "unit"}
         """
         limit = max(1, min(15, limit))
         hits = search_flagship(topic, limit=limit)
@@ -65,6 +66,9 @@ def register(mcp: FastMCP) -> None:
                     "survey_name": entry.survey_name,
                     "description": description,
                     "rationale": entry.notes,
+                    "concept": entry.concept,
+                    "measure_type": entry.measure_type,
+                    "unit": entry.unit,
                 }
             )
 

@@ -75,9 +75,12 @@ def register(mcp: FastMCP) -> None:
                   "series_id": str,
                   "label": str,
                   "observations": [
-                    {"year","period","period_name","value","footnotes"}
-                  ],
-                  "notes": str   # only for flagship series
+                   {"year","period","period_name","value","footnotes"}
+                 ],
+                 "notes": str         # only for flagship series
+                 "concept": str       # only for flagship series
+                 "measure_type": str  # only for flagship series
+                 "unit": str          # only for flagship series
                 }
               ],
               "notes": "Values are strings to preserve published precision."
@@ -146,6 +149,12 @@ def register(mcp: FastMCP) -> None:
             flagship = get_flagship(sid) if sid else None
             if flagship:
                 entry["notes"] = flagship.notes
+                if flagship.concept:
+                    entry["concept"] = flagship.concept
+                if flagship.measure_type:
+                    entry["measure_type"] = flagship.measure_type
+                if flagship.unit:
+                    entry["unit"] = flagship.unit
             enriched.append(entry)
 
         return {

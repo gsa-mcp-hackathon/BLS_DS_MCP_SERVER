@@ -308,3 +308,124 @@ async def test_get_series_data_does_not_reraise(monkeypatch) -> None:
     # Should have returned an error dict, not raised
     assert isinstance(result, dict)
     assert "error" in result
+
+
+# ---------------------------------------------------------------------------
+# New fields: concept, measure_type, unit in get_series_metadata
+# ---------------------------------------------------------------------------
+
+
+def test_get_series_metadata_flagship_has_concept() -> None:
+    import example_server.tools.get_series_metadata as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="CUUR0000SA0")
+    assert "concept" in result
+    assert result["concept"] == "cpi_all_items"
+
+
+def test_get_series_metadata_flagship_has_measure_type() -> None:
+    import example_server.tools.get_series_metadata as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="CUUR0000SA0")
+    assert "measure_type" in result
+    assert result["measure_type"] == "index"
+
+
+def test_get_series_metadata_flagship_has_unit() -> None:
+    import example_server.tools.get_series_metadata as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="CUUR0000SA0")
+    assert "unit" in result
+    assert result["unit"] == "index 1982-84=100"
+
+
+def test_get_series_metadata_non_flagship_no_concept() -> None:
+    import example_server.tools.get_series_metadata as mod
+
+    fn = _capture(mod)
+    # SMU01000000000000001 is a valid SM series not in the flagship table
+    result = fn(series_id="SMU01000000000000001")
+    assert "concept" not in result
+    assert "measure_type" not in result
+    assert "unit" not in result
+
+
+def test_get_series_metadata_la_rate_series() -> None:
+    import example_server.tools.get_series_metadata as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="LAUST000000000000003")
+    assert result.get("concept") == "unemployment_rate"
+    assert result.get("measure_type") == "rate"
+    assert result.get("unit") == "percent"
+
+
+def test_get_series_metadata_ce_earnings_series() -> None:
+    import example_server.tools.get_series_metadata as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="CES0500000003")
+    assert result.get("measure_type") == "dollar_amount"
+    assert result.get("unit") == "dollars per hour"
+
+
+# ---------------------------------------------------------------------------
+# New fields: concept, measure_type, unit in get_series_data
+# ---------------------------------------------------------------------------
+
+
+async def test_get_series_data_flagship_has_concept(monkeypatch) -> None:
+    import example_server.tools.get_series_data as mod
+
+    fn = _capture(mod)
+    client = _FakeBLSClient()
+    result = await _call_get_series_data(
+        fn, monkeypatch, client, series_ids=["CUUR0000SA0"]
+    )
+    series_entry = result["series"][0]
+    assert "concept" in series_entry
+    assert series_entry["concept"] == "cpi_all_items"
+
+
+async def test_get_series_data_flagship_has_measure_type(monkeypatch) -> None:
+    import example_server.tools.get_series_data as mod
+
+    fn = _capture(mod)
+    client = _FakeBLSClient()
+    result = await _call_get_series_data(
+        fn, monkeypatch, client, series_ids=["CUUR0000SA0"]
+    )
+    series_entry = result["series"][0]
+    assert "measure_type" in series_entry
+    assert series_entry["measure_type"] == "index"
+
+
+async def test_get_series_data_flagship_has_unit(monkeypatch) -> None:
+    import example_server.tools.get_series_data as mod
+
+    fn = _capture(mod)
+    client = _FakeBLSClient()
+    result = await _call_get_series_data(
+        fn, monkeypatch, client, series_ids=["CUUR0000SA0"]
+    )
+    series_entry = result["series"][0]
+    assert "unit" in series_entry
+    assert series_entry["unit"] == "index 1982-84=100"
+
+
+async def test_get_series_data_non_flagship_no_concept(monkeypatch) -> None:
+    import example_server.tools.get_series_data as mod
+
+    fn = _capture(mod)
+    # SMU01000000000000001 is a valid SM series not in the flagship table
+    client = _FakeBLSClient(body=_make_bls_envelope(series_id="SMU01000000000000001"))
+    result = await _call_get_series_data(
+        fn, monkeypatch, client, series_ids=["SMU01000000000000001"]
+    )
+    series_entry = result["series"][0]
+    assert "concept" not in series_entry
+    assert "measure_type" not in series_entry
+    assert "unit" not in series_entry
