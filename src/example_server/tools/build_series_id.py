@@ -25,7 +25,7 @@ def register(mcp: FastMCP) -> None:
     def build_series_id(
         survey: Annotated[
             str,
-            "Survey prefix: 'SM', 'CE', 'LA', 'JT', or 'CU'.",
+            "Survey prefix: 'SM', 'CE', 'LA', 'JT', 'CU', 'LN', 'PR', 'MP', 'CI'.",
         ],
         seasonal_adjustment: Annotated[
             str,
@@ -49,7 +49,9 @@ def register(mcp: FastMCP) -> None:
             str, "2-digit data type code (SM/CE, e.g. '01' for All Employees)."
         ] = "",
         measure_code: Annotated[
-            str, "2-digit measure code (LA only, e.g. '03' for unemployment rate)."
+            str,
+            "2-digit measure code (LA: e.g. '03' for unemployment rate;"
+            " PR: e.g. '01' for output per hour).",
         ] = "",
         sizeclass_code: Annotated[
             str, "2-digit size class code (JT only, e.g. '00' for All size classes)."
@@ -66,6 +68,32 @@ def register(mcp: FastMCP) -> None:
         item_code: Annotated[
             str,
             "Up to 8-char item/expenditure code (CU only, e.g. 'SA0' for All Items).",
+        ] = "",
+        sector_code: Annotated[
+            str, "4-digit sector code (PR/MP only, e.g. '3000' for Manufacturing)."
+        ] = "",
+        class_code: Annotated[
+            str, "1-digit class code (PR only, e.g. '6' for Output per job)."
+        ] = "",
+        duration_code: Annotated[
+            str, "1-digit duration/index type code (PR/MP only, e.g. '3' for index)."
+        ] = "",
+        owner_code: Annotated[
+            str,
+            "1-digit ownership type code (CI only, e.g. '1' for Civilian workers).",
+        ] = "",
+        estimate_code: Annotated[
+            str,
+            "2-digit estimate type code (CI only, e.g. '01' for Total compensation).",
+        ] = "",
+        series_code: Annotated[
+            str,
+            "10-char opaque series identifier (CI only).",
+        ] = "",
+        periodicity_code: Annotated[
+            str,
+            "1-char periodicity/change type code (CI only,"
+            " e.g. 'I' for index, 'C' for % change).",
         ] = "",
     ) -> dict[str, Any]:
         """Assemble a valid BLS series ID from named dimension values.
@@ -92,6 +120,13 @@ def register(mcp: FastMCP) -> None:
             "ratelevel_code": ratelevel_code,
             "periodicity": periodicity,
             "item_code": item_code,
+            "sector_code": sector_code,
+            "class_code": class_code,
+            "duration_code": duration_code,
+            "owner_code": owner_code,
+            "estimate_code": estimate_code,
+            "series_code": series_code,
+            "periodicity_code": periodicity_code,
         }
         # Strip empty strings so build_id can detect missing required fields.
         kwargs = {k: v for k, v in kwargs.items() if v}

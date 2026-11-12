@@ -1,7 +1,8 @@
 """Curated flagship BLS series table.
 
-Provides a shared list of well-known BLS series covering all five supported
-surveys (SM, CE, LA, JT, CU).  Used by suggest_series and get_series_metadata.
+Provides a shared list of well-known BLS series covering all twelve supported
+surveys (SM, CE, LA, JT, CU, LN, PR, MP, CW, WP, EI, CI).
+Used by suggest_series and get_series_metadata.
 
 Usage::
 
@@ -22,7 +23,9 @@ class FlagshipEntry:
 
     Attributes:
         series_id:    Exact BLS series ID string.
-        survey:       2-char survey prefix ("SM", "CE", "LA", "JT", "CU").
+        survey:       2-char survey prefix
+                      ("SM", "CE", "LA", "JT", "CU", "LN",
+                       "PR", "MP", "CW", "WP", "EI", "CI").
         survey_name:  Human-readable survey name.
         description:  One-line description of the series.
         keywords:     Lowercase strings used for topic matching.
@@ -730,9 +733,988 @@ _LN_ENTRIES: list[FlagshipEntry] = [
     ),
 ]
 
+# ---------------------------------------------------------------------------
+# PR — Productivity and Costs
+# Format: PR(2)+seasonal(1)+sector(4)+class(1)+measure(2)+duration(1) = 11 chars
+# Nonfarm business: sector=8500; Manufacturing: sector=3000; class=6 (index series)
+# ---------------------------------------------------------------------------
+
+_PR_ENTRIES: list[FlagshipEntry] = [
+    FlagshipEntry(
+        series_id="PRS30006013",
+        survey="PR",
+        survey_name="Productivity and Costs",
+        description="Employment for the Manufacturing sector, Index (2017=100)",
+        keywords=[
+            "manufacturing",
+            "employment",
+            "productivity",
+            "index",
+            "labor",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. Sector 3000 = Manufacturing. "
+            "Base year 2017=100."
+        ),
+        concept="manufacturing_employment_index",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+    FlagshipEntry(
+        series_id="PRS30006014",
+        survey="PR",
+        survey_name="Productivity and Costs",
+        description="Employment for the Manufacturing sector, Level (Millions of jobs)",
+        keywords=[
+            "manufacturing",
+            "employment",
+            "level",
+            "jobs",
+            "labor",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. Sector 3000 = Manufacturing. "
+            "Unit: millions of jobs."
+        ),
+        concept="manufacturing_employment_level",
+        measure_type="level",
+        unit="millions of jobs",
+    ),
+    FlagshipEntry(
+        series_id="PRS85006093",
+        survey="PR",
+        survey_name="Productivity and Costs",
+        description=(
+            "Labor productivity for the Nonfarm business sector, Index (2017=100)"
+        ),
+        keywords=[
+            "nonfarm business",
+            "labor productivity",
+            "productivity",
+            "output per hour",
+            "index",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. Sector 8500 = Nonfarm business. "
+            "Base year 2017=100. Key headline productivity measure."
+        ),
+        concept="nonfarm_business_labor_productivity_index",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+    FlagshipEntry(
+        series_id="PRS85006014",
+        survey="PR",
+        survey_name="Productivity and Costs",
+        description=(
+            "Employment for the Nonfarm business sector, Level (Millions of jobs)"
+        ),
+        keywords=[
+            "nonfarm business",
+            "employment",
+            "level",
+            "jobs",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. Sector 8500 = Nonfarm business. "
+            "Unit: millions of jobs."
+        ),
+        concept="nonfarm_business_employment_level",
+        measure_type="level",
+        unit="millions of jobs",
+    ),
+    FlagshipEntry(
+        series_id="PRS85006113",
+        survey="PR",
+        survey_name="Productivity and Costs",
+        description=(
+            "Unit labor costs for the Nonfarm business sector, Index (2017=100)"
+        ),
+        keywords=[
+            "nonfarm business",
+            "unit labor costs",
+            "ulc",
+            "labor costs",
+            "index",
+            "inflation",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. Sector 8500 = Nonfarm business. "
+            "Base year 2017=100. Key indicator of cost-push inflation."
+        ),
+        concept="nonfarm_business_unit_labor_costs",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+    FlagshipEntry(
+        series_id="PRS85006104",
+        survey="PR",
+        survey_name="Productivity and Costs",
+        description=(
+            "Hourly compensation for the Nonfarm business sector, "
+            "Level (Current dollars per hour worked)"
+        ),
+        keywords=[
+            "nonfarm business",
+            "hourly compensation",
+            "compensation per hour",
+            "wages",
+            "dollars",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. Sector 8500 = Nonfarm business. "
+            "Unit: current dollars per hour worked."
+        ),
+        concept="nonfarm_business_hourly_compensation",
+        measure_type="dollar_amount",
+        unit="dollars per hour",
+    ),
+    FlagshipEntry(
+        series_id="PRS30006093",
+        survey="PR",
+        survey_name="Productivity and Costs",
+        description="Labor productivity for the Manufacturing sector, Index (2017=100)",
+        keywords=[
+            "manufacturing",
+            "labor productivity",
+            "productivity",
+            "output per hour",
+            "index",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. Sector 3000 = Manufacturing. "
+            "Base year 2017=100."
+        ),
+        concept="manufacturing_labor_productivity_index",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+    FlagshipEntry(
+        series_id="PRS30006113",
+        survey="PR",
+        survey_name="Productivity and Costs",
+        description="Unit labor costs for the Manufacturing sector, Index (2017=100)",
+        keywords=[
+            "manufacturing",
+            "unit labor costs",
+            "ulc",
+            "labor costs",
+            "index",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. Sector 3000 = Manufacturing. "
+            "Base year 2017=100."
+        ),
+        concept="manufacturing_unit_labor_costs",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+]
+
+# ---------------------------------------------------------------------------
+# MP — Multifactor Productivity
+# Format: MP(2)+seasonal(1)+sector(4)+measure(2)+duration(1) = 10 chars
+# All TFP index series use measure=01, duration=2, seasonal=U, base year 2017
+# ---------------------------------------------------------------------------
+
+_MP_ENTRIES: list[FlagshipEntry] = [
+    FlagshipEntry(
+        series_id="MPU0011012",
+        survey="MP",
+        survey_name="Multifactor Productivity",
+        description=(
+            "Total factor productivity for Agriculture, forestry, fishing, "
+            "and hunting (NAICS 11), Indexes"
+        ),
+        keywords=[
+            "agriculture",
+            "total factor productivity",
+            "tfp",
+            "multifactor productivity",
+            "mfp",
+            "index",
+        ],
+        notes=(
+            "Annual, not seasonally adjusted. NAICS 11. Base year 2017=100. "
+            "Covers capital, labor, energy, materials, and services inputs."
+        ),
+        concept="tfp_agriculture",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+    FlagshipEntry(
+        series_id="MPU0021012",
+        survey="MP",
+        survey_name="Multifactor Productivity",
+        description=(
+            "Total factor productivity for Mining (NAICS 21), Indexes"
+        ),
+        keywords=[
+            "mining",
+            "total factor productivity",
+            "tfp",
+            "multifactor productivity",
+            "mfp",
+            "index",
+        ],
+        notes=(
+            "Annual, not seasonally adjusted. NAICS 21. Base year 2017=100."
+        ),
+        concept="tfp_mining",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+    FlagshipEntry(
+        series_id="MPU0022012",
+        survey="MP",
+        survey_name="Multifactor Productivity",
+        description="Total factor productivity for Utilities (NAICS 22), Indexes",
+        keywords=[
+            "utilities",
+            "total factor productivity",
+            "tfp",
+            "multifactor productivity",
+            "mfp",
+            "index",
+        ],
+        notes=(
+            "Annual, not seasonally adjusted. NAICS 22. Base year 2017=100."
+        ),
+        concept="tfp_utilities",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+    FlagshipEntry(
+        series_id="MPU0023012",
+        survey="MP",
+        survey_name="Multifactor Productivity",
+        description="Total factor productivity for Construction (NAICS 23), Indexes",
+        keywords=[
+            "construction",
+            "total factor productivity",
+            "tfp",
+            "multifactor productivity",
+            "mfp",
+            "index",
+        ],
+        notes=(
+            "Annual, not seasonally adjusted. NAICS 23. Base year 2017=100."
+        ),
+        concept="tfp_construction",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+    FlagshipEntry(
+        series_id="MPU9920012",
+        survey="MP",
+        survey_name="Multifactor Productivity",
+        description=(
+            "Total factor productivity for Durable Manufacturing Sector "
+            "(NAICS 321 327 331-337 339), Indexes"
+        ),
+        keywords=[
+            "durable manufacturing",
+            "total factor productivity",
+            "tfp",
+            "multifactor productivity",
+            "mfp",
+            "index",
+            "durable goods",
+        ],
+        notes=(
+            "Annual, not seasonally adjusted. Durable mfg. Base year 2017=100."
+        ),
+        concept="tfp_durable_manufacturing",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+    FlagshipEntry(
+        series_id="MPU9910012",
+        survey="MP",
+        survey_name="Multifactor Productivity",
+        description=(
+            "Total factor productivity for Nondurable Manufacturing Sector "
+            "(NAICS 311-316 322-326), Indexes"
+        ),
+        keywords=[
+            "nondurable manufacturing",
+            "total factor productivity",
+            "tfp",
+            "multifactor productivity",
+            "mfp",
+            "index",
+            "nondurable goods",
+        ],
+        notes=(
+            "Annual, not seasonally adjusted. Nondurable mfg. Base year 2017=100."
+        ),
+        concept="tfp_nondurable_manufacturing",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+]
+
+# ---------------------------------------------------------------------------
+# CW — Consumer Price Index — Urban Wage Earners and Clerical Workers (CPI-W)
+# Format: CW(2)+seasonal(1)+periodicity(1)+area(4)+item(variable) = variable length
+# U.S. city average: area=0000; seasonally adjusted: seasonal=S, periodicity=R
+# ---------------------------------------------------------------------------
+
+_CW_ENTRIES: list[FlagshipEntry] = [
+    FlagshipEntry(
+        series_id="CWSR0000SA0",
+        survey="CW",
+        survey_name=(
+            "Consumer Price Index \u2014 Urban Wage Earners and Clerical Workers"
+        ),
+        description=(
+            "All items in U.S. city average, urban wage earners and clerical "
+            "workers, seasonally adjusted"
+        ),
+        keywords=[
+            "cpi-w",
+            "cpi w",
+            "all items",
+            "urban wage earners",
+            "clerical workers",
+            "inflation",
+            "seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. U.S. city average (area 0000). "
+            "Base period 1982-84=100. Used for Social Security COLA adjustments."
+        ),
+        concept="cpiw_all_items_sa",
+        measure_type="index",
+        unit="index 1982-84=100",
+    ),
+    FlagshipEntry(
+        series_id="CWSR0000SAF1",
+        survey="CW",
+        survey_name=(
+            "Consumer Price Index \u2014 Urban Wage Earners and Clerical Workers"
+        ),
+        description=(
+            "Food at home in U.S. city average, urban wage earners and "
+            "clerical workers, seasonally adjusted"
+        ),
+        keywords=[
+            "cpi-w",
+            "food at home",
+            "groceries",
+            "urban wage earners",
+            "inflation",
+            "seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. U.S. city average. "
+            "Base period 1982-84=100."
+        ),
+        concept="cpiw_food_at_home_sa",
+        measure_type="index",
+        unit="index 1982-84=100",
+    ),
+    FlagshipEntry(
+        series_id="CWSR0000SA0E",
+        survey="CW",
+        survey_name=(
+            "Consumer Price Index \u2014 Urban Wage Earners and Clerical Workers"
+        ),
+        description=(
+            "Energy in U.S. city average, urban wage earners and clerical "
+            "workers, seasonally adjusted"
+        ),
+        keywords=[
+            "cpi-w",
+            "energy",
+            "urban wage earners",
+            "inflation",
+            "seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. U.S. city average. "
+            "Base period 1982-84=100."
+        ),
+        concept="cpiw_energy_sa",
+        measure_type="index",
+        unit="index 1982-84=100",
+    ),
+    FlagshipEntry(
+        series_id="CWSR0000SAF",
+        survey="CW",
+        survey_name=(
+            "Consumer Price Index \u2014 Urban Wage Earners and Clerical Workers"
+        ),
+        description=(
+            "Food and beverages in U.S. city average, urban wage earners "
+            "and clerical workers, seasonally adjusted"
+        ),
+        keywords=[
+            "cpi-w",
+            "food",
+            "food and beverages",
+            "urban wage earners",
+            "inflation",
+            "seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. U.S. city average. "
+            "Base period 1982-84=100."
+        ),
+        concept="cpiw_food_sa",
+        measure_type="index",
+        unit="index 1982-84=100",
+    ),
+    FlagshipEntry(
+        series_id="CWSR0000SA0L1E",
+        survey="CW",
+        survey_name=(
+            "Consumer Price Index \u2014 Urban Wage Earners and Clerical Workers"
+        ),
+        description=(
+            "All items less food and energy in U.S. city average, urban wage "
+            "earners and clerical workers, seasonally adjusted (core CPI-W)"
+        ),
+        keywords=[
+            "cpi-w",
+            "core",
+            "less food and energy",
+            "urban wage earners",
+            "inflation",
+            "seasonally adjusted",
+            "core inflation",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. U.S. city average. "
+            "Base period 1982-84=100. Core CPI-W excluding food and energy."
+        ),
+        concept="cpiw_core_sa",
+        measure_type="index",
+        unit="index 1982-84=100",
+    ),
+    FlagshipEntry(
+        series_id="CWSR0000SAH1",
+        survey="CW",
+        survey_name=(
+            "Consumer Price Index \u2014 Urban Wage Earners and Clerical Workers"
+        ),
+        description=(
+            "Shelter in U.S. city average, urban wage earners and clerical "
+            "workers, seasonally adjusted"
+        ),
+        keywords=[
+            "cpi-w",
+            "shelter",
+            "housing",
+            "rent",
+            "urban wage earners",
+            "inflation",
+            "seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. U.S. city average. "
+            "Base period 1982-84=100."
+        ),
+        concept="cpiw_shelter_sa",
+        measure_type="index",
+        unit="index 1982-84=100",
+    ),
+]
+
+# ---------------------------------------------------------------------------
+# WP — PPI Commodity Data
+# Format: WP(2)+seasonal(1)+series_code(variable) = variable length
+# Seasonally adjusted prefix: WPS; not seasonally adjusted: WPU
+# ---------------------------------------------------------------------------
+
+_WP_ENTRIES: list[FlagshipEntry] = [
+    FlagshipEntry(
+        series_id="WPS00000000",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description="PPI Commodity data for All commodities, seasonally adjusted",
+        keywords=[
+            "ppi",
+            "producer price index",
+            "all commodities",
+            "commodity",
+            "inflation",
+            "seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. All commodities aggregate. "
+            "Base period 1982=100. Headline commodity PPI."
+        ),
+        concept="ppi_all_commodities_sa",
+        measure_type="index",
+        unit="index 1982=100",
+    ),
+    FlagshipEntry(
+        series_id="WPU00000000",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description="PPI Commodity data for All commodities, not seasonally adjusted",
+        keywords=[
+            "ppi",
+            "producer price index",
+            "all commodities",
+            "commodity",
+            "inflation",
+            "not seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. All commodities aggregate. "
+            "Base period 1982=100. Goes back to 1913."
+        ),
+        concept="ppi_all_commodities_nsa",
+        measure_type="index",
+        unit="index 1982=100",
+    ),
+    FlagshipEntry(
+        series_id="WPU01",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description="PPI Commodity data for Farm products, not seasonally adjusted",
+        keywords=[
+            "ppi",
+            "producer price index",
+            "farm products",
+            "agriculture",
+            "commodity",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. Farm products group. "
+            "Base period 1982=100."
+        ),
+        concept="ppi_farm_products",
+        measure_type="index",
+        unit="index 1982=100",
+    ),
+    FlagshipEntry(
+        series_id="WPS029",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description=(
+            "PPI Commodity data for Processed foods and feeds — "
+            "Prepared animal feeds, seasonally adjusted"
+        ),
+        keywords=[
+            "ppi",
+            "processed foods",
+            "feeds",
+            "food",
+            "commodity",
+            "seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. Processed foods and feeds group. "
+            "Base period 1982=100."
+        ),
+        concept="ppi_processed_foods_feeds",
+        measure_type="index",
+        unit="index 1982=100",
+    ),
+    FlagshipEntry(
+        series_id="WPS05",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description=(
+            "PPI Commodity data for Fuels and related products and power, "
+            "seasonally adjusted"
+        ),
+        keywords=[
+            "ppi",
+            "fuels",
+            "energy",
+            "power",
+            "petroleum",
+            "commodity",
+            "seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. Fuels and related products group. "
+            "Base period 1982=100."
+        ),
+        concept="ppi_fuels_and_power",
+        measure_type="index",
+        unit="index 1982=100",
+    ),
+    FlagshipEntry(
+        series_id="WPS101",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description=(
+            "PPI Commodity data for Metals and metal products — "
+            "Iron and steel, seasonally adjusted"
+        ),
+        keywords=[
+            "ppi",
+            "metals",
+            "iron",
+            "steel",
+            "metal products",
+            "commodity",
+            "seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. Iron and steel sub-group of metals. "
+            "Base period 1982=100."
+        ),
+        concept="ppi_iron_and_steel",
+        measure_type="index",
+        unit="index 1982=100",
+    ),
+    FlagshipEntry(
+        series_id="WPS102",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description=(
+            "PPI Commodity data for Metals and metal products — "
+            "Nonferrous metals, seasonally adjusted"
+        ),
+        keywords=[
+            "ppi",
+            "metals",
+            "nonferrous",
+            "aluminum",
+            "copper",
+            "metal products",
+            "commodity",
+            "seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. Nonferrous metals sub-group. "
+            "Base period 1982=100."
+        ),
+        concept="ppi_nonferrous_metals",
+        measure_type="index",
+        unit="index 1982=100",
+    ),
+]
+
+# ---------------------------------------------------------------------------
+# EI — International Price Program
+# Format: EI(2)+seasonal(1)+index_code(2)+series_code(variable) = variable length
+# All series are not seasonally adjusted (seasonal=U).
+# IR = import prices by BEA end use; IQ = export prices by BEA end use
+# CO = import prices by country of origin; CD = export prices by destination
+# ---------------------------------------------------------------------------
+
+_EI_ENTRIES: list[FlagshipEntry] = [
+    FlagshipEntry(
+        series_id="EIUIR",
+        survey="EI",
+        survey_name="International Price Program",
+        description=(
+            "Monthly import price index for BEA End Use, All commodities, "
+            "not seasonally adjusted"
+        ),
+        keywords=[
+            "import price",
+            "import prices",
+            "international price",
+            "all commodities",
+            "trade",
+            "not seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. Total import price index. "
+            "Base period 2000=100. Goes back to September 1982."
+        ),
+        concept="total_import_price_index",
+        measure_type="index",
+        unit="index 2000=100",
+    ),
+    FlagshipEntry(
+        series_id="EIUIQ",
+        survey="EI",
+        survey_name="International Price Program",
+        description=(
+            "Monthly export price index for BEA End Use, All commodities, "
+            "not seasonally adjusted"
+        ),
+        keywords=[
+            "export price",
+            "export prices",
+            "international price",
+            "all commodities",
+            "trade",
+            "not seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. Total export price index. "
+            "Base period 2000=100. Goes back to September 1983."
+        ),
+        concept="total_export_price_index",
+        measure_type="index",
+        unit="index 2000=100",
+    ),
+    FlagshipEntry(
+        series_id="EIUIR1",
+        survey="EI",
+        survey_name="International Price Program",
+        description=(
+            "Monthly import price index for BEA End Use 1, "
+            "Industrial supplies and materials, not seasonally adjusted"
+        ),
+        keywords=[
+            "import price",
+            "industrial supplies",
+            "materials",
+            "international price",
+            "not seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. Import prices for industrial "
+            "supplies and materials. Base period 2000=100."
+        ),
+        concept="import_price_industrial_supplies",
+        measure_type="index",
+        unit="index 2000=100",
+    ),
+    FlagshipEntry(
+        series_id="EIUIR2",
+        survey="EI",
+        survey_name="International Price Program",
+        description=(
+            "Monthly import price index for BEA End Use 2, "
+            "Capital goods, except automotive, not seasonally adjusted"
+        ),
+        keywords=[
+            "import price",
+            "capital goods",
+            "machinery",
+            "international price",
+            "not seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. Import prices for capital goods "
+            "excluding automotive. Base period 2000=100."
+        ),
+        concept="import_price_capital_goods",
+        measure_type="index",
+        unit="index 2000=100",
+    ),
+    FlagshipEntry(
+        series_id="EIUIQ1",
+        survey="EI",
+        survey_name="International Price Program",
+        description=(
+            "Monthly export price index for BEA End Use 1, "
+            "Industrial supplies and materials, not seasonally adjusted"
+        ),
+        keywords=[
+            "export price",
+            "industrial supplies",
+            "materials",
+            "international price",
+            "not seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. Export prices for industrial "
+            "supplies and materials. Base period 2000=100."
+        ),
+        concept="export_price_industrial_supplies",
+        measure_type="index",
+        unit="index 2000=100",
+    ),
+    FlagshipEntry(
+        series_id="EIUIQ2",
+        survey="EI",
+        survey_name="International Price Program",
+        description=(
+            "Monthly export price index for BEA End Use 2, "
+            "Capital goods, except automotive, not seasonally adjusted"
+        ),
+        keywords=[
+            "export price",
+            "capital goods",
+            "machinery",
+            "international price",
+            "not seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. Export prices for capital goods "
+            "excluding automotive. Base period 2000=100."
+        ),
+        concept="export_price_capital_goods",
+        measure_type="index",
+        unit="index 2000=100",
+    ),
+]
+
+# ---------------------------------------------------------------------------
+# CI — Employer Costs for Employee Compensation (ECEC)
+# Format: CI(2)+seasonal(1)+owner(1)+industry(6)+occupation(6)+subcell(2)+
+#         periodicity(1) = 17 chars
+# Civilian workers: owner=1; Private industry: owner=2; State/local govt: owner=3
+# All industries/occupations: 000000; periodicity I=index, Q=3-month % change
+# ---------------------------------------------------------------------------
+
+_CI_ENTRIES: list[FlagshipEntry] = [
+    FlagshipEntry(
+        series_id="CIS1010000000000I",
+        survey="CI",
+        survey_name="Employer Costs for Employee Compensation",
+        description=(
+            "Total compensation for all civilian workers, current dollar index"
+        ),
+        keywords=[
+            "total compensation",
+            "civilian workers",
+            "employer costs",
+            "ecec",
+            "compensation",
+            "index",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. All civilian workers, all "
+            "industries, all occupations. Current dollar index. "
+            "Owner=1 (civilian)."
+        ),
+        concept="total_compensation_civilian_index",
+        measure_type="index",
+        unit="index",
+    ),
+    FlagshipEntry(
+        series_id="CIS1010000000000Q",
+        survey="CI",
+        survey_name="Employer Costs for Employee Compensation",
+        description=(
+            "Total compensation for all civilian workers, "
+            "3-month percent change, current dollars"
+        ),
+        keywords=[
+            "total compensation",
+            "civilian workers",
+            "employer costs",
+            "ecec",
+            "compensation",
+            "percent change",
+            "rate",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. All civilian workers. "
+            "3-month percent change. Owner=1 (civilian)."
+        ),
+        concept="total_compensation_civilian_pct_change",
+        measure_type="rate",
+        unit="percent",
+    ),
+    FlagshipEntry(
+        series_id="CIS1020000000000I",
+        survey="CI",
+        survey_name="Employer Costs for Employee Compensation",
+        description=(
+            "Wages and salaries for all civilian workers, current dollar index"
+        ),
+        keywords=[
+            "wages",
+            "salaries",
+            "civilian workers",
+            "employer costs",
+            "ecec",
+            "compensation",
+            "index",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. All civilian workers. "
+            "Wages and salaries component. Current dollar index."
+        ),
+        concept="wages_salaries_civilian_index",
+        measure_type="index",
+        unit="index",
+    ),
+    FlagshipEntry(
+        series_id="CIS1030000000000I",
+        survey="CI",
+        survey_name="Employer Costs for Employee Compensation",
+        description=(
+            "Total benefits for all civilian workers, current dollar index"
+        ),
+        keywords=[
+            "benefits",
+            "total benefits",
+            "civilian workers",
+            "employer costs",
+            "ecec",
+            "compensation",
+            "index",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. All civilian workers. "
+            "Total benefits component (health, retirement, etc.)."
+        ),
+        concept="total_benefits_civilian_index",
+        measure_type="index",
+        unit="index",
+    ),
+    FlagshipEntry(
+        series_id="CIS2010000000000I",
+        survey="CI",
+        survey_name="Employer Costs for Employee Compensation",
+        description=(
+            "Total compensation for all private industry workers, "
+            "current dollar index"
+        ),
+        keywords=[
+            "total compensation",
+            "private industry",
+            "private sector",
+            "employer costs",
+            "ecec",
+            "compensation",
+            "index",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. All private industry workers. "
+            "Current dollar index. Owner=2 (private industry)."
+        ),
+        concept="total_compensation_private_index",
+        measure_type="index",
+        unit="index",
+    ),
+    FlagshipEntry(
+        series_id="CIS3010000000000I",
+        survey="CI",
+        survey_name="Employer Costs for Employee Compensation",
+        description=(
+            "Total compensation for all state and local government workers, "
+            "current dollar index"
+        ),
+        keywords=[
+            "total compensation",
+            "state and local government",
+            "government workers",
+            "employer costs",
+            "ecec",
+            "compensation",
+            "index",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. All state and local government "
+            "workers. Current dollar index. Owner=3 (state/local govt)."
+        ),
+        concept="total_compensation_state_local_index",
+        measure_type="index",
+        unit="index",
+    ),
+]
+
 # Master list — all entries across all surveys.
 FLAGSHIP_SERIES: list[FlagshipEntry] = (
-    _SM_ENTRIES + _CE_ENTRIES + _LA_ENTRIES + _JT_ENTRIES + _CU_ENTRIES + _LN_ENTRIES
+    _SM_ENTRIES
+    + _CE_ENTRIES
+    + _LA_ENTRIES
+    + _JT_ENTRIES
+    + _CU_ENTRIES
+    + _LN_ENTRIES
+    + _PR_ENTRIES
+    + _MP_ENTRIES
+    + _CW_ENTRIES
+    + _WP_ENTRIES
+    + _EI_ENTRIES
+    + _CI_ENTRIES
 )
 
 # Quick lookup index by series ID.

@@ -57,6 +57,88 @@ def _fake_catalog_sm_chicago() -> Catalog:
     return c
 
 
+def _fake_catalog_full() -> Catalog:
+    """Extended catalog covering SM/CE/LA/JT/CU plus all six new surveys."""
+    c = object.__new__(Catalog)
+    c._data = {
+        # --- existing surveys ---
+        ("sm", "area"): {"16980": "Chicago-Naperville-Elgin, IL-IN-WI"},
+        ("sm", "state"): {"17": "Illinois", "00": "All States"},
+        ("sm", "supersector"): {"00": "Total Nonfarm"},
+        ("sm", "industry"): {"00000000": "Total Nonfarm"},
+        ("sm", "data_type"): {"01": "All Employees, In Thousands"},
+        ("ce", "seasonal"): {
+            "S": "Seasonally Adjusted",
+            "U": "Not Seasonally Adjusted",
+        },
+        ("ce", "industry"): {"000000": "Total nonfarm"},
+        ("ce", "supersector"): {"00": "Total nonfarm"},
+        ("ce", "datatype"): {"01": "ALL EMPLOYEES, THOUSANDS"},
+        ("la", "area"): {
+            "ST0600000000000": "California",
+            "ST1700000000000": "Illinois",
+        },
+        ("la", "area_type"): {"A": "Statewide"},
+        ("la", "measure"): {"03": "unemployment rate", "04": "unemployment"},
+        ("jt", "state"): {"00": "Total US"},
+        ("jt", "industry"): {"000000": "Total nonfarm"},
+        ("jt", "sizeclass"): {"00": "All size classes"},
+        ("jt", "dataelement"): {"JO": "Job openings", "HI": "Hires"},
+        ("jt", "ratelevel"): {"L": "Level", "R": "Rate"},
+        ("cu", "area"): {"0000": "U.S. city average"},
+        ("cu", "item"): {"SA0     ": "All items", "SAF1    ": "Food"},
+        ("qcew", "area"): {},
+        ("qcew", "industry"): {},
+        # --- PR ---
+        ("pr", "seasonal"): {
+            "S": "Seasonally Adjusted",
+            "U": "Not Seasonally Adjusted",
+        },
+        ("pr", "sector"): {"3000": "Manufacturing"},
+        ("pr", "class"): {"6": "All workers"},
+        ("pr", "measure"): {"01": "Employment"},
+        ("pr", "duration"): {"3": "Index (2017=100)"},
+        # --- MP ---
+        ("mp", "seasonal"): {"U": "Not Seasonally Adjusted"},
+        ("mp", "sector"): {"0011": "Agriculture, forestry, fishing, and hunting"},
+        ("mp", "measure"): {"01": "Total factor productivity"},
+        ("mp", "duration"): {"2": "Indexes = 100.000"},
+        # --- CW ---
+        ("cw", "area"): {"0000": "U.S. city average"},
+        ("cw", "item"): {"SA0": "All items", "SA0E": "Energy"},
+        ("cw", "seasonal"): {
+            "S": "Seasonally Adjusted",
+            "U": "Not Seasonally Adjusted",
+        },
+        ("cw", "periodicity"): {"R": "Monthly"},
+        # --- WP ---
+        ("wp", "seasonal"): {
+            "S": "Seasonally Adjusted",
+            "U": "Not Seasonally Adjusted",
+        },
+        ("wp", "group"): {"00": "All commodities"},
+        # --- EI ---
+        ("ei", "seasonal"): {"U": "Not Seasonally Adjusted"},
+        ("ei", "index"): {
+            "CD": "Export price by destination",
+            "CO": "Import price by origin",
+            "IQ": "Export price indexes",
+            "IR": "Import price indexes",
+        },
+        # --- CI ---
+        ("ci", "owner"): {"1": "Civilian workers", "2": "Private industry workers"},
+        ("ci", "industry"): {"000000": "All industries"},
+        ("ci", "occupation"): {"000000": "All occupations"},
+        ("ci", "subcell"): {"00": "All workers"},
+        ("ci", "periodicity"): {
+            "I": "Current Dollar Index",
+            "Q": "3-month % change",
+        },
+        ("ci", "seasonal"): {"S": "Seasonally Adjusted"},
+    }
+    return c
+
+
 # ---------------------------------------------------------------------------
 # search_series
 # ---------------------------------------------------------------------------
@@ -276,3 +358,60 @@ def test_suggest_series_cps_unemployment() -> None:
         s for s in result["suggestions"] if s["survey_name"].startswith("Labor Force")
     ]
     assert ln_suggestions, "Expected LN suggestions for 'cps unemployment rate'"
+
+
+# ---------------------------------------------------------------------------
+# New survey coverage: PR, CW, CI, WP hint, EI hint
+# ---------------------------------------------------------------------------
+
+
+def test_search_series_pr_productivity(monkeypatch) -> None:
+    monkeypatch.setattr(catalog_module, "catalog", _fake_catalog_full())
+    import example_server.tools.search_series as mod
+
+    monkeypatch.setattr(mod, "catalog", _fake_catalog_full())
+    fn = _capture(mod)
+    result = fn(query="productivity manufacturing", survey="PR", limit=10)
+    assert result["count"] >= 1
+    assert all(r["series_id"].startswith("PR") for r in result["results"])
+
+
+def test_search_series_cw_wage_earners(monkeypatch) -> None:
+    monkeypatch.setattr(catalog_module, "catalog", _fake_catalog_full())
+    import example_server.tools.search_series as mod
+
+    monkeypatch.setattr(mod, "catalog", _fake_catalog_full())
+    fn = _capture(mod)
+    result = fn(query="cpi wage earners all items", survey="CW", limit=10)
+    assert result["count"] >= 1
+    assert all(r["series_id"].startswith("CW") for r in result["results"])
+
+
+def test_search_series_ci_compensation(monkeypatch) -> None:
+    monkeypatch.setattr(catalog_module, "catalog", _fake_catalog_full())
+    import example_server.tools.search_series as mod
+
+    monkeypatch.setattr(mod, "catalog", _fake_catalog_full())
+    fn = _capture(mod)
+    result = fn(query="employer costs compensation", survey="CI", limit=10)
+    assert result["count"] >= 1
+
+
+def test_search_series_hint_producer_price(monkeypatch) -> None:
+    monkeypatch.setattr(catalog_module, "catalog", _fake_catalog_full())
+    import example_server.tools.search_series as mod
+
+    monkeypatch.setattr(mod, "catalog", _fake_catalog_full())
+    fn = _capture(mod)
+    result = fn(query="producer price index", limit=10)
+    assert any(r["series_id"].startswith("WP") for r in result["results"])
+
+
+def test_search_series_hint_import_price(monkeypatch) -> None:
+    monkeypatch.setattr(catalog_module, "catalog", _fake_catalog_full())
+    import example_server.tools.search_series as mod
+
+    monkeypatch.setattr(mod, "catalog", _fake_catalog_full())
+    fn = _capture(mod)
+    result = fn(query="import price", limit=10)
+    assert any(r["series_id"].startswith("EI") for r in result["results"])

@@ -84,7 +84,7 @@ _REGISTRY: dict[tuple[str, str], tuple[Path, bool, int, int]] = {
     ("su", "item"): (_CACHE_DIR / "su.item", False, 0, 1),
     # WP — Work-Related Injuries & Illnesses
     ("wp", "group"): (_CACHE_DIR / "wp.group", False, 0, 1),
-    ("wp", "item"): (_CACHE_DIR / "wp.item", False, 0, 1),
+    ("wp", "item"): (_CACHE_DIR / "wp.item", False, 1, 2),
     # NB — National Compensation Survey
     ("nb", "industry"): (_CACHE_DIR / "nb.industry", False, 0, 1),
     ("nb", "occupation"): (_CACHE_DIR / "nb.occupation", False, 0, 1),
@@ -101,6 +101,34 @@ _REGISTRY: dict[tuple[str, str], tuple[Path, bool, int, int]] = {
     ("ln", "periodicity"): (_CACHE_DIR / "ln.periodicity", False, 0, 1),
     # ln.series: col0=series_id (stripped), col3=series_title
     ("ln", "series"): (_CACHE_DIR / "ln.series", False, 0, 3),
+    # PR — Productivity & Costs
+    ("pr", "sector"): (_CACHE_DIR / "pr.sector", False, 0, 1),
+    ("pr", "class"): (_CACHE_DIR / "pr.class", False, 0, 1),
+    ("pr", "measure"): (_CACHE_DIR / "pr.measure", False, 0, 1),
+    ("pr", "duration"): (_CACHE_DIR / "pr.duration", False, 0, 1),
+    ("pr", "seasonal"): (_CACHE_DIR / "pr.seasonal", False, 0, 1),
+    # MP — Multifactor Productivity
+    ("mp", "sector"): (_CACHE_DIR / "mp.sector", False, 0, 1),
+    ("mp", "measure"): (_CACHE_DIR / "mp.measure", False, 0, 1),
+    ("mp", "duration"): (_CACHE_DIR / "mp.duration", False, 0, 1),
+    ("mp", "seasonal"): (_CACHE_DIR / "mp.seasonal", False, 0, 1),
+    # CW — CPI-W (cw.area and cw.item already registered above)
+    ("cw", "seasonal"): (_CACHE_DIR / "cw.seasonal", False, 0, 1),
+    ("cw", "periodicity"): (_CACHE_DIR / "cw.periodicity", False, 0, 1),
+    ("cw", "base"): (_CACHE_DIR / "cw.base", False, 0, 1),
+    # WP — PPI Commodity Data (wp.group and wp.item already registered above)
+    ("wp", "seasonal"): (_CACHE_DIR / "wp.seasonal", False, 0, 1),
+    # EI — International Price Program
+    ("ei", "index"): (_CACHE_DIR / "ei.index", False, 0, 1),
+    ("ei", "seasonal"): (_CACHE_DIR / "ei.seasonal", False, 0, 1),
+    # CI — Employer Costs for Employee Compensation
+    ("ci", "owner"): (_CACHE_DIR / "ci.owner", False, 0, 1),
+    ("ci", "industry"): (_CACHE_DIR / "ci.industry", False, 0, 1),
+    ("ci", "occupation"): (_CACHE_DIR / "ci.occupation", False, 0, 1),
+    ("ci", "subcell"): (_CACHE_DIR / "ci.subcell", False, 0, 1),
+    ("ci", "estimate"): (_CACHE_DIR / "ci.estimate", False, 0, 1),
+    ("ci", "periodicity"): (_CACHE_DIR / "ci.periodicity", False, 0, 1),
+    ("ci", "seasonal"): (_CACHE_DIR / "ci.seasonal", False, 0, 1),
 }
 
 

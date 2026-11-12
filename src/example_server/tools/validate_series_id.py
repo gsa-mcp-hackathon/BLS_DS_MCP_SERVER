@@ -57,8 +57,8 @@ def register(mcp: FastMCP) -> None:
                 "decoded": None,
             }
 
-        # Length check
-        if len(sid) != schema.total_length:
+        # Length check (skip for variable-length schemas where total_length is None)
+        if schema.total_length is not None and len(sid) != schema.total_length:
             issues.append(
                 f"Expected length {schema.total_length} for {schema.prefix} series, "
                 f"got {len(sid)}."

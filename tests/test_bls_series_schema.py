@@ -17,7 +17,7 @@ from example_server.bls_series_schema import (
 # ---------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("prefix", ["SM", "CE", "LA", "JT", "CU"])
+@pytest.mark.parametrize("prefix", ["SM", "CE", "LA", "JT", "CU", "PR", "MP", "CW", "WP", "EI", "CI"])
 def test_get_schema_known_prefix(prefix: str) -> None:
     series_id = prefix + "X" * 18  # any suffix
     schema = get_schema(series_id)
@@ -234,3 +234,142 @@ def test_build_id_ce_valid() -> None:
     )
     assert isinstance(result, str)
     assert result == _CE_SERIES
+
+
+# ---------------------------------------------------------------------------
+# decode_id — PR
+# ---------------------------------------------------------------------------
+
+_PR_SERIES = "PRS30006013"  # Manufacturing employment index, seasonally adjusted
+
+
+def test_decode_pr_structure() -> None:
+    result = decode_id(_PR_SERIES)
+    assert result["prefix"] == "PR"
+    assert result["series_id"] == _PR_SERIES
+    assert len(result["segments"]) == len(SCHEMAS["PR"].segments)
+    sector = next(s for s in result["segments"] if s["name"] == "sector_code")
+    assert sector["value"] == "3000"
+    # pr.sector catalog should resolve this code to a non-None label
+    assert sector["label"] is not None
+
+
+def test_decode_pr_build_roundtrip() -> None:
+    assembled = build_id(
+        "PR",
+        seasonal="S",
+        sector_code="3000",
+        class_code="6",
+        measure_code="01",
+        duration_code="3",
+    )
+    assert assembled == _PR_SERIES
+    result = decode_id(assembled)
+    assert result["prefix"] == "PR"
+
+
+# ---------------------------------------------------------------------------
+# decode_id — MP
+# ---------------------------------------------------------------------------
+
+_MP_SERIES = "MPU0011012"  # Total factor productivity, Agriculture
+
+
+def test_decode_mp_structure() -> None:
+    result = decode_id(_MP_SERIES)
+    assert result["prefix"] == "MP"
+    assert len(result["segments"]) == len(SCHEMAS["MP"].segments)
+
+
+# ---------------------------------------------------------------------------
+# decode_id — CW
+# ---------------------------------------------------------------------------
+
+_CW_SERIES = "CWSR0000SA0     "  # All items, national, seasonally adjusted (padded)
+
+
+def test_decode_cw_structure() -> None:
+    result = decode_id(_CW_SERIES)
+    assert result["prefix"] == "CW"
+    area = next(s for s in result["segments"] if s["name"] == "area_code")
+    assert area["value"] == "0000"
+
+
+# ---------------------------------------------------------------------------
+# decode_id — EI
+# ---------------------------------------------------------------------------
+
+# EIUCDCANMANU: seasonal=U, index_code=CD, series_code=CANMANU
+_EI_SERIES = "EIUCDCANMANU"
+
+
+def test_decode_ei_index_code() -> None:
+    result = decode_id(_EI_SERIES)
+    assert result["prefix"] == "EI"
+    index_seg = next(s for s in result["segments"] if s["name"] == "index_code")
+    assert index_seg["value"] == "CD"
+    # ei.index catalog should resolve CD to a non-None label
+    assert index_seg["label"] is not None
+
+
+# ---------------------------------------------------------------------------
+# decode_id — CI
+# ---------------------------------------------------------------------------
+
+_CI_SERIES = "CIS1010000000000I"  # Total compensation, civilian workers
+
+
+def test_decode_ci_structure() -> None:
+    result = decode_id(_CI_SERIES)
+    assert result["prefix"] == "CI"
+    owner = next(s for s in result["segments"] if s["name"] == "owner_code")
+    assert owner["label"] == "Civilian workers"
+
+
+# ---------------------------------------------------------------------------
+# build_id — PR
+# ---------------------------------------------------------------------------
+
+
+def test_build_id_pr_valid() -> None:
+    result = build_id(
+        "PR",
+        seasonal="S",
+        sector_code="3000",
+        class_code="6",
+        measure_code="01",
+        duration_code="3",
+    )
+    assert isinstance(result, str)
+    assert result == "PRS30006013"
+
+
+# ---------------------------------------------------------------------------
+# build_id — CI
+# ---------------------------------------------------------------------------
+
+
+def test_build_id_ci_valid() -> None:
+    result = build_id(
+        "CI",
+        seasonal="S",
+        owner_code="1",
+        estimate_code="01",
+        series_code="0000000000",
+        periodicity_code="I",
+    )
+    assert isinstance(result, str)
+    assert result.startswith("CI")
+    assert len(result) == 17
+
+
+# ---------------------------------------------------------------------------
+# build_id — variable-length schemas return error
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("survey", ["CW", "WP", "EI"])
+def test_build_id_variable_length_returns_error(survey: str) -> None:
+    result = build_id(survey, seasonal="U")
+    assert isinstance(result, dict)
+    assert "error" in result

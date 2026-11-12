@@ -5,7 +5,7 @@ decode_id, and validate_series_id share one authoritative definition.
 
 Reference: https://www.bls.gov/help/hlpforma.htm
 
-Supported surveys: SM, CE, LA, JT, CU, LN
+Supported surveys: SM, CE, LA, JT, CU, LN, PR, MP, CW, WP, EI, CI
 """
 
 from __future__ import annotations
@@ -47,14 +47,15 @@ class SeriesSchema:
         prefix:        2-character series ID prefix (e.g. "SM").
         survey_name:   Human-readable survey name.
         total_length:  Total expected series ID length including the prefix.
-                       None means the length is variable (not applicable here,
-                       all currently supported surveys have fixed lengths).
+                       None means the series ID has variable length (CW, WP, EI).
+                       When None, decode_id skips no length guard, build_id returns
+                       an error, and validate_series_id skips the length check.
         segments:      Ordered list of segments AFTER the 2-char prefix.
     """
 
     prefix: str
     survey_name: str
-    total_length: int
+    total_length: int | None
     segments: list[SeriesSegment] = field(default_factory=list)
 
 
@@ -175,6 +176,102 @@ _LN = SeriesSchema(
     ],
 )
 
+# PR — Productivity and Costs
+# Format: PR(2) + seasonal(1) + sector(4) + class(1) + measure(2) + duration(1) = 11
+_PR = SeriesSchema(
+    prefix="PR",
+    survey_name="Productivity and Costs",
+    total_length=11,
+    segments=[
+        SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("pr", "seasonal")),
+        SeriesSegment("sector_code", 1, 4, "Sector code", ("pr", "sector")),
+        SeriesSegment("class_code", 5, 1, "Class code", ("pr", "class")),
+        SeriesSegment("measure_code", 6, 2, "Measure code", ("pr", "measure")),
+        SeriesSegment("duration_code", 8, 1, "Duration/index type", ("pr", "duration")),
+    ],
+)
+
+# MP — Multifactor Productivity
+# Format: MP(2) + seasonal(1) + sector(4) + measure(2) + duration(1) = 10
+_MP = SeriesSchema(
+    prefix="MP",
+    survey_name="Multifactor Productivity",
+    total_length=10,
+    segments=[
+        SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("mp", "seasonal")),
+        SeriesSegment("sector_code", 1, 4, "Sector code", ("mp", "sector")),
+        SeriesSegment("measure_code", 5, 2, "Measure code", ("mp", "measure")),
+        SeriesSegment("duration_code", 7, 1, "Duration/index type", ("mp", "duration")),
+    ],
+)
+
+# CW — Consumer Price Index — Urban Wage Earners and Clerical Workers
+# Format: CW(2) + seasonal(1) + periodicity(1) + area(4) + item(variable) = variable
+_CW = SeriesSchema(
+    prefix="CW",
+    survey_name="Consumer Price Index \u2014 Urban Wage Earners and Clerical Workers",
+    total_length=None,
+    segments=[
+        SeriesSegment(
+            "seasonal", 0, 1, "Seasonal adjustment code", ("cw", "seasonal")
+        ),
+        SeriesSegment(
+            "periodicity_code", 1, 1, "Periodicity code", ("cw", "periodicity")
+        ),
+        SeriesSegment("area_code", 2, 4, "Area code", ("cw", "area")),
+        SeriesSegment(
+            "item_code", 6, 8, "Item/expenditure category", ("cw", "item")
+        ),
+    ],
+)
+
+# WP — PPI Commodity Data
+# Format: WP(2) + seasonal(1) + series_code(variable) = variable
+_WP = SeriesSchema(
+    prefix="WP",
+    survey_name="PPI Commodity Data",
+    total_length=None,
+    segments=[
+        SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("wp", "seasonal")),
+        SeriesSegment("series_code", 1, 8, "Opaque commodity code", None),
+    ],
+)
+
+# EI — International Price Program
+# Format: EI(2) + seasonal(1) + index_code(2) + series_code(variable) = variable
+_EI = SeriesSchema(
+    prefix="EI",
+    survey_name="International Price Program",
+    total_length=None,
+    segments=[
+        SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("ei", "seasonal")),
+        SeriesSegment("index_code", 1, 2, "Index type", ("ei", "index")),
+        SeriesSegment("series_code", 3, 9, "Opaque series identifier", None),
+    ],
+)
+
+# CI — Employer Costs for Employee Compensation (ECEC)
+# Verified from ci.series:
+# CI(2)+seasonal(1)+owner(1)+estimate_code(2)+series_code(10)+periodicity(1)
+# Total: 17
+# Note: industry/occupation/subcell fields in the .series metadata file do NOT map
+# directly to fixed character positions in the series ID; those metadata fields are
+# stored separately in the .series file columns and are not decodable from the ID alone.
+_CI = SeriesSchema(
+    prefix="CI",
+    survey_name="Employer Costs for Employee Compensation",
+    total_length=17,
+    segments=[
+        SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("ci", "seasonal")),
+        SeriesSegment("owner_code", 1, 1, "Worker ownership type", ("ci", "owner")),
+        SeriesSegment("estimate_code", 2, 2, "Estimate type", ("ci", "estimate")),
+        SeriesSegment("series_code", 4, 10, "Opaque series identifier", None),
+        SeriesSegment(
+            "periodicity_code", 14, 1, "Periodicity/change type", ("ci", "periodicity")
+        ),
+    ],
+)
+
 # Master registry
 SCHEMAS: dict[str, SeriesSchema] = {
     "SM": _SM,
@@ -183,6 +280,12 @@ SCHEMAS: dict[str, SeriesSchema] = {
     "JT": _JT,
     "CU": _CU,
     "LN": _LN,
+    "PR": _PR,
+    "MP": _MP,
+    "CW": _CW,
+    "WP": _WP,
+    "EI": _EI,
+    "CI": _CI,
 }
 
 
@@ -265,6 +368,16 @@ def build_id(survey: str, **kwargs: str) -> str | dict[str, Any]:
         return {
             "error": f"Unknown survey prefix '{survey}'. "
             f"Supported: {', '.join(sorted(SCHEMAS))}.",
+            "missing_fields": [],
+            "required_fields": [],
+        }
+
+    if schema.total_length is None:
+        return {
+            "error": (
+                f"build_id is not supported for variable-length"
+                f" survey '{survey.upper()}'."
+            ),
             "missing_fields": [],
             "required_fields": [],
         }

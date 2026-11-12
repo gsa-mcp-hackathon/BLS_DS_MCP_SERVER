@@ -71,7 +71,17 @@ _CU_ITEM_HINTS: dict[str, str] = {
 }
 
 # Survey hints — map question words to survey prefixes
+# NOTE: more-specific phrases must appear before generic ones (e.g. "producer
+# price" before "price index") because _match_first returns on the first hit.
 _SURVEY_HINTS: dict[str, str] = {
+    # WP / EI specific phrases — checked before generic "price index"
+    "ppi": "WP",
+    "producer price": "WP",
+    "commodity price": "WP",
+    "import price": "EI",
+    "export price": "EI",
+    "international price": "EI",
+    # CU — generic price / CPI phrases
     "cpi": "CU",
     "consumer price": "CU",
     "inflation": "CU",
@@ -96,6 +106,30 @@ _SURVEY_HINTS: dict[str, str] = {
     "civilian labor force": "LN",
     "civilian employment": "LN",
     "cps": "LN",
+    # PR — Productivity and Costs
+    "productivity": "PR",
+    "labor productivity": "PR",
+    # MP — Multifactor Productivity
+    "multifactor": "MP",
+    "total factor": "MP",
+    "tfp": "MP",
+    # CW — CPI-W Urban Wage Earners
+    "cpi-w": "CW",
+    "wage earners": "CW",
+    "clerical workers": "CW",
+    # CI — Employer Costs for Employee Compensation
+    "employee compensation": "CI",
+    "employer costs": "CI",
+    "ecec": "CI",
+}
+
+# CW item hints (parallel to _CU_ITEM_HINTS)
+_CW_ITEM_HINTS: dict[str, str] = {
+    "all items": "SA0",
+    "cpi-w": "SA0",
+    "energy": "SA0E",
+    "food": "SAF",
+    "core": "SA0L1E",
 }
 
 
@@ -137,7 +171,8 @@ def register(mcp: FastMCP) -> None:
         ],
         survey: Annotated[
             str | None,
-            "Optional survey filter: 'SM', 'CE', 'LA', 'JT', 'CU', or 'LN'.",
+            "Optional survey filter: 'SM', 'CE', 'LA', 'JT', 'CU', 'LN',"
+            " 'PR', 'MP', 'CW', 'WP', 'EI', or 'CI'.",
         ] = None,
         limit: Annotated[int, "Maximum results to return (1–25)."] = 10,
     ) -> dict[str, Any]:
@@ -173,6 +208,18 @@ def register(mcp: FastMCP) -> None:
                 results.extend(_search_cu(query, seasonal, limit))
             elif sv == "LN":
                 results.extend(_search_ln(query, limit))
+            elif sv == "PR":
+                results.extend(_search_pr(query, seasonal, limit))
+            elif sv == "MP":
+                results.extend(_search_mp(query, limit))
+            elif sv == "CW":
+                results.extend(_search_cw(query, seasonal, limit))
+            elif sv == "WP":
+                results.extend(_search_wp(query, limit))
+            elif sv == "EI":
+                results.extend(_search_ei(query, limit))
+            elif sv == "CI":
+                results.extend(_search_ci(query, limit))
 
         # Deduplicate by series_id
         seen: set[str] = set()
@@ -383,6 +430,77 @@ def _search_ln(query: str, limit: int) -> list[dict[str, Any]]:
     results: list[dict[str, Any]] = []
     for entry in hits:
         if entry.survey != "LN":
+            continue
+        r = _make_result(entry.series_id, 2)
+        if r:
+            results.append(r)
+    return results
+
+
+def _search_pr(query: str, seasonal: str, limit: int) -> list[dict[str, Any]]:
+    sid = build_id(
+        "PR",
+        seasonal=seasonal,
+        sector_code="3000",
+        class_code="6",
+        measure_code="01",
+        duration_code="3",
+    )
+    if isinstance(sid, dict):
+        return []
+    r = _make_result(sid, 2)
+    return [r] if r else []
+
+
+def _search_mp(query: str, limit: int) -> list[dict[str, Any]]:
+    hits = search_flagship(query, limit=limit)
+    results: list[dict[str, Any]] = []
+    for entry in hits:
+        if entry.survey != "MP":
+            continue
+        r = _make_result(entry.series_id, 2)
+        if r:
+            results.append(r)
+    return results
+
+
+def _search_cw(query: str, seasonal: str, limit: int) -> list[dict[str, Any]]:
+    item = _match_first(query, _CW_ITEM_HINTS) or "SA0"
+    area = "0000"
+    sid = "CW" + seasonal + "R" + area + item
+    r = _make_result(sid, 2)
+    return [r] if r else []
+
+
+def _search_wp(query: str, limit: int) -> list[dict[str, Any]]:
+    hits = search_flagship(query, limit=limit)
+    results: list[dict[str, Any]] = []
+    for entry in hits:
+        if entry.survey != "WP":
+            continue
+        r = _make_result(entry.series_id, 2)
+        if r:
+            results.append(r)
+    return results
+
+
+def _search_ei(query: str, limit: int) -> list[dict[str, Any]]:
+    hits = search_flagship(query, limit=limit)
+    results: list[dict[str, Any]] = []
+    for entry in hits:
+        if entry.survey != "EI":
+            continue
+        r = _make_result(entry.series_id, 2)
+        if r:
+            results.append(r)
+    return results
+
+
+def _search_ci(query: str, limit: int) -> list[dict[str, Any]]:
+    hits = search_flagship(query, limit=limit)
+    results: list[dict[str, Any]] = []
+    for entry in hits:
+        if entry.survey != "CI":
             continue
         r = _make_result(entry.series_id, 2)
         if r:

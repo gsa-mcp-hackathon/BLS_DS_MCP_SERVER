@@ -18,11 +18,17 @@ from example_server.bls_flagship_series import (
 
 def test_all_surveys_represented() -> None:
     surveys = {e.survey for e in FLAGSHIP_SERIES}
-    assert surveys == {"SM", "CE", "LA", "JT", "CU", "LN"}
+    assert surveys >= {
+        "SM", "CE", "LA", "JT", "CU", "LN",
+        "PR", "MP", "CW", "WP", "EI", "CI",
+    }
 
 
 def test_each_survey_has_at_least_six_entries() -> None:
-    for survey in ("SM", "CE", "LA", "JT", "CU", "LN"):
+    for survey in (
+        "SM", "CE", "LA", "JT", "CU", "LN",
+        "PR", "MP", "CW", "WP", "EI", "CI",
+    ):
         count = sum(1 for e in FLAGSHIP_SERIES if e.survey == survey)
         assert count >= 6, f"Survey {survey} has only {count} entries"
 
@@ -35,7 +41,10 @@ def test_no_duplicate_series_ids() -> None:
 @pytest.mark.parametrize("entry", FLAGSHIP_SERIES)
 def test_entry_has_required_fields(entry: FlagshipEntry) -> None:
     assert entry.series_id, "series_id must not be empty"
-    assert entry.survey in ("SM", "CE", "LA", "JT", "CU", "LN"), (
+    assert entry.survey in (
+        "SM", "CE", "LA", "JT", "CU", "LN",
+        "PR", "MP", "CW", "WP", "EI", "CI",
+    ), (
         f"Unknown survey: {entry.survey}"
     )
     assert entry.survey_name, "survey_name must not be empty"
@@ -100,7 +109,8 @@ def test_get_flagship_jt_openings() -> None:
 def test_search_flagship_cpi_keyword() -> None:
     hits = search_flagship("cpi")
     assert len(hits) > 0
-    assert all(e.survey == "CU" for e in hits)
+    # CW (CPI-W) entries also legitimately match "cpi" since CPI-W is a CPI variant.
+    assert all(e.survey in {"CU", "CW"} for e in hits)
 
 
 def test_search_flagship_unemployment_keyword() -> None:
@@ -283,5 +293,71 @@ def test_ln_entries_are_rate_or_level() -> None:
     assert len(ln_entries) >= 6
     for e in ln_entries:
         assert e.measure_type in {"rate", "level"}, (
+            f"{e.series_id}: unexpected measure_type '{e.measure_type}'"
+        )
+
+
+# ---------------------------------------------------------------------------
+# New surveys: PR, MP, CW, WP, EI, CI
+# ---------------------------------------------------------------------------
+
+
+def test_pr_flagship_min_six_entries() -> None:
+    pr_entries = [e for e in FLAGSHIP_SERIES if e.survey == "PR"]
+    assert len(pr_entries) >= 6, f"Expected >= 6 PR entries, got {len(pr_entries)}"
+    valid_types = {"level", "index", "dollar_amount"}
+    for e in pr_entries:
+        assert e.measure_type in valid_types, (
+            f"{e.series_id}: unexpected measure_type '{e.measure_type}'"
+        )
+
+
+def test_mp_flagship_entries_are_index() -> None:
+    mp_entries = [e for e in FLAGSHIP_SERIES if e.survey == "MP"]
+    assert len(mp_entries) >= 6, f"Expected >= 6 MP entries, got {len(mp_entries)}"
+    for e in mp_entries:
+        assert e.measure_type == "index", (
+            f"{e.series_id}: expected measure_type 'index', got '{e.measure_type}'"
+        )
+
+
+def test_cw_flagship_all_items_sa() -> None:
+    """The SA all-items CPI-W entry must exist and have the correct unit."""
+    e = next(
+        (x for x in FLAGSHIP_SERIES if x.series_id == "CWSR0000SA0"),
+        None,
+    )
+    assert e is not None, "CWSR0000SA0 not found in FLAGSHIP_SERIES"
+    assert e.survey == "CW"
+    assert e.unit == "index 1982-84=100", (
+        f"Expected unit 'index 1982-84=100', got '{e.unit}'"
+    )
+    assert e.measure_type == "index"
+
+
+def test_wp_flagship_entries() -> None:
+    wp_entries = [e for e in FLAGSHIP_SERIES if e.survey == "WP"]
+    assert len(wp_entries) >= 6, f"Expected >= 6 WP entries, got {len(wp_entries)}"
+    for e in wp_entries:
+        assert e.measure_type == "index", (
+            f"{e.series_id}: expected measure_type 'index', got '{e.measure_type}'"
+        )
+
+
+def test_ei_flagship_entries() -> None:
+    ei_entries = [e for e in FLAGSHIP_SERIES if e.survey == "EI"]
+    assert len(ei_entries) >= 6, f"Expected >= 6 EI entries, got {len(ei_entries)}"
+    for e in ei_entries:
+        assert e.measure_type == "index", (
+            f"{e.series_id}: expected measure_type 'index', got '{e.measure_type}'"
+        )
+
+
+def test_ci_flagship_entries() -> None:
+    ci_entries = [e for e in FLAGSHIP_SERIES if e.survey == "CI"]
+    assert len(ci_entries) >= 6, f"Expected >= 6 CI entries, got {len(ci_entries)}"
+    valid_types = {"index", "rate"}
+    for e in ci_entries:
+        assert e.measure_type in valid_types, (
             f"{e.series_id}: unexpected measure_type '{e.measure_type}'"
         )

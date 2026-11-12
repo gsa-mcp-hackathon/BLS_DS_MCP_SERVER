@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import pytest
+
 # ---------------------------------------------------------------------------
 # Shared helper to capture the inner tool function from register()
 # ---------------------------------------------------------------------------
@@ -211,3 +213,112 @@ def test_validate_valid_la_series() -> None:
     result = fn(series_id="LAUST060000000000003")
     # CA area code should be in la.area catalog
     assert result["valid"] is True
+
+
+# ---------------------------------------------------------------------------
+# build_series_id — PR and CI (new surveys)
+# ---------------------------------------------------------------------------
+
+
+def test_build_series_id_valid_pr() -> None:
+    import example_server.tools.build_series_id as mod
+
+    fn = _capture(mod)
+    result = fn(
+        survey="PR",
+        seasonal_adjustment="S",
+        sector_code="3000",
+        class_code="6",
+        measure_code="01",
+        duration_code="3",
+    )
+    assert "series_id" in result
+    assert result["series_id"] == "PRS30006013"
+    assert result["decoded"]["prefix"] == "PR"
+
+
+def test_build_series_id_valid_ci() -> None:
+    import example_server.tools.build_series_id as mod
+
+    fn = _capture(mod)
+    # CI schema: seasonal(1)+owner_code(1)+estimate_code(2)+series_code(10)+periodicity_code(1)
+    # Total body = 15; with "CI" prefix = 17 chars.
+    result = fn(
+        survey="CI",
+        seasonal_adjustment="S",
+        owner_code="1",
+        estimate_code="01",
+        series_code="0000000000",
+        periodicity_code="I",
+    )
+    assert "series_id" in result
+    assert result["series_id"].startswith("CI")
+    assert len(result["series_id"]) == 17
+    assert result["decoded"]["prefix"] == "CI"
+
+
+@pytest.mark.parametrize("survey", ["CW", "WP", "EI"])
+def test_build_series_id_variable_length_error(survey: str) -> None:
+    import example_server.tools.build_series_id as mod
+
+    fn = _capture(mod)
+    result = fn(survey=survey, seasonal_adjustment="U")
+    assert "error" in result
+
+
+# ---------------------------------------------------------------------------
+# decode_series_id — PR and CI (new surveys)
+# ---------------------------------------------------------------------------
+
+
+def test_decode_series_id_pr() -> None:
+    import example_server.tools.decode_series_id as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="PRS30006013")
+    assert result["prefix"] == "PR"
+    segs = {s["name"]: s for s in result["segments"]}
+    assert segs["seasonal"]["value"] == "S"
+    assert segs["sector_code"]["label"] is not None  # "3000" → "Manufacturing"
+
+
+def test_decode_series_id_ci() -> None:
+    import example_server.tools.decode_series_id as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="CIS1010000000000I")
+    assert result["prefix"] == "CI"
+    segs = {s["name"]: s for s in result["segments"]}
+    assert segs["owner_code"]["label"] == "Civilian workers"
+
+
+# ---------------------------------------------------------------------------
+# validate_series_id — PR, CI, and variable-length CW (new surveys)
+# ---------------------------------------------------------------------------
+
+
+def test_validate_valid_pr_series() -> None:
+    import example_server.tools.validate_series_id as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="PRS30006013")
+    assert result["valid"] is True
+    assert result["issues"] == []
+
+
+def test_validate_valid_ci_series() -> None:
+    import example_server.tools.validate_series_id as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="CIS1010000000000I")
+    assert result["valid"] is True
+
+
+def test_validate_variable_length_cw_no_length_failure() -> None:
+    import example_server.tools.validate_series_id as mod
+
+    fn = _capture(mod)
+    result = fn(series_id="CWSR0000SA0")
+    # A variable-length series must not fail due to length mismatch
+    length_issues = [i for i in result.get("issues", []) if "length" in i.lower()]
+    assert length_issues == [], f"Unexpected length issues: {length_issues}"

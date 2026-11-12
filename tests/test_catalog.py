@@ -162,3 +162,38 @@ def test_module_catalog_la_area_loaded() -> None:
 def test_module_catalog_qcew_area_loaded() -> None:
     data = catalog.get("qcew", "area")
     assert len(data) > 0
+
+
+def test_module_catalog_pr_sector_loaded() -> None:
+    data = catalog.get("pr", "sector")
+    assert len(data) > 0
+
+
+def test_module_catalog_mp_sector_loaded() -> None:
+    data = catalog.get("mp", "sector")
+    assert len(data) > 0
+
+
+def test_module_catalog_cw_seasonal_loaded() -> None:
+    data = catalog.get("cw", "seasonal")
+    assert len(data) > 0
+
+
+def test_module_catalog_wp_seasonal_loaded() -> None:
+    data = catalog.get("wp", "seasonal")
+    assert len(data) > 0
+
+
+def test_module_catalog_ei_index_loaded() -> None:
+    data = catalog.get("ei", "index")
+    assert len(data) > 0
+
+
+def test_module_catalog_ci_owner_loaded() -> None:
+    data = catalog.get("ci", "owner")
+    assert len(data) > 0
+
+
+def test_module_catalog_ci_industry_loaded() -> None:
+    data = catalog.get("ci", "industry")
+    assert len(data) > 0
