@@ -1,0 +1,14 @@
+index_code	index_name
+CD	Locality of Destination Price Indexes
+CO	Locality of Origin Price Indexes
+CT	Terms of Trade Indexes
+IC	Services Inbound Price Indexes
+ID	Harmonized System Export Price Indexes
+IH	Services Export Price Indexes
+IP	Harmonized System Import Price Indexes
+IQ	BEA End Use Export Price Indexes
+IR	BEA End Use Import Price Indexes
+IS	Services Outbound Price Indexes
+IV	Services Import Price Indexes
+IY	NAICS Export Price Indexes
+IZ	NAICS Import Price Indexes
