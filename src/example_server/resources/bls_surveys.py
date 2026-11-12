@@ -256,9 +256,7 @@ _SURVEY_META: dict[str, dict] = {
         ),
     },
     "LN": {
-        "full_name": (
-            "Labor Force Statistics from the Current Population Survey"
-        ),
+        "full_name": ("Labor Force Statistics from the Current Population Survey"),
         "program": "Current Population Survey (CPS) — Labor Force Statistics",
         "update_frequency": (
             "Monthly — released first Friday of the following month "
@@ -287,7 +285,11 @@ _SURVEY_META: dict[str, dict] = {
             " search_series to find series IDs by topic."
         ),
         "catalog_dimensions": [
-            ("seasonal", "ln.seasonal", "S=Seasonally Adjusted, U=Not Seasonally Adjusted"),  # noqa: E501
+            (
+                "seasonal",
+                "ln.seasonal",
+                "S=Seasonally Adjusted, U=Not Seasonally Adjusted",
+            ),  # noqa: E501
             ("lfst", "ln.lfst", "Labor force status code → status description"),
             ("sexs", "ln.sexs", "Sex code → Both Sexes / Men / Women"),
             ("ages", "ln.ages", "Age group code → age range description"),

@@ -258,8 +258,7 @@ def test_suggest_series_participation_rate() -> None:
     result = fn(topic="labor force participation rate")
     assert result["count"] > 0
     ln_suggestions = [
-        s for s in result["suggestions"]
-        if s["survey_name"].startswith("Labor Force")
+        s for s in result["suggestions"] if s["survey_name"].startswith("Labor Force")
     ]
     assert ln_suggestions, "Expected at least one LN suggestion for participation rate"
     for s in ln_suggestions:
@@ -274,7 +273,6 @@ def test_suggest_series_cps_unemployment() -> None:
     result = fn(topic="cps unemployment rate")
     assert result["count"] > 0
     ln_suggestions = [
-        s for s in result["suggestions"]
-        if s["survey_name"].startswith("Labor Force")
+        s for s in result["suggestions"] if s["survey_name"].startswith("Labor Force")
     ]
     assert ln_suggestions, "Expected LN suggestions for 'cps unemployment rate'"
