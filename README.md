@@ -76,7 +76,51 @@ The server starts in **stdio** mode — it talks JSON-RPC over stdin/stdout, whi
 uv sync --group dev
 uv run pytest tests/ -v      # tests
 uv run ruff check .          # lint
+uv run ruff format --check . # formatting
 ```
+
+---
+
+## BLS Top-Picks Coverage
+
+This server includes a curated set of [BLS top-picks series](https://www.bls.gov/data/top-picks.htm)
+verified against the flagship series table.
+
+### Key files
+
+| File | Purpose |
+|---|---|
+| `src/example_server/local-cache/bls_top_picks` | Plain-text cache of the BLS top-picks list (29 series across 4 categories) |
+| `src/example_server/bls_top_picks.py` | Loader module — parses the cache into `TOP_PICKS`, `TOP_PICKS_BY_ID`, and `get_top_pick()` at import time |
+| `src/example_server/bls_flagship_series.py` | Curated flagship series table covering all 29 top-picks IDs across 12 BLS surveys |
+| `tests/test_bls_top_picks_coverage.py` | Coverage regression guard — all 29 top-picks series must resolve via `get_flagship()` |
+
+### Coverage guarantee
+
+`tests/test_bls_top_picks_coverage.py` is the acceptance criterion. It asserts:
+
+- All 29 `TopPickEntry` objects load with non-empty `series_id`, `title`, and `category`.
+- Every top-picks `series_id` resolves via `get_flagship()` (parametrized — one case per series).
+- Every top-picks `series_id` decodes cleanly via `decode_id()` (no `"error"` key).
+- For every resolved flagship entry: `series_id`, `survey`, `concept`, `measure_type`, and `unit` are non-empty.
+- All four categories (Employment, Productivity, Price Indexes, Compensation) are present.
+- No duplicate series IDs exist in `TOP_PICKS`.
+- Each program family in top picks (LN, CE, PR, MP, CU, CW, WP, EI, CI) has ≥ 1 flagship match.
+
+### Refreshing the top-picks list
+
+When BLS updates https://www.bls.gov/data/top-picks.htm:
+
+1. Download the updated series list and replace `src/example_server/local-cache/bls_top_picks`
+   with the new plain-text content (one entry per line, format: `Title - SERIES_ID`; category
+   headers have no dash separator).
+2. Run `uv run pytest tests/test_bls_top_picks_coverage.py -v` — any newly added or removed
+   series will surface as clear failures.
+3. Add missing series to `bls_flagship_series.py` following the existing `FlagshipEntry` pattern,
+   then re-run until all parametrized cases pass.
+
+The loader module `bls_top_picks.py` contains full provenance notes and refresh instructions
+in its module docstring.
 
 ---
 
