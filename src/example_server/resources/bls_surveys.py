@@ -306,6 +306,265 @@ _SURVEY_META: dict[str, dict] = {
             " Use suggest_series or search_series instead."
         ),
     },
+    "PR": {
+        "full_name": "Productivity and Costs",
+        "program": "Productivity and Costs — Bureau of Labor Statistics",
+        "update_frequency": (
+            "Quarterly — preliminary estimate ~6 weeks after quarter end; "
+            "revised estimate ~3 months after quarter end"
+        ),
+        "seasonal_note": (
+            "Seasonally adjusted (S) series are the primary published figures. "
+            "Covers nonfarm business, business, and manufacturing sectors."
+        ),
+        "unit_note": (
+            "Index values (2017=100 base period). "
+            "Percent change from previous quarter or previous year. "
+            "Levels (hours, compensation) in various units."
+        ),
+        "data_api_note": (
+            "Quarterly frequency. "
+            "v1: up to 25 series / 10-year range. "
+            "v2 (registered key): up to 50 series / 20-year range."
+        ),
+        "catalog_dimensions": [
+            ("sector", "pr.sector", "4-digit sector code → sector name"),
+            ("class", "pr.class", "1-digit class code → index/level class"),
+            ("measure", "pr.measure", "2-digit measure code → measure description"),
+            (
+                "duration",
+                "pr.duration",
+                "1-digit duration → index type or change period",
+            ),
+            (
+                "seasonal",
+                "pr.seasonal",
+                "S=Seasonally Adjusted, U=Not Seasonally Adjusted",
+            ),
+        ],
+        "tool_guidance": (
+            "1. suggest_series(topic='labor productivity') → flagship PR series IDs\n"
+            "2. decode_series_id — decode sector, measure, and duration from a PR ID\n"
+            "3. get_series_data  — fetch observations (requires valid series ID)\n"
+            "   Common sectors: 8500=Nonfarm Business, 3000=Manufacturing\n"
+            "   Common measures: 09=Labor Productivity, 11=Unit Labor Costs, "
+            "15=Real Hourly Compensation\n"
+            "   Duration 2 = percent change from previous quarter; "
+            "3 = index (2017=100)"
+        ),
+    },
+    "MP": {
+        "full_name": "Multifactor Productivity",
+        "program": "Multifactor Productivity — Bureau of Labor Statistics",
+        "update_frequency": (
+            "Annual — released approximately March of the following year"
+        ),
+        "seasonal_note": (
+            "Not seasonally adjusted (U). Annual data only. "
+            "Covers private business, private nonfarm business, and "
+            "detailed NAICS industry sectors."
+        ),
+        "unit_note": (
+            "Index values (2017=100 base period). "
+            "Covers total factor productivity (TFP), capital, labor, "
+            "and combined input indexes."
+        ),
+        "data_api_note": (
+            "Annual frequency only. "
+            "v1: up to 25 series / 10-year range. "
+            "v2 (registered key): up to 50 series / 20-year range."
+        ),
+        "catalog_dimensions": [
+            ("sector", "mp.sector", "4-digit sector code → sector/industry name"),
+            ("measure", "mp.measure", "2-digit measure code → measure description"),
+            ("duration", "mp.duration", "1-digit duration → index type"),
+            ("seasonal", "mp.seasonal", "U=Not Seasonally Adjusted"),
+        ],
+        "tool_guidance": (
+            "1. suggest_series(topic='total factor productivity') "
+            "→ flagship MP series IDs\n"
+            "2. decode_series_id — decode sector and measure from an MP ID\n"
+            "3. get_series_data  — fetch observations (requires valid series ID)\n"
+            "   Common sectors: 4910=Private Nonfarm Business, "
+            "4900=Private Business\n"
+            "   Measure 01 = Total Factor Productivity index; "
+            "Duration 2 = annual index"
+        ),
+    },
+    "CW": {
+        "full_name": "Consumer Price Index — Urban Wage Earners and Clerical Workers",
+        "program": "Consumer Price Index (CPI-W)",
+        "update_frequency": ("Monthly — released ~2 weeks after the reference month"),
+        "seasonal_note": (
+            "Seasonally adjusted (S) and not seasonally adjusted (U) series available. "
+            "CPI-W NSA is used for Social Security cost-of-living adjustments (COLA)."
+        ),
+        "unit_note": (
+            "Index values (1982-84=100 base period). "
+            "Covers urban wage earners and clerical workers (~28% of U.S. population)."
+        ),
+        "data_api_note": (
+            "Covers U.S. city average and select metro areas. "
+            "v1: up to 25 series / 10-year range. "
+            "v2 (registered key): up to 50 series / 20-year range."
+        ),
+        "catalog_dimensions": [
+            ("area", "cw.area", "4-digit area code → area name"),
+            ("item", "cw.item", "variable-length item code → expenditure category"),
+            (
+                "seasonal",
+                "cw.seasonal",
+                "S=Seasonally Adjusted, U=Not Seasonally Adjusted",
+            ),
+            ("periodicity", "cw.periodicity", "R=Monthly, S=Semi-annual"),
+        ],
+        "tool_guidance": (
+            "1. suggest_series(topic='CPI-W') → flagship CW series IDs\n"
+            "2. build_series_id — assemble the series ID if you know area "
+            "and item codes\n"
+            "3. get_series_data — fetch observations (requires valid series ID)\n"
+            "   Common items: SA0=All Items, SA0L1E=Core CPI-W (less food & energy), "
+            "SA0E=Energy\n"
+            "   CWUR prefix = Not Seasonally Adjusted; "
+            "CWSR prefix = Seasonally Adjusted"
+        ),
+    },
+    "WP": {
+        "full_name": "PPI Commodity Data",
+        "program": "Producer Price Index — Commodity Data",
+        "update_frequency": ("Monthly — released ~2 weeks after the reference month"),
+        "seasonal_note": (
+            "Seasonally adjusted (S, WPS prefix) and not seasonally adjusted "
+            "(U, WPU prefix) series available."
+        ),
+        "unit_note": (
+            "Index values (1982=100 base period for commodity PPI; "
+            "2009=100 for Final Demand series). "
+            "Covers commodity-based and Final Demand-Intermediate Demand PPI."
+        ),
+        "data_api_note": (
+            "Broad coverage: commodity groups, Final Demand aggregates, "
+            "and industry net output. "
+            "v1: up to 25 series / 10-year range. "
+            "v2 (registered key): up to 50 series / 20-year range."
+        ),
+        "catalog_dimensions": [
+            ("group", "wp.group", "2-digit commodity group code → group name"),
+            ("item", "wp.item", "variable-length item code → commodity description"),
+            (
+                "seasonal",
+                "wp.seasonal",
+                "S=Seasonally Adjusted, U=Not Seasonally Adjusted",
+            ),
+        ],
+        "tool_guidance": (
+            "1. suggest_series(topic='producer price') → flagship WP series IDs\n"
+            "2. decode_series_id — decode seasonal code from a WP ID\n"
+            "3. get_series_data  — fetch observations (requires valid series ID)\n"
+            "   Final Demand aggregates: WPSFD4 (SA), WPUFD4 (NSA)\n"
+            "   Core FD: WPUFD49104 (less food & energy), "
+            "WPUFD49116 (less food, energy & trade)"
+        ),
+    },
+    "EI": {
+        "full_name": "International Price Program",
+        "program": "International Price Program (IPP) — Import and Export Prices",
+        "update_frequency": ("Monthly — released ~2 weeks after the reference month"),
+        "seasonal_note": (
+            "Not seasonally adjusted (U) only. "
+            "Import prices (IR/CO prefix) and export prices (IQ/CD prefix) available."
+        ),
+        "unit_note": (
+            "Index values (2000=100 base period). "
+            "Covers import prices by BEA end-use category and country of origin; "
+            "export prices by BEA end-use category and destination."
+        ),
+        "data_api_note": (
+            "Variable-length series IDs. "
+            "v1: up to 25 series / 10-year range. "
+            "v2 (registered key): up to 50 series / 20-year range."
+        ),
+        "catalog_dimensions": [
+            (
+                "index",
+                "ei.index",
+                "2-char index type → IR=Import BEA End Use, IQ=Export BEA End Use, "
+                "CO=Import by Country, CD=Export by Destination",
+            ),
+            (
+                "seasonal",
+                "ei.seasonal",
+                "U=Not Seasonally Adjusted",
+            ),
+        ],
+        "tool_guidance": (
+            "1. suggest_series(topic='import price') or "
+            "suggest_series(topic='export price') → flagship EI series IDs\n"
+            "2. decode_series_id — decode the index type code from an EI ID\n"
+            "3. get_series_data  — fetch observations (requires valid series ID)\n"
+            "   All commodities: EIUIR (imports), EIUIQ (exports)\n"
+            "   Series IDs are variable-length; build_series_id is not supported"
+        ),
+    },
+    "CI": {
+        "full_name": "Employer Costs for Employee Compensation",
+        "program": (
+            "National Compensation Survey"
+            " — Employer Costs for Employee Compensation (ECEC)"
+        ),
+        "update_frequency": (
+            "Quarterly — released ~3 months after the reference quarter"
+        ),
+        "seasonal_note": (
+            "Seasonally adjusted (S, CIS prefix) and not seasonally adjusted "
+            "(U, CIU prefix) series available."
+        ),
+        "unit_note": (
+            "Index values (current dollars) and 3-month or 12-month percent change. "
+            "Covers total compensation, wages & salaries, and benefits "
+            "for civilian, private, and government workers."
+        ),
+        "data_api_note": (
+            "Quarterly frequency. "
+            "v1: up to 25 series / 10-year range. "
+            "v2 (registered key): up to 50 series / 20-year range."
+        ),
+        "catalog_dimensions": [
+            ("owner", "ci.owner", "1-digit owner → Civilian / Private / State & Local"),
+            (
+                "estimate",
+                "ci.estimate",
+                "2-digit estimate code → compensation component",
+            ),
+            ("industry", "ci.industry", "6-digit industry code → industry name"),
+            (
+                "occupation",
+                "ci.occupation",
+                "6-digit occupation code → occupation group",
+            ),
+            (
+                "periodicity",
+                "ci.periodicity",
+                "I=Index, Q=3-month % change, A=12-month % change",
+            ),
+            (
+                "seasonal",
+                "ci.seasonal",
+                "S=Seasonally Adjusted, U=Not Seasonally Adjusted",
+            ),
+        ],
+        "tool_guidance": (
+            "1. suggest_series(topic='employment cost') → flagship CI series IDs\n"
+            "2. decode_series_id — decode owner and estimate from a CI ID\n"
+            "3. get_series_data  — fetch observations (requires valid series ID)\n"
+            "   CIS prefix = Seasonally Adjusted; "
+            "CIU prefix = Not Seasonally Adjusted\n"
+            "   Periodicity I = index; Q = 3-month % change; "
+            "A = 12-month % change\n"
+            "   Civilian workers: owner=1; Private: owner=2; "
+            "State & Local Govt: owner=3"
+        ),
+    },
 }
 
 
