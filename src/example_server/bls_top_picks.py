@@ -30,9 +30,7 @@ _CACHE_FILE = Path(__file__).parent / "local-cache" / "bls_top_picks"
 #   Title — SERIES_ID      (em-dash U+2014)
 #   Title - SERIES_ID      (ASCII hyphen)
 # The series ID is the last whitespace-delimited token after the separator.
-_SERIES_LINE_RE = re.compile(
-    r"^(?P<title>.+?)\s+[—\-]\s+(?P<series_id>[A-Z0-9]+)\s*$"
-)
+_SERIES_LINE_RE = re.compile(r"^(?P<title>.+?)\s+[—\-]\s+(?P<series_id>[A-Z0-9]+)\s*$")
 
 
 @dataclass(frozen=True)
