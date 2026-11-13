@@ -19,15 +19,35 @@ from example_server.bls_flagship_series import (
 def test_all_surveys_represented() -> None:
     surveys = {e.survey for e in FLAGSHIP_SERIES}
     assert surveys >= {
-        "SM", "CE", "LA", "JT", "CU", "LN",
-        "PR", "MP", "CW", "WP", "EI", "CI",
+        "SM",
+        "CE",
+        "LA",
+        "JT",
+        "CU",
+        "LN",
+        "PR",
+        "MP",
+        "CW",
+        "WP",
+        "EI",
+        "CI",
     }
 
 
 def test_each_survey_has_at_least_six_entries() -> None:
     for survey in (
-        "SM", "CE", "LA", "JT", "CU", "LN",
-        "PR", "MP", "CW", "WP", "EI", "CI",
+        "SM",
+        "CE",
+        "LA",
+        "JT",
+        "CU",
+        "LN",
+        "PR",
+        "MP",
+        "CW",
+        "WP",
+        "EI",
+        "CI",
     ):
         count = sum(1 for e in FLAGSHIP_SERIES if e.survey == survey)
         assert count >= 6, f"Survey {survey} has only {count} entries"
@@ -42,11 +62,19 @@ def test_no_duplicate_series_ids() -> None:
 def test_entry_has_required_fields(entry: FlagshipEntry) -> None:
     assert entry.series_id, "series_id must not be empty"
     assert entry.survey in (
-        "SM", "CE", "LA", "JT", "CU", "LN",
-        "PR", "MP", "CW", "WP", "EI", "CI",
-    ), (
-        f"Unknown survey: {entry.survey}"
-    )
+        "SM",
+        "CE",
+        "LA",
+        "JT",
+        "CU",
+        "LN",
+        "PR",
+        "MP",
+        "CW",
+        "WP",
+        "EI",
+        "CI",
+    ), f"Unknown survey: {entry.survey}"
     assert entry.survey_name, "survey_name must not be empty"
     assert entry.description, "description must not be empty"
     assert isinstance(entry.keywords, list), "keywords must be a list"

@@ -212,16 +212,12 @@ _CW = SeriesSchema(
     survey_name="Consumer Price Index \u2014 Urban Wage Earners and Clerical Workers",
     total_length=None,
     segments=[
-        SeriesSegment(
-            "seasonal", 0, 1, "Seasonal adjustment code", ("cw", "seasonal")
-        ),
+        SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("cw", "seasonal")),
         SeriesSegment(
             "periodicity_code", 1, 1, "Periodicity code", ("cw", "periodicity")
         ),
         SeriesSegment("area_code", 2, 4, "Area code", ("cw", "area")),
-        SeriesSegment(
-            "item_code", 6, 8, "Item/expenditure category", ("cw", "item")
-        ),
+        SeriesSegment("item_code", 6, 8, "Item/expenditure category", ("cw", "item")),
     ],
 )
 

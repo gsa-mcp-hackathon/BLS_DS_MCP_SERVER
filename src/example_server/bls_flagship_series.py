@@ -946,9 +946,7 @@ _MP_ENTRIES: list[FlagshipEntry] = [
         series_id="MPU0021012",
         survey="MP",
         survey_name="Multifactor Productivity",
-        description=(
-            "Total factor productivity for Mining (NAICS 21), Indexes"
-        ),
+        description=("Total factor productivity for Mining (NAICS 21), Indexes"),
         keywords=[
             "mining",
             "total factor productivity",
@@ -957,9 +955,7 @@ _MP_ENTRIES: list[FlagshipEntry] = [
             "mfp",
             "index",
         ],
-        notes=(
-            "Annual, not seasonally adjusted. NAICS 21. Base year 2017=100."
-        ),
+        notes=("Annual, not seasonally adjusted. NAICS 21. Base year 2017=100."),
         concept="tfp_mining",
         measure_type="index",
         unit="index 2017=100",
@@ -977,9 +973,7 @@ _MP_ENTRIES: list[FlagshipEntry] = [
             "mfp",
             "index",
         ],
-        notes=(
-            "Annual, not seasonally adjusted. NAICS 22. Base year 2017=100."
-        ),
+        notes=("Annual, not seasonally adjusted. NAICS 22. Base year 2017=100."),
         concept="tfp_utilities",
         measure_type="index",
         unit="index 2017=100",
@@ -997,9 +991,7 @@ _MP_ENTRIES: list[FlagshipEntry] = [
             "mfp",
             "index",
         ],
-        notes=(
-            "Annual, not seasonally adjusted. NAICS 23. Base year 2017=100."
-        ),
+        notes=("Annual, not seasonally adjusted. NAICS 23. Base year 2017=100."),
         concept="tfp_construction",
         measure_type="index",
         unit="index 2017=100",
@@ -1021,9 +1013,7 @@ _MP_ENTRIES: list[FlagshipEntry] = [
             "index",
             "durable goods",
         ],
-        notes=(
-            "Annual, not seasonally adjusted. Durable mfg. Base year 2017=100."
-        ),
+        notes=("Annual, not seasonally adjusted. Durable mfg. Base year 2017=100."),
         concept="tfp_durable_manufacturing",
         measure_type="index",
         unit="index 2017=100",
@@ -1045,9 +1035,7 @@ _MP_ENTRIES: list[FlagshipEntry] = [
             "index",
             "nondurable goods",
         ],
-        notes=(
-            "Annual, not seasonally adjusted. Nondurable mfg. Base year 2017=100."
-        ),
+        notes=("Annual, not seasonally adjusted. Nondurable mfg. Base year 2017=100."),
         concept="tfp_nondurable_manufacturing",
         measure_type="index",
         unit="index 2017=100",
@@ -1107,8 +1095,7 @@ _CW_ENTRIES: list[FlagshipEntry] = [
             "seasonally adjusted",
         ],
         notes=(
-            "Monthly, seasonally adjusted. U.S. city average. "
-            "Base period 1982-84=100."
+            "Monthly, seasonally adjusted. U.S. city average. Base period 1982-84=100."
         ),
         concept="cpiw_food_at_home_sa",
         measure_type="index",
@@ -1132,8 +1119,7 @@ _CW_ENTRIES: list[FlagshipEntry] = [
             "seasonally adjusted",
         ],
         notes=(
-            "Monthly, seasonally adjusted. U.S. city average. "
-            "Base period 1982-84=100."
+            "Monthly, seasonally adjusted. U.S. city average. Base period 1982-84=100."
         ),
         concept="cpiw_energy_sa",
         measure_type="index",
@@ -1158,8 +1144,7 @@ _CW_ENTRIES: list[FlagshipEntry] = [
             "seasonally adjusted",
         ],
         notes=(
-            "Monthly, seasonally adjusted. U.S. city average. "
-            "Base period 1982-84=100."
+            "Monthly, seasonally adjusted. U.S. city average. Base period 1982-84=100."
         ),
         concept="cpiw_food_sa",
         measure_type="index",
@@ -1212,8 +1197,7 @@ _CW_ENTRIES: list[FlagshipEntry] = [
             "seasonally adjusted",
         ],
         notes=(
-            "Monthly, seasonally adjusted. U.S. city average. "
-            "Base period 1982-84=100."
+            "Monthly, seasonally adjusted. U.S. city average. Base period 1982-84=100."
         ),
         concept="cpiw_shelter_sa",
         measure_type="index",
@@ -1629,9 +1613,7 @@ _CI_ENTRIES: list[FlagshipEntry] = [
         series_id="CIS1030000000000I",
         survey="CI",
         survey_name="Employer Costs for Employee Compensation",
-        description=(
-            "Total benefits for all civilian workers, current dollar index"
-        ),
+        description=("Total benefits for all civilian workers, current dollar index"),
         keywords=[
             "benefits",
             "total benefits",
@@ -1654,8 +1636,7 @@ _CI_ENTRIES: list[FlagshipEntry] = [
         survey="CI",
         survey_name="Employer Costs for Employee Compensation",
         description=(
-            "Total compensation for all private industry workers, "
-            "current dollar index"
+            "Total compensation for all private industry workers, current dollar index"
         ),
         keywords=[
             "total compensation",
