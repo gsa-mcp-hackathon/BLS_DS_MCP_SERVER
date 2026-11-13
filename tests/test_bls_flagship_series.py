@@ -333,7 +333,7 @@ def test_ln_entries_are_rate_or_level() -> None:
 def test_pr_flagship_min_six_entries() -> None:
     pr_entries = [e for e in FLAGSHIP_SERIES if e.survey == "PR"]
     assert len(pr_entries) >= 6, f"Expected >= 6 PR entries, got {len(pr_entries)}"
-    valid_types = {"level", "index", "dollar_amount"}
+    valid_types = {"level", "index", "dollar_amount", "rate"}
     for e in pr_entries:
         assert e.measure_type in valid_types, (
             f"{e.series_id}: unexpected measure_type '{e.measure_type}'"

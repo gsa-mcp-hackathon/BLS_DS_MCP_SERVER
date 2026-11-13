@@ -251,6 +251,67 @@ _CE_ENTRIES: list[FlagshipEntry] = [
         measure_type="dollar_amount",
         unit="dollars per hour",
     ),
+    FlagshipEntry(
+        series_id="CES0500000002",
+        survey="CE",
+        survey_name="Current Employment Statistics",
+        description=(
+            "Average Weekly Hours of All Employees, Total Private — Seasonally Adjusted"
+        ),
+        keywords=[
+            "weekly hours",
+            "hours worked",
+            "average weekly hours",
+            "awh",
+            "ce",
+        ],
+        notes="Monthly. Seasonally adjusted.",
+        concept="avg_weekly_hours_all_employees",
+        measure_type="level",
+        unit="hours",
+    ),
+    FlagshipEntry(
+        series_id="CES0500000007",
+        survey="CE",
+        survey_name="Current Employment Statistics",
+        description=(
+            "Average Weekly Hours of Production and Nonsupervisory Employees,"
+            " Total Private — Seasonally Adjusted"
+        ),
+        keywords=[
+            "weekly hours",
+            "production workers",
+            "nonsupervisory",
+            "average weekly hours",
+            "awh",
+            "ce",
+        ],
+        notes="Monthly. Seasonally adjusted.",
+        concept="avg_weekly_hours_prod_nonsup",
+        measure_type="level",
+        unit="hours",
+    ),
+    FlagshipEntry(
+        series_id="CES0500000008",
+        survey="CE",
+        survey_name="Current Employment Statistics",
+        description=(
+            "Average Hourly Earnings of Production and Nonsupervisory Employees,"
+            " Total Private — Seasonally Adjusted"
+        ),
+        keywords=[
+            "earnings",
+            "wages",
+            "production workers",
+            "nonsupervisory",
+            "average hourly earnings",
+            "ce",
+        ],
+        notes="Monthly. Seasonally adjusted.",
+        concept="avg_hourly_earnings_prod_nonsup",
+        measure_type="dollar_amount",
+        unit="dollars per hour",
+    ),
 ]
 
 # ---------------------------------------------------------------------------
@@ -571,15 +632,27 @@ _CU_ENTRIES: list[FlagshipEntry] = [
         unit="index 1982-84=100",
     ),
     FlagshipEntry(
-        series_id="CWUR0000SA0",
+        series_id="CUUR0000AA0",
         survey="CU",
-        survey_name="Consumer Price Index — Urban Wage Earners and Clerical Workers",
-        description="CPI-W All Items — U.S. City Average (Not Seasonally Adjusted)",
-        keywords=["cpi-w", "cpi", "wage earners", "urban wage", "consumer price", "cu"],
-        notes="Monthly. Not seasonally adjusted. Used to adjust Social Security COLA.",
-        concept="cpi_all_items",
+        survey_name="Consumer Price Index — All Urban Consumers",
+        description=(
+            "CPI-U All Items — U.S. City Average, 1967=100 (Not Seasonally Adjusted)"
+        ),
+        keywords=[
+            "cpi",
+            "cpi-u",
+            "inflation",
+            "consumer price",
+            "all items",
+            "1967 base",
+            "cu",
+        ],
+        notes=(
+            "Monthly. Not seasonally adjusted. Alternate base period series (1967=100)."
+        ),
+        concept="cpi_all_items_1967base",
         measure_type="index",
-        unit="index 1982-84=100",
+        unit="index 1967=100",
     ),
 ]
 
@@ -728,6 +801,27 @@ _LN_ENTRIES: list[FlagshipEntry] = [
         ],
         notes="Monthly. Seasonally adjusted. Total civilian labor force (thousands).",
         concept="civilian_labor_force",
+        measure_type="level",
+        unit="thousands of persons",
+    ),
+    FlagshipEntry(
+        series_id="LNS13000000",
+        survey="LN",
+        survey_name="Labor Force Statistics from the Current Population Survey",
+        description="Civilian Unemployment Level — Seasonally Adjusted",
+        keywords=[
+            "civilian unemployment",
+            "unemployment level",
+            "unemployed persons",
+            "cps",
+            "household survey",
+            "ln",
+        ],
+        notes=(
+            "Monthly. Seasonally adjusted."
+            " Number of unemployed persons from the household survey (thousands)."
+        ),
+        concept="civilian_unemployment",
         measure_type="level",
         unit="thousands of persons",
     ),
@@ -909,6 +1003,75 @@ _PR_ENTRIES: list[FlagshipEntry] = [
         measure_type="index",
         unit="index 2017=100",
     ),
+    FlagshipEntry(
+        series_id="PRS85006092",
+        survey="PR",
+        survey_name="Productivity and Costs",
+        description=(
+            "Labor productivity for the Nonfarm business sector,"
+            " Percent change from previous quarter"
+        ),
+        keywords=[
+            "nonfarm business",
+            "labor productivity",
+            "output per hour",
+            "percent change",
+            "productivity",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. Sector 8500 = Nonfarm business."
+            " Measure 09 = labor productivity. Duration 2 = % chg from prev quarter."
+        ),
+        concept="nonfarm_business_labor_productivity_pct_change",
+        measure_type="rate",
+        unit="percent",
+    ),
+    FlagshipEntry(
+        series_id="PRS85006112",
+        survey="PR",
+        survey_name="Productivity and Costs",
+        description=(
+            "Unit labor costs for the Nonfarm business sector,"
+            " Percent change from previous quarter"
+        ),
+        keywords=[
+            "nonfarm business",
+            "unit labor costs",
+            "ulc",
+            "percent change",
+            "inflation",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. Sector 8500 = Nonfarm business."
+            " Measure 11 = unit labor costs. Duration 2 = % chg from prev quarter."
+        ),
+        concept="nonfarm_business_unit_labor_costs_pct_change",
+        measure_type="rate",
+        unit="percent",
+    ),
+    FlagshipEntry(
+        series_id="PRS85006152",
+        survey="PR",
+        survey_name="Productivity and Costs",
+        description=(
+            "Real hourly compensation for the Nonfarm business sector,"
+            " Percent change from previous quarter"
+        ),
+        keywords=[
+            "nonfarm business",
+            "real hourly compensation",
+            "compensation",
+            "percent change",
+        ],
+        notes=(
+            "Quarterly, seasonally adjusted. Sector 8500 = Nonfarm business."
+            " Measure 15 = real hourly compensation."
+            " Duration 2 = % chg from prev quarter."
+        ),
+        concept="nonfarm_business_real_hourly_compensation_pct_change",
+        measure_type="rate",
+        unit="percent",
+    ),
 ]
 
 # ---------------------------------------------------------------------------
@@ -1037,6 +1200,54 @@ _MP_ENTRIES: list[FlagshipEntry] = [
         ],
         notes=("Annual, not seasonally adjusted. Nondurable mfg. Base year 2017=100."),
         concept="tfp_nondurable_manufacturing",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+    FlagshipEntry(
+        series_id="MPU4910012",
+        survey="MP",
+        survey_name="Multifactor Productivity",
+        description=(
+            "Total factor productivity for Private Nonfarm Business Sector"
+            " (NAICS 113-81), annual index"
+        ),
+        keywords=[
+            "private nonfarm business",
+            "total factor productivity",
+            "tfp",
+            "multifactor productivity",
+            "mfp",
+            "index",
+        ],
+        notes=(
+            "Annual, not seasonally adjusted. Sector 4910 = Private Nonfarm Business"
+            " (NAICS XG). Base year 2017=100."
+        ),
+        concept="tfp_private_nonfarm_business",
+        measure_type="index",
+        unit="index 2017=100",
+    ),
+    FlagshipEntry(
+        series_id="MPU4900012",
+        survey="MP",
+        survey_name="Multifactor Productivity",
+        description=(
+            "Total factor productivity for Private Business Sector"
+            " (NAICS 11-81), annual index"
+        ),
+        keywords=[
+            "private business",
+            "total factor productivity",
+            "tfp",
+            "multifactor productivity",
+            "mfp",
+            "index",
+        ],
+        notes=(
+            "Annual, not seasonally adjusted. Sector 4900 = Private Business"
+            " (NAICS PG). Base year 2017=100."
+        ),
+        concept="tfp_private_business",
         measure_type="index",
         unit="index 2017=100",
     ),
@@ -1200,6 +1411,55 @@ _CW_ENTRIES: list[FlagshipEntry] = [
             "Monthly, seasonally adjusted. U.S. city average. Base period 1982-84=100."
         ),
         concept="cpiw_shelter_sa",
+        measure_type="index",
+        unit="index 1982-84=100",
+    ),
+    FlagshipEntry(
+        series_id="CWUR0000SA0",
+        survey="CW",
+        survey_name=(
+            "Consumer Price Index \u2014 Urban Wage Earners and Clerical Workers"
+        ),
+        description="CPI-W All Items — U.S. City Average (Not Seasonally Adjusted)",
+        keywords=[
+            "cpi-w",
+            "cpi",
+            "wage earners",
+            "urban wage",
+            "consumer price",
+            "cw",
+        ],
+        notes=(
+            "Monthly. Not seasonally adjusted. Used to adjust Social Security COLA."
+        ),
+        concept="cpiw_all_items_nsa",
+        measure_type="index",
+        unit="index 1982-84=100",
+    ),
+    FlagshipEntry(
+        series_id="CWUR0000SA0L1E",
+        survey="CW",
+        survey_name=(
+            "Consumer Price Index \u2014 Urban Wage Earners and Clerical Workers"
+        ),
+        description=(
+            "CPI-W All Items Less Food and Energy (Core CPI-W)"
+            " — U.S. City Average (Not Seasonally Adjusted)"
+        ),
+        keywords=[
+            "cpi-w",
+            "core",
+            "core cpi-w",
+            "less food and energy",
+            "urban wage earners",
+            "inflation",
+            "not seasonally adjusted",
+        ],
+        notes=(
+            "Monthly. Not seasonally adjusted. U.S. city average."
+            " Base period 1982-84=100. Core CPI-W excluding food and energy."
+        ),
+        concept="cpiw_core",
         measure_type="index",
         unit="index 1982-84=100",
     ),
@@ -1371,6 +1631,112 @@ _WP_ENTRIES: list[FlagshipEntry] = [
             "Base period 1982=100."
         ),
         concept="ppi_nonferrous_metals",
+        measure_type="index",
+        unit="index 1982=100",
+    ),
+    FlagshipEntry(
+        series_id="WPSFD4",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description="PPI Final Demand — Seasonally Adjusted",
+        keywords=[
+            "ppi",
+            "producer price index",
+            "final demand",
+            "inflation",
+            "seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, seasonally adjusted. BLS Final Demand-Intermediate Demand"
+            " system (introduced 2014). Base period November 2009=100."
+        ),
+        concept="ppi_final_demand_sa",
+        measure_type="index",
+        unit="index 2009=100",
+    ),
+    FlagshipEntry(
+        series_id="WPUFD4",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description="PPI Final Demand — Not Seasonally Adjusted",
+        keywords=[
+            "ppi",
+            "producer price index",
+            "final demand",
+            "inflation",
+            "not seasonally adjusted",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. BLS Final Demand-Intermediate"
+            " Demand system. Base period November 2009=100."
+        ),
+        concept="ppi_final_demand_nsa",
+        measure_type="index",
+        unit="index 2009=100",
+    ),
+    FlagshipEntry(
+        series_id="WPUFD49104",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description="PPI Final Demand Less Foods and Energy — Not Seasonally Adjusted",
+        keywords=[
+            "ppi",
+            "producer price index",
+            "final demand",
+            "core ppi",
+            "less food",
+            "less energy",
+            "inflation",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. Final demand ex-food and energy."
+            " Base period November 2009=100."
+        ),
+        concept="ppi_final_demand_less_food_energy",
+        measure_type="index",
+        unit="index 2009=100",
+    ),
+    FlagshipEntry(
+        series_id="WPUFD49116",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description=(
+            "PPI Final Demand Less Foods, Energy, and Trade Services"
+            " — Not Seasonally Adjusted"
+        ),
+        keywords=[
+            "ppi",
+            "producer price index",
+            "final demand",
+            "core ppi",
+            "less food energy trade",
+            "inflation",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. Final demand ex-food, energy, and"
+            " trade services. Base period November 2009=100."
+        ),
+        concept="ppi_final_demand_less_food_energy_trade",
+        measure_type="index",
+        unit="index 2009=100",
+    ),
+    FlagshipEntry(
+        series_id="WPUFD49207",
+        survey="WP",
+        survey_name="PPI Commodity Data",
+        description="PPI Finished Goods, 1982=100 — Not Seasonally Adjusted",
+        keywords=[
+            "ppi",
+            "producer price index",
+            "finished goods",
+            "commodity",
+            "inflation",
+        ],
+        notes=(
+            "Monthly, not seasonally adjusted. Traditional finished goods PPI."
+            " Base period 1982=100."
+        ),
+        concept="ppi_finished_goods",
         measure_type="index",
         unit="index 1982=100",
     ),
@@ -1679,6 +2045,80 @@ _CI_ENTRIES: list[FlagshipEntry] = [
         concept="total_compensation_state_local_index",
         measure_type="index",
         unit="index",
+    ),
+    FlagshipEntry(
+        series_id="CIU1010000000000A",
+        survey="CI",
+        survey_name="Employer Costs for Employee Compensation",
+        description=(
+            "ECI Total Compensation, All Civilian Workers"
+            " — 12-month percent change (Unadjusted)"
+        ),
+        keywords=[
+            "eci",
+            "employment cost index",
+            "total compensation",
+            "civilian workers",
+            "12-month percent change",
+            "compensation",
+        ],
+        notes=(
+            "Quarterly, not seasonally adjusted. All civilian workers,"
+            " all industries, all occupations. 12-month percent change."
+            " Owner=1 (civilian), periodicity=A."
+        ),
+        concept="eci_total_compensation_civilian_12mo_pct_change",
+        measure_type="rate",
+        unit="percent",
+    ),
+    FlagshipEntry(
+        series_id="CIU2010000000000A",
+        survey="CI",
+        survey_name="Employer Costs for Employee Compensation",
+        description=(
+            "ECI Total Compensation, All Private Industry Workers"
+            " — 12-month percent change (Unadjusted)"
+        ),
+        keywords=[
+            "eci",
+            "employment cost index",
+            "total compensation",
+            "private industry",
+            "12-month percent change",
+            "compensation",
+        ],
+        notes=(
+            "Quarterly, not seasonally adjusted. All private industry workers."
+            " 12-month percent change. Owner=2 (private industry), periodicity=A."
+        ),
+        concept="eci_total_compensation_private_12mo_pct_change",
+        measure_type="rate",
+        unit="percent",
+    ),
+    FlagshipEntry(
+        series_id="CIU2020000000000A",
+        survey="CI",
+        survey_name="Employer Costs for Employee Compensation",
+        description=(
+            "ECI Wages and Salaries, All Private Industry Workers"
+            " — 12-month percent change (Unadjusted)"
+        ),
+        keywords=[
+            "eci",
+            "employment cost index",
+            "wages and salaries",
+            "private industry",
+            "12-month percent change",
+            "compensation",
+        ],
+        notes=(
+            "Quarterly, not seasonally adjusted. All private industry workers."
+            " Wages and salaries component. 12-month percent change."
+            " Owner=2, estimate=02, periodicity=A."
+        ),
+        concept="eci_wages_salaries_private_12mo_pct_change",
+        measure_type="rate",
+        unit="percent",
     ),
 ]
 
