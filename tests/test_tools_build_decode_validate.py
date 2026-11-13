@@ -241,7 +241,8 @@ def test_build_series_id_valid_ci() -> None:
     import example_server.tools.build_series_id as mod
 
     fn = _capture(mod)
-    # CI schema: seasonal(1)+owner_code(1)+estimate_code(2)+series_code(10)+periodicity_code(1)
+    # CI schema: seasonal(1)+owner_code(1)+estimate_code(2)+series_code(10)
+    # +periodicity_code(1)
     # Total body = 15; with "CI" prefix = 17 chars.
     result = fn(
         survey="CI",

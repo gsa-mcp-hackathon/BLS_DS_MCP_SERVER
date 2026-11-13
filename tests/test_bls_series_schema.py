@@ -17,7 +17,9 @@ from example_server.bls_series_schema import (
 # ---------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("prefix", ["SM", "CE", "LA", "JT", "CU", "PR", "MP", "CW", "WP", "EI", "CI"])
+@pytest.mark.parametrize(
+    "prefix", ["SM", "CE", "LA", "JT", "CU", "PR", "MP", "CW", "WP", "EI", "CI"]
+)
 def test_get_schema_known_prefix(prefix: str) -> None:
     series_id = prefix + "X" * 18  # any suffix
     schema = get_schema(series_id)
