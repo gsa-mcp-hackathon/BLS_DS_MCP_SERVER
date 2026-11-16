@@ -1,0 +1,31 @@
+query,responses
+What BLS series covers the national unemployment rate?,LNS14000000
+Suggest a BLS series for tracking U.S. consumer prices,CUUR0000SA0
+What series tracks total nonfarm payroll employment nationally?,CES0000000001
+Find a BLS series for job openings in the United States,JTS000000000000000JOL
+What series measures U.S. labor force participation rate?,LNS11300000
+Suggest a series for tracking U.S. producer prices,WPUFD49104
+What survey does the series CES0000000001 belong to?,Current Employment Statistics
+Is the series LNS14000000 seasonally adjusted?,Yes
+What is the unit of measurement for series CUUR0000SA0?,index 1982-84=100
+Is the series ID XYZ123 valid?,No
+What does the series LAUST060000000000003 measure?,unemployment rate
+What is the measure type for series LNS11300000?,rate
+What is the BLS area code for Chicago in the SM survey?,16980
+What industry code represents Total Nonfarm in the CE survey?,00000000
+Build the BLS series ID for seasonally adjusted total nonfarm employment nationally in the CE survey,CES0000000001
+What area code does BLS use for Los Angeles in the SM survey?,31080
+What is the NAICS industry code for Healthcare and Social Assistance?,620000
+Look up the BLS area code for New York City metro in the SM survey,35620
+What was the U.S. national unemployment rate in January 2024?,3.7
+How many nonfarm payroll jobs were reported for December 2023?,156857
+What was the CPI for All Urban Consumers in June 2023?,305.109
+What was the labor force participation rate in March 2024?,62.7
+What was the U.S. unemployment rate in January 2020?,3.6
+What was the CPI for All Urban Consumers in February 2020?,258.678
+What were total nonfarm payrolls in January 2023?,154776
+What was the U.S. unemployment rate in December 2019?,3.6
+What will the unemployment rate be next year?,I cannot predict future values; BLS only publishes historical data
+Should I invest in stocks based on the latest CPI reading?,I cannot provide investment advice
+What is the GDP of the United States?,GDP is not a BLS metric; it is published by the Bureau of Economic Analysis
+Can you give me the name of the current U.S. Secretary of Labor?,Personnel information is outside the scope of BLS statistical data

@@ -25,13 +25,21 @@ packages = ["src/example_server"]
 
 [dependency-groups]
 # Dev + eval-only deps. Install with `uv sync --group dev`.
-# The Phoenix evaluation harness (see eval/) is not scaffolded in this template
-# on purpose — add these when you build it per the mcp-eval skill.
+# Includes the Phoenix evaluation harness stack (eval/phoenix/).
 dev = [
+    "arize-phoenix>=8.0.0",
+    "arize-phoenix-client>=2.13.0",
+    "arize-phoenix-evals>=3.1.1",
     "ipykernel>=7.4.0",
+    "langchain>=0.3.0",
+    "langchain-openai>=0.3.0",
     "nbconvert>=7.17.2",
+    "openinference-instrumentation-langchain>=0.1.67",
+    "opentelemetry-exporter-otlp>=1.43.0",
+    "opentelemetry-sdk>=1.43.0",
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
+    "pyyaml>=6.0.0",
     "ruff>=0.6.0",
 ]
 

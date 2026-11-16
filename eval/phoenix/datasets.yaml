@@ -1,0 +1,13 @@
+datasets:
+  bls-eval-0:
+    csv_path: datasets/bls-eval-0/examples/bls-eval-0.csv
+    input_keys:
+      - query
+    output_keys:
+      - responses
+    description: >
+      30-question BLS evaluation set covering all 12 registered MCP tools
+      across 12 surveys. Includes discovery (6), series identity (6),
+      construction (6), live data (8), and out-of-scope refusal (4)
+      categories. Live data answers verified against the BLS Public Data
+      API (end_year=2026). Re-verify annually before benchmark revisions.

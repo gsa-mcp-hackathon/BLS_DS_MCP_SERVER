@@ -52,7 +52,7 @@ pyproject.toml          (dev group extended)
 
 ## Sub-Task 1 — Add Phoenix dependencies to pyproject.toml
 
-**Status:** [ ] pending
+**Status:** [x] done
 
 ### Intent
 Install the Phoenix evaluation stack into the existing `dev` dependency
@@ -92,7 +92,7 @@ without touching the production server dependencies.
 
 ## Sub-Task 2 — Append eval credentials to .env.example
 
-**Status:** [ ] pending
+**Status:** [x] done
 
 ### Intent
 Document the four new environment variables the harness needs so any
@@ -139,7 +139,7 @@ JUDGE_MODEL=claude_4_6_sonnet
 
 ## Sub-Task 3 — Generate the question dataset (bls-eval-0.csv)
 
-**Status:** [ ] pending
+**Status:** [x] done
 
 ### Intent
 Create a 30-question evaluation dataset that covers all 10 MCP tools
@@ -266,7 +266,7 @@ datasets:
 
 ## Sub-Task 4 — Write the OrchestrateAgent (agent.py)
 
-**Status:** [ ] pending
+**Status:** [x] done
 
 ### Intent
 Implement `OrchestrateAgent` — the class that sends a question to the
@@ -325,7 +325,7 @@ returns the agent's plain-text answer. This replaces the
 
 ## Sub-Task 5 — Write the LLM-as-judge evaluators (judges/)
 
-**Status:** [ ] pending
+**Status:** [x] done
 
 ### Intent
 Implement two judges that score agent answers without needing to know
@@ -380,7 +380,7 @@ how the answer was produced. Both are plain functions usable as Phoenix
 
 ## Sub-Task 6 — Write system prompts (prompts/)
 
-**Status:** [ ] pending
+**Status:** [x] done
 
 ### Intent
 Write two versioned system prompts for the agent-under-test. Even
@@ -429,7 +429,7 @@ experiment runs.
 
 ## Sub-Task 7 — Write the Phoenix CLIs (create_dataset.py, run_experiment.py)
 
-**Status:** [ ] pending
+**Status:** [x] done
 
 ### Intent
 Provide two runnable CLI scripts that complete the Phoenix workflow:
@@ -474,7 +474,7 @@ upload the dataset once, then run experiments on demand.
 
 ## Sub-Task 8 — Write eval/phoenix/README.md
 
-**Status:** [ ] pending
+**Status:** [x] done
 
 ### Intent
 Document the harness so any teammate can run it without reading source
