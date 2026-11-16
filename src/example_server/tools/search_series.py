@@ -9,6 +9,7 @@ from fastmcp import FastMCP
 from example_server.bls_flagship_series import search_flagship
 from example_server.bls_series_schema import SCHEMAS, build_id, decode_id
 from example_server.catalog import catalog
+from example_server.config import SEASONAL_DEFAULTS
 from example_server.utils import paginate
 
 # ---------------------------------------------------------------------------
@@ -191,29 +192,36 @@ def register(mcp: FastMCP) -> None:
         limit = max(1, min(25, limit))
         surveys_to_try = _detect_survey(query, survey)
 
-        seasonal = _match_first(query, _SEASONAL_HINTS) or "U"
+        # Use per-survey safe default when no seasonal hint is in the query.
+        # The explicit match overrides the default when present.
+        explicit_seasonal = _match_first(query, _SEASONAL_HINTS)
+        # We defer per-survey defaulting to the loop below so each survey uses
+        # its own default.  ``explicit_seasonal`` is "" when no hint found.
+        seasonal = explicit_seasonal  # may be overridden per survey in loop
 
         results: list[dict[str, Any]] = []
 
         for sv in surveys_to_try:
+            # Apply per-survey seasonal-adjustment default when query has no explicit hint.
+            sv_seasonal = explicit_seasonal or SEASONAL_DEFAULTS.get(sv, "U")
             if sv == "SM":
-                results.extend(_search_sm(query, seasonal, limit))
+                results.extend(_search_sm(query, sv_seasonal, limit))
             elif sv == "CE":
-                results.extend(_search_ce(query, seasonal, limit))
+                results.extend(_search_ce(query, sv_seasonal, limit))
             elif sv == "LA":
-                results.extend(_search_la(query, seasonal, limit))
+                results.extend(_search_la(query, sv_seasonal, limit))
             elif sv == "JT":
-                results.extend(_search_jt(query, seasonal, limit))
+                results.extend(_search_jt(query, sv_seasonal, limit))
             elif sv == "CU":
-                results.extend(_search_cu(query, seasonal, limit))
+                results.extend(_search_cu(query, sv_seasonal, limit))
             elif sv == "LN":
                 results.extend(_search_ln(query, limit))
             elif sv == "PR":
-                results.extend(_search_pr(query, seasonal, limit))
+                results.extend(_search_pr(query, sv_seasonal, limit))
             elif sv == "MP":
                 results.extend(_search_mp(query, limit))
             elif sv == "CW":
-                results.extend(_search_cw(query, seasonal, limit))
+                results.extend(_search_cw(query, sv_seasonal, limit))
             elif sv == "WP":
                 results.extend(_search_wp(query, limit))
             elif sv == "EI":

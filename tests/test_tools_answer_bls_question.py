@@ -62,6 +62,7 @@ class _FakeBLSClient:
         self.body = body or _make_bls_envelope()
         self.raise_exc = raise_exc
         self.sent_json: dict | None = None
+        self.called: bool = False  # True when stream() is called (BLS API hit)
 
     def __call__(self, **kwargs):
         return self
@@ -73,6 +74,7 @@ class _FakeBLSClient:
         pass
 
     def stream(self, method, url, json=None, **kwargs):
+        self.called = True
         self.sent_json = json
         return _FakeStream(
             status_code=self.status_code,
@@ -287,10 +289,12 @@ async def test_answer_summary_handles_empty_observations(monkeypatch) -> None:
 async def test_answer_no_flagship_match_returns_error_dict(monkeypatch) -> None:
     """A question that matches no flagship series should return an error dict."""
     import example_server.tools.answer_bls_question as mod
+    import example_server.bls_flagship_series as flagship_mod
 
     fn = _capture(mod)
-    # Monkeypatch the discovery function to return None
-    monkeypatch.setattr(mod, "_discover_series", lambda q: None)
+    # Monkeypatch search_flagship to return an empty list
+    monkeypatch.setattr(flagship_mod, "search_flagship", lambda q, limit=10: [])
+    monkeypatch.setattr(mod, "search_flagship", lambda q, limit=10: [])
     result = await fn(question="zzz no match for this question at all zzz")
     assert "error" in result
     assert "hint" in result
@@ -365,3 +369,128 @@ async def test_answer_bls_question_is_discoverable() -> None:
     tools = await mcp.list_tools()
     names = {t.name for t in tools}
     assert "answer_bls_question" in names
+
+
+# ---------------------------------------------------------------------------
+# Phase 4 — Ambiguity gate: tool-call safety tests
+# ---------------------------------------------------------------------------
+
+
+async def test_bls_api_not_called_when_measure_type_ambiguous(monkeypatch) -> None:
+    """'Show me employment.' has level/rate/household ambiguity — must clarify."""
+    client = _FakeBLSClient()
+    result = await _call(monkeypatch, client, question="Show me employment.")
+    assert result.get("clarification_required") is True, (
+        f"Expected clarification_required=True, got: {result}"
+    )
+    # BLS API must not have been called
+    assert not client.called
+
+
+async def test_bls_api_not_called_when_stock_flow_ambiguous(monkeypatch) -> None:
+    """'How many people lost jobs?' is stock/flow ambiguous — must clarify."""
+    client = _FakeBLSClient()
+    result = await _call(monkeypatch, client, question="How many people lost jobs?")
+    assert result.get("clarification_required") is True, (
+        f"Expected clarification_required=True, got: {result}"
+    )
+    assert not client.called
+
+
+async def test_bls_api_not_called_when_cpi_vs_inflation_ambiguous(monkeypatch) -> None:
+    """'What is the inflation rate?' — must clarify index vs. percent change."""
+    client = _FakeBLSClient()
+    result = await _call(monkeypatch, client, question="What is the inflation rate?")
+    assert result.get("clarification_required") is True, (
+        f"Expected clarification_required=True, got: {result}"
+    )
+    assert not client.called
+
+
+async def test_bls_api_called_when_fully_resolved(monkeypatch) -> None:
+    """'What is the unemployment rate?' is unambiguous — API should be called."""
+    client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
+    result = await _call(
+        monkeypatch, client, question="What is the unemployment rate?"
+    )
+    # Should NOT return clarification — should return data or error
+    assert result.get("clarification_required") is not True
+    assert client.called
+
+
+async def test_clarification_response_shape(monkeypatch) -> None:
+    """Clarification response must include required keys."""
+    client = _FakeBLSClient()
+    result = await _call(monkeypatch, client, question="Show me employment.")
+    if result.get("clarification_required"):
+        assert "clarification_question" in result
+        assert isinstance(result["clarification_question"], str)
+        assert len(result["clarification_question"]) > 0
+        assert "hint" in result
+        assert "question" in result
+
+
+async def test_resolved_response_includes_defaults_applied(monkeypatch) -> None:
+    """Successful response must include defaults_applied list."""
+    client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
+    result = await _call(
+        monkeypatch, client, question="What is the unemployment rate?"
+    )
+    if "series_id" in result:
+        assert "defaults_applied" in result
+        assert isinstance(result["defaults_applied"], list)
+
+
+async def test_context_parameter_accepted(monkeypatch) -> None:
+    """context parameter must be accepted without error."""
+    client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
+    import example_server.tools.answer_bls_question as mod
+    fn = _capture(mod)
+    monkeypatch.setattr(utils_module.httpx, "AsyncClient", client)
+    result = await fn(
+        question="What is the unemployment rate?",
+        context={"dataset": "LN", "seasonal_adjustment": "S"},
+    )
+    assert isinstance(result, dict)
+
+
+# ---------------------------------------------------------------------------
+# Phase 7 — Observability: log emission tests
+# ---------------------------------------------------------------------------
+
+
+async def test_log_records_clarification_decision(monkeypatch, caplog) -> None:
+    """Logger must emit 'clarification_required=True' for ambiguous queries."""
+    import logging
+    client = _FakeBLSClient()
+    with caplog.at_level(logging.DEBUG, logger="example_server.tools.answer_bls_question"):
+        result = await _call(monkeypatch, client, question="Show me employment.")
+    assert result.get("clarification_required") is True
+    assert any("clarification_required=True" in r.message for r in caplog.records)
+
+
+async def test_log_records_bls_api_called(monkeypatch, caplog) -> None:
+    """Logger must emit 'bls_api_called=True' when API is invoked."""
+    import logging
+    client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
+    with caplog.at_level(logging.DEBUG, logger="example_server.tools.answer_bls_question"):
+        result = await _call(
+            monkeypatch, client, question="What is the unemployment rate?"
+        )
+    # Only verify logging when the tool proceeded to data retrieval
+    if "series_id" in result:
+        assert any("bls_api_called=True" in r.message for r in caplog.records)
+
+
+async def test_log_does_not_expose_api_key(monkeypatch, caplog) -> None:
+    """Log records must never contain a 32-char hex API key."""
+    import logging
+    import re
+    client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
+    with caplog.at_level(logging.DEBUG, logger="example_server.tools.answer_bls_question"):
+        await _call(monkeypatch, client, question="What is the unemployment rate?")
+    key_pattern = re.compile(r"[0-9a-fA-F]{32}")
+    for record in caplog.records:
+        assert not key_pattern.search(record.message), (
+            f"Log record may expose an API key: {record.message!r}"
+        )

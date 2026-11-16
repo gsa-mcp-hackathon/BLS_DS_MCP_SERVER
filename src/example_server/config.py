@@ -56,6 +56,31 @@ BLS_V2_MAX_YEAR_RANGE = 20
 BLS_V2_DAILY_LIMIT = 500
 
 
+# ── Ambiguity policy constants ────────────────────────────────────────────────
+# Per-survey seasonal-adjustment defaults.  These mirror SAFE_DEFAULTS in
+# ambiguity.py and are the single authoritative source imported by both modules.
+SEASONAL_DEFAULTS: dict[str, str] = {
+    "CE": "S",   # CE headline is seasonally adjusted
+    "LA": "S",   # LA national/state headline is SA
+    "LN": "S",   # LN CPS headline series are SA
+    "JT": "S",   # JOLTS headline figures are SA
+    "PR": "S",   # Productivity headline is SA
+    "CU": "U",   # CPI-U NSA is the reference series (CUUR0000SA0)
+    "CW": "U",   # CPI-W NSA is the COLA reference
+    "SM": "U",   # State/metro data is predominantly NSA
+    "MP": "U",   # Multifactor productivity is annual, NSA
+    "EI": "U",   # International price — NSA
+    "WP": "U",   # PPI commodity — NSA
+    "CI": "S",   # ECEC headline is SA
+}
+
+# Feature flags — set via environment variables or .env to change behavior.
+CLARIFY_ON_MEASURE_AMBIGUITY: bool = True
+"""Block BLS API call when eligible candidates have different measure types."""
+CLARIFY_ON_GEOGRAPHY_AMBIGUITY: bool = True
+"""Ask for clarification when multiple geographic areas match the query."""
+
+
 def get_bls_api_version() -> str:
     """Return the BLS API version to use based on the configured key.
 

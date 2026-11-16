@@ -77,10 +77,21 @@ def register(mcp: FastMCP) -> None:
                 "topic": topic,
                 "suggestions": [],
                 "count": 0,
+                "has_measure_type_conflict": False,
                 "message": (
                     "No flagship series matched your topic. "
                     "Try search_series for a broader catalog search."
                 ),
             }
 
-        return {"topic": topic, "suggestions": suggestions, "count": len(suggestions)}
+        # Detect whether the suggestions span multiple measure types — a signal
+        # that callers should disambiguate before retrieving data.
+        measure_types = {s["measure_type"] for s in suggestions if s.get("measure_type")}
+        has_conflict = len(measure_types) > 1
+
+        return {
+            "topic": topic,
+            "suggestions": suggestions,
+            "count": len(suggestions),
+            "has_measure_type_conflict": has_conflict,
+        }
