@@ -56,7 +56,16 @@ _JT_DE_HINTS: dict[str, str] = {
     "hiring": "HI",
     "quits": "QU",
     "layoffs": "LD",
-    "separations": "OS",
+    "discharges": "LD",
+    "job loss": "LD",
+    "job losses": "LD",
+    "job losers": "LD",
+    "jobs lost": "LD",
+    "involuntary": "LD",
+    "total separations": "TS",
+    "turnover": "TS",
+    "other separations": "OS",
+    "separations": "TS",
 }
 
 # CU item hints
@@ -411,20 +420,39 @@ def _search_la(query: str, seasonal: str, limit: int) -> list[dict[str, Any]]:
 
 
 def _search_jt(query: str, seasonal: str, limit: int) -> list[dict[str, Any]]:
+    """Return JT (JOLTS) candidate series from the flagship table.
+
+    JT series IDs use a variable-length format that build_id does not support.
+    We delegate to the flagship table, which holds confirmed-working series IDs,
+    and use the data-element hints to rank the most relevant match first.
+    """
     de = _match_first(query, _JT_DE_HINTS) or "JO"
-    sid = build_id(
-        "JT",
-        seasonal=seasonal,
-        state_code="00",
-        industry_code="000000",
-        sizeclass_code="00",
-        dataelement_code=de,
-        ratelevel_code="L",
-    )
-    if isinstance(sid, dict):
-        return []
-    r = _make_result(sid, 2)
-    return [r] if r else []
+    hits = search_flagship(query, limit=limit * 3)
+    results: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    # First pass: preferred data-element match
+    for entry in hits:
+        if entry.survey != "JT" or entry.series_id in seen:
+            continue
+        # Extract the dataelement from the 21-char series ID (body[16:18])
+        body = entry.series_id[2:]
+        entry_de = body[16:18] if len(body) >= 18 else ""
+        if entry_de == de:
+            r = _make_result(entry.series_id, 3)
+            if r:
+                results.append(r)
+                seen.add(entry.series_id)
+    # Second pass: any remaining JT hits up to limit
+    for entry in hits:
+        if entry.survey != "JT" or entry.series_id in seen:
+            continue
+        r = _make_result(entry.series_id, 2)
+        if r:
+            results.append(r)
+            seen.add(entry.series_id)
+        if len(results) >= limit:
+            break
+    return results[:limit]
 
 
 def _search_ln(query: str, limit: int) -> list[dict[str, Any]]:

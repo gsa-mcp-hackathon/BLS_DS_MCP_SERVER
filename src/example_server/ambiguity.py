@@ -138,6 +138,7 @@ _STOCK_FLOW_CONCEPTS = {
     "layoffs_and_discharges",
     "layoffs",
     "job_losers",
+    "total_separations",
 }
 
 # Concepts that are household (CPS) vs establishment (CE) — need disambiguation
@@ -210,6 +211,12 @@ def parse_intent_from_query(
         ("job openings rate", "job_openings_rate"),
         ("job openings", "job_openings"),
         ("layoffs and discharges", "layoffs_and_discharges"),
+        ("layoffs", "layoffs_and_discharges"),
+        ("job losers", "layoffs_and_discharges"),
+        ("job loss", "layoffs_and_discharges"),
+        ("jobs lost", "layoffs_and_discharges"),
+        ("workers lost jobs", "layoffs_and_discharges"),
+        ("total separations", "total_separations"),
         ("average hourly earnings", "average_hourly_earnings"),
         ("hourly earnings", "average_hourly_earnings"),
     ]

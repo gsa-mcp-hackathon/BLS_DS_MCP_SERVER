@@ -124,7 +124,7 @@ def test_get_flagship_la_national() -> None:
 
 
 def test_get_flagship_jt_openings() -> None:
-    entry = get_flagship("JTS000000000000001")
+    entry = get_flagship("JTS000000000000000JOL")
     assert entry is not None
     assert entry.survey == "JT"
 
@@ -266,7 +266,7 @@ def test_ce_earnings_is_dollar_amount() -> None:
 def test_jt_openings_level() -> None:
     from example_server.bls_flagship_series import get_flagship
 
-    e = get_flagship("JTS000000000000001")
+    e = get_flagship("JTS000000000000000JOL")
     assert e is not None
     assert e.concept == "job_openings"
     assert e.measure_type == "level"
@@ -275,7 +275,7 @@ def test_jt_openings_level() -> None:
 def test_jt_openings_rate() -> None:
     from example_server.bls_flagship_series import get_flagship
 
-    e = get_flagship("JTS000000000000JOR")
+    e = get_flagship("JTS000000000000000JOR")
     assert e is not None
     assert e.concept == "job_openings_rate"
     assert e.measure_type == "rate"

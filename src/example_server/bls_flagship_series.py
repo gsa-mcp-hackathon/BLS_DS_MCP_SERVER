@@ -430,9 +430,15 @@ _LA_ENTRIES: list[FlagshipEntry] = [
 #         +dataelement(2)+ratelevel(1)
 # National, all industries: state=00, industry=000000, sizeclass=00
 # ---------------------------------------------------------------------------
+# Series IDs use the 21-char extended JOLTS format confirmed working with the
+# BLS API (both v1 and v2):
+# JT(2)+seasonal(1)+state(2)+industry(6)+area(2)+ownership(3)+sizeclass(2)
+#   +dataelement(2)+ratelevel(1) = 21
+# National, all industries, all areas: state=00, industry=000000,
+#   area=00, ownership=000, sizeclass=00
 _JT_ENTRIES: list[FlagshipEntry] = [
     FlagshipEntry(
-        series_id="JTS000000000000001",
+        series_id="JTS000000000000000JOL",
         survey="JT",
         survey_name="Job Openings and Labor Turnover Survey",
         description=(
@@ -453,7 +459,7 @@ _JT_ENTRIES: list[FlagshipEntry] = [
         unit="thousands of jobs",
     ),
     FlagshipEntry(
-        series_id="JTS000000000000HIL",
+        series_id="JTS000000000000000HIL",
         survey="JT",
         survey_name="Job Openings and Labor Turnover Survey",
         description=(
@@ -467,7 +473,7 @@ _JT_ENTRIES: list[FlagshipEntry] = [
         unit="thousands of persons",
     ),
     FlagshipEntry(
-        series_id="JTS000000000000QUL",
+        series_id="JTS000000000000000QUL",
         survey="JT",
         survey_name="Job Openings and Labor Turnover Survey",
         description=(
@@ -488,35 +494,71 @@ _JT_ENTRIES: list[FlagshipEntry] = [
         unit="thousands of persons",
     ),
     FlagshipEntry(
-        series_id="JTS000000000000LDL",
+        series_id="JTS000000000000000LDL",
         survey="JT",
         survey_name="Job Openings and Labor Turnover Survey",
         description=(
             "Total Layoffs and Discharges — All Industries"
             " (Level, Thousands, Seasonally Adjusted)"
         ),
-        keywords=["layoffs", "discharges", "separations", "jolts", "jt"],
+        keywords=[
+            "layoffs",
+            "discharges",
+            "separations",
+            "jolts",
+            "jt",
+            "job loss",
+            "job losses",
+            "job losers",
+            "jobs lost",
+            "workers lost jobs",
+            "involuntary separations",
+        ],
         notes="Monthly. Seasonally adjusted.",
         concept="layoffs_and_discharges",
         measure_type="level",
         unit="thousands of persons",
     ),
     FlagshipEntry(
-        series_id="JTS000000000000OSL",
+        series_id="JTS000000000000000TSL",
+        survey="JT",
+        survey_name="Job Openings and Labor Turnover Survey",
+        description=(
+            "Total Separations — All Industries, All Areas"
+            " (Level, Thousands, Seasonally Adjusted)"
+        ),
+        keywords=[
+            "total separations",
+            "separations",
+            "jolts",
+            "jt",
+            "turnover",
+            "workers leaving",
+        ],
+        notes=(
+            "Monthly. Seasonally adjusted."
+            " Sum of quits, layoffs, and other separations."
+        ),
+        concept="total_separations",
+        measure_type="level",
+        unit="thousands of persons",
+    ),
+    FlagshipEntry(
+        series_id="JTS000000000000000OSL",
         survey="JT",
         survey_name="Job Openings and Labor Turnover Survey",
         description=(
             "Total Other Separations — All Industries"
             " (Level, Thousands, Seasonally Adjusted)"
         ),
-        keywords=["separations", "other separations", "jolts", "jt"],
+        keywords=["other separations", "jolts", "jt"],
         notes="Monthly. Seasonally adjusted.",
         concept="other_separations",
         measure_type="level",
         unit="thousands of persons",
     ),
     FlagshipEntry(
-        series_id="JTS000000000000JOR",
+        series_id="JTS000000000000000JOR",
         survey="JT",
         survey_name="Job Openings and Labor Turnover Survey",
         description=(
