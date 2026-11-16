@@ -20,6 +20,7 @@ steps 1–4 and go straight to validation + retrieval.
 
 from __future__ import annotations
 
+import datetime
 import logging
 from typing import Annotated, Any
 
@@ -102,12 +103,29 @@ async def _fetch_observations(
     start_year: int | None,
     end_year: int | None,
 ) -> tuple[list[dict], str | None]:
-    """Fetch observations; return (observations, error_message)."""
+    """Fetch observations; return (observations, error_message).
+
+    When both start_year and end_year are omitted the BLS API returns its own
+    default window (the most recent ~3 years relative to its server clock).
+    That window currently extends through the present calendar year (e.g. 2026),
+    so explicitly setting end_year to the current year is unnecessary *unless*
+    the caller has set only start_year, in which case end_year is auto-filled to
+    the current year so the range is always closed on the right side.
+    """
+    current_year = datetime.date.today().year
+
+    # Auto-close an open-ended range: if the caller gave start_year but no
+    # end_year, default end_year to the current calendar year so BLS returns
+    # data up to the present.
+    effective_end_year = end_year
+    if start_year is not None and end_year is None:
+        effective_end_year = current_year
+
     try:
         request = BLSSeriesRequest(
             series_ids=[series_id],
             start_year=start_year,
-            end_year=end_year,
+            end_year=effective_end_year,
         )
     except Exception as exc:
         return [], str(exc)
@@ -120,8 +138,8 @@ async def _fetch_observations(
     payload: dict[str, Any] = {"seriesid": [series_id]}
     if start_year is not None:
         payload["startyear"] = str(start_year)
-    if end_year is not None:
-        payload["endyear"] = str(end_year)
+    if effective_end_year is not None:
+        payload["endyear"] = str(effective_end_year)
 
     try:
         raw = await fetch_bls(payload)
@@ -179,12 +197,14 @@ def register(mcp: FastMCP) -> None:
         ] = None,
         start_year: Annotated[
             int | None,
-            "Optional 4-digit start year (e.g. 2020). "
-            "When omitted, BLS returns its default range (last 3 years).",
+            "Optional 4-digit start year (e.g. 2020). When omitted, BLS returns "
+            f"its default (3 recent years; includes {datetime.date.today().year}).",
         ] = None,
         end_year: Annotated[
             int | None,
-            "Optional 4-digit end year (e.g. 2024). Must be >= start_year.",
+            f"Optional 4-digit end year (e.g. {datetime.date.today().year - 2} "
+            f"or {datetime.date.today().year}). Must be >= start_year. "
+            f"Pass {datetime.date.today().year} to include current-year data.",
         ] = None,
         context: Annotated[
             dict | None,

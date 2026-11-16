@@ -497,3 +497,72 @@ async def test_log_does_not_expose_api_key(monkeypatch, caplog) -> None:
         assert not key_pattern.search(record.message), (
             f"Log record may expose an API key: {record.message!r}"
         )
+
+
+# ---------------------------------------------------------------------------
+# 2026 / current-year data: open-ended range auto-injection tests
+# ---------------------------------------------------------------------------
+
+
+async def test_start_year_without_end_year_injects_current_year(monkeypatch) -> None:
+    """When only start_year is given, end_year must be auto-set to the current year.
+
+    This ensures the BLS payload includes endyear so that observations through
+    the present (e.g. 2026) are returned and the agent doesn't falsely claim
+    recent data is unavailable.
+    """
+    import datetime
+
+    client = _FakeBLSClient(body=_make_bls_envelope("CUUR0000SA0"))
+    result = await _call(
+        monkeypatch,
+        client,
+        question="CPI data",
+        series_id="CUUR0000SA0",
+        start_year=2024,
+        end_year=None,
+    )
+    assert "error" not in result
+    assert client.sent_json is not None
+    assert client.sent_json.get("startyear") == "2024"
+    expected_end = str(datetime.date.today().year)
+    assert client.sent_json.get("endyear") == expected_end, (
+        f"Expected endyear={expected_end!r}, got {client.sent_json.get('endyear')!r}"
+    )
+
+
+async def test_no_start_year_no_end_year_uses_bls_default(monkeypatch) -> None:
+    """When both start_year and end_year are None, the BLS payload must NOT include
+    startyear/endyear — letting the BLS API apply its own default window (which
+    includes current-year data from its server clock).
+    """
+    client = _FakeBLSClient(body=_make_bls_envelope("CUUR0000SA0"))
+    result = await _call(
+        monkeypatch,
+        client,
+        question="CPI data",
+        series_id="CUUR0000SA0",
+        start_year=None,
+        end_year=None,
+    )
+    assert "error" not in result
+    assert client.sent_json is not None
+    assert "startyear" not in client.sent_json
+    assert "endyear" not in client.sent_json
+
+
+async def test_explicit_end_year_2026_passes_through(monkeypatch) -> None:
+    """Explicitly passing end_year=2026 must reach the BLS payload unchanged."""
+    client = _FakeBLSClient(body=_make_bls_envelope("CUUR0000SA0"))
+    result = await _call(
+        monkeypatch,
+        client,
+        question="CPI data",
+        series_id="CUUR0000SA0",
+        start_year=2024,
+        end_year=2026,
+    )
+    assert "error" not in result
+    assert client.sent_json is not None
+    assert client.sent_json.get("startyear") == "2024"
+    assert client.sent_json.get("endyear") == "2026"

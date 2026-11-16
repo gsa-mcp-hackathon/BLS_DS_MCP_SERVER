@@ -9,6 +9,7 @@ These are illustrative — replace them with models for your own service.
 
 from __future__ import annotations
 
+import datetime
 import re
 from dataclasses import dataclass
 from dataclasses import field as dc_field
@@ -79,15 +80,20 @@ class BLSSeriesRequest(BaseModel):
         default=None,
         description=(
             "4-digit start year for the data range (e.g. 2020). "
-            "When omitted, BLS returns its default range (typically last 3 years)."
+            "When omitted, BLS returns its default range "
+            "(the 3 most recent years relative to today's date, which currently "
+            "includes data through the current calendar year)."
         ),
     )
     end_year: int | None = Field(
         default=None,
         description=(
-            "4-digit end year for the data range (e.g. 2024). "
+            f"4-digit end year for the data range "
+            f"(e.g. {datetime.date.today().year - 2} or {datetime.date.today().year}). "
             "Must be >= start_year. "
-            "v1 max range: 10 years; v2 max range: 20 years."
+            "v1 max range: 10 years; v2 max range: 20 years. "
+            "To retrieve data for the current or most recent year, "
+            f"set this to the current calendar year ({datetime.date.today().year})."
         ),
     )
     calculations: bool = Field(

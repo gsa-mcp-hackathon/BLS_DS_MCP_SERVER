@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import datetime
 from typing import Annotated, Any
 
 from fastmcp import FastMCP
@@ -40,12 +41,14 @@ def register(mcp: FastMCP) -> None:
         ],
         start_year: Annotated[
             int | None,
-            "4-digit start year (e.g. 2020). Omit to use BLS default"
-            " (typically last 3 years).",
+            "4-digit start year (e.g. 2020). Omit to use BLS default "
+            f"(3 most recent years; includes {datetime.date.today().year}).",
         ] = None,
         end_year: Annotated[
             int | None,
-            "4-digit end year (e.g. 2024). Must be >= start_year.",
+            f"4-digit end year (e.g. {datetime.date.today().year - 2} "
+            f"or {datetime.date.today().year}). Must be >= start_year. "
+            f"Pass {datetime.date.today().year} to include current-year data.",
         ] = None,
         calculations: Annotated[
             bool,
