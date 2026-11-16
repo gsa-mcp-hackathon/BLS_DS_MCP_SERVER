@@ -10,7 +10,8 @@ These are illustrative — replace them with models for your own service.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field as dc_field
+from dataclasses import dataclass
+from dataclasses import field as dc_field
 from enum import Enum
 from typing import Self
 

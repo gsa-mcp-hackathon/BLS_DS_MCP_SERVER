@@ -13,10 +13,7 @@ from __future__ import annotations
 
 import json
 
-import pytest
-
 import example_server.utils as utils_module
-
 
 # ---------------------------------------------------------------------------
 # Shared mock plumbing (identical to test_tools_answer_bls_question.py)
@@ -108,16 +105,18 @@ async def _call(monkeypatch, question: str, client=None, **kwargs) -> dict:
 
 
 def _must_clarify(result: dict, msg: str = "") -> None:
+    suffix = (": " + msg) if msg else ""
     assert result.get("clarification_required") is True, (
-        f"Expected clarification_required=True{': ' + msg if msg else ''}. Got: {result}"
+        f"Expected clarification_required=True{suffix}. Got: {result}"
     )
     assert "clarification_question" in result
     assert len(result["clarification_question"]) > 10
 
 
 def _must_resolve(result: dict, client: _FakeBLSClient, msg: str = "") -> None:
+    suffix = (": " + msg) if msg else ""
     assert result.get("clarification_required") is not True, (
-        f"Expected resolved (not clarification){': ' + msg if msg else ''}. Got: {result}"
+        f"Expected resolved (not clarification){suffix}. Got: {result}"
     )
     assert client.called, (
         f"Expected BLS API to be called{': ' + msg if msg else ''}"
@@ -138,7 +137,8 @@ async def test_walkthrough_01_show_employment(monkeypatch) -> None:
 
 
 async def test_walkthrough_02_show_employment_level(monkeypatch) -> None:
-    """'Show me the employment level.' — narrows to level, but household vs. payroll remains."""
+    # 'Show me the employment level.' — level narrows intent, but household vs. payroll
+    # remains unresolved.
     client = _FakeBLSClient()
     result = await _call(monkeypatch, "Show me the employment level.", client=client)
     # 'level' in query helps but household/payroll concept still ambiguous
@@ -147,13 +147,16 @@ async def test_walkthrough_02_show_employment_level(monkeypatch) -> None:
 
 
 async def test_walkthrough_09_how_is_labor_market(monkeypatch) -> None:
-    """'How is the labor market doing?' — broad question must clarify or return overview."""
+    # 'How is the labor market doing?' — broad question: clarify or return overview.
     client = _FakeBLSClient()
     result = await _call(monkeypatch, "How is the labor market doing?", client=client)
-    # Must either clarify or return an error/suggestion — must NOT auto-select one series
-    # without disclosure
-    assert result.get("clarification_required") is True or "error" in result or \
-           result.get("defaults_applied") is not None
+    # Must either clarify or return an error/suggestion — must NOT auto-select without
+    # disclosure.
+    assert (
+        result.get("clarification_required") is True
+        or "error" in result
+        or result.get("defaults_applied") is not None
+    )
 
 
 async def test_walkthrough_11_give_me_inflation_rate(monkeypatch) -> None:
@@ -177,7 +180,7 @@ async def test_walkthrough_12_what_is_inflation(monkeypatch) -> None:
 
 
 async def test_walkthrough_15_how_many_lost_jobs(monkeypatch) -> None:
-    """'How many people lost jobs?' — stock (job losers) vs. flow (layoffs) vs. level decline."""
+    # 'How many people lost jobs?' — stock vs. flow vs. level decline.
     client = _FakeBLSClient()
     result = await _call(monkeypatch, "How many people lost jobs?", client=client)
     _must_clarify(result, "stock vs. flow ambiguity")
@@ -196,15 +199,17 @@ async def test_walkthrough_16_how_many_layoffs(monkeypatch) -> None:
 
 
 async def test_walkthrough_17_industry_added_most_jobs(monkeypatch) -> None:
-    """'What industry added the most jobs?' — ranking requires comparison period."""
+    # 'What industry added the most jobs?' — ranking requires comparison period.
     client = _FakeBLSClient()
-    result = await _call(monkeypatch, "What industry added the most jobs?", client=client)
+    result = await _call(
+        monkeypatch, "What industry added the most jobs?", client=client
+    )
     _must_clarify(result, "ranking requires comparison period")
     assert not client.called
 
 
 async def test_walkthrough_18_industry_added_most_jobs_last_month(monkeypatch) -> None:
-    """'What industry added the most jobs last month?' — still needs period confirmation."""
+    # 'What industry added the most jobs last month?' — still needs period confirmation.
     client = _FakeBLSClient()
     result = await _call(
         monkeypatch, "What industry added the most jobs last month?", client=client
@@ -247,7 +252,7 @@ async def test_walkthrough_06_unemployment_rate(monkeypatch) -> None:
 
 
 async def test_walkthrough_07_how_many_unemployed(monkeypatch) -> None:
-    """'How many people are unemployed?' — level measure, should auto-resolve to LN level."""
+    # 'How many people are unemployed?' — level measure, auto-resolve to LN level.
     client = _FakeBLSClient(body=_make_bls_envelope("LNS13000000"))
     result = await _call(monkeypatch, "How many people are unemployed?", client=client)
     # 'level' measure detected; single concept (unemployment level) → should resolve
@@ -357,7 +362,10 @@ async def test_boundary_same_concept_different_sa_applies_default(
     monkeypatch,
 ) -> None:
     """SA vs. NSA on same concept should apply safe default, not clarify."""
-    from example_server.ambiguity import apply_safe_defaults, detect_unresolved_dimensions
+    from example_server.ambiguity import (
+        apply_safe_defaults,
+        detect_unresolved_dimensions,
+    )
     from example_server.models import CandidateSeries, QueryIntent
 
     def _make(sid, sa):
@@ -392,7 +400,7 @@ async def test_boundary_same_concept_different_sa_applies_default(
 async def test_boundary_high_score_does_not_override_measure_conflict(
     monkeypatch,
 ) -> None:
-    """A candidate with higher word-count score but wrong measure_type must be rejected."""
+    # A candidate with higher word-count score but wrong measure_type must be rejected.
     from example_server.ambiguity import filter_candidates
     from example_server.models import CandidateSeries, QueryIntent
 
@@ -429,7 +437,7 @@ async def test_walkthrough_23_show_employment_in_washington(monkeypatch) -> None
     """'Show employment in Washington.' — Washington state vs. DC metro."""
     client = _FakeBLSClient()
     result = await _call(monkeypatch, "Show employment in Washington.", client=client)
-    # Either clarifies (geography or employment ambiguity) or resolves — must not error silently
+    # Either clarifies (geography or employment ambiguity) or resolves — no silent err.
     assert "question" in result
 
 

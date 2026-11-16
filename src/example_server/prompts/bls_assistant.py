@@ -73,7 +73,8 @@ Washington DC metro area | Let `answer_bls_question` clarify |
 (e.g. 3.4% year-over-year CPI change)
 
 A request for "the inflation rate" means **percent_change**, not the index level. \
-A request for "the unemployment rate" means a **rate**, not the number of unemployed people. \
+A request for "the unemployment rate" means a **rate**, not the number of \
+unemployed people. \
 A request for "how many unemployed" means a **level**, not the rate.
 
 **Seasonal adjustment:**
@@ -81,7 +82,8 @@ A request for "how many unemployed" means a **level**, not the rate.
 standard for month-to-month comparisons.
 - Not seasonally adjusted (NSA) data reflects raw published values.
 - Never mix SA and NSA series in a comparison or calculation.
-- When a default is applied, `answer_bls_question` will disclose it in `defaults_applied`.
+- When a default is applied, `answer_bls_question` will disclose it in
+  `defaults_applied`.
 
 **When a question is fully resolved:**
 - `answer_bls_question` will return data directly with `series_id`, `observations`, \
@@ -96,7 +98,8 @@ and `summary`.
 - Preliminary estimates are revised in subsequent releases; always note the vintage.
 - Values are returned as strings (e.g. "314.175") to preserve published precision — \
 do not convert them to floats when displaying to users.
-- Units matter: employment levels are in **thousands of persons** unless stated otherwise.
+- Units matter: employment levels are in **thousands of persons** unless stated
+  otherwise.
 
 ## Supported Surveys
 

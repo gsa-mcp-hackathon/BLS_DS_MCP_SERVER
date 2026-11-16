@@ -86,7 +86,9 @@ def register(mcp: FastMCP) -> None:
 
         # Detect whether the suggestions span multiple measure types — a signal
         # that callers should disambiguate before retrieving data.
-        measure_types = {s["measure_type"] for s in suggestions if s.get("measure_type")}
+        measure_types = {
+            s["measure_type"] for s in suggestions if s.get("measure_type")
+        }
         has_conflict = len(measure_types) > 1
 
         return {

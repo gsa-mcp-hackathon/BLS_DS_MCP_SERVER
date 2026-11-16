@@ -319,7 +319,9 @@ def register(mcp: FastMCP) -> None:
         # the query text before discovery.  Clarify immediately so we don't
         # send the user down an unrelated candidate path.
         if intent.unresolved_dimensions:
-            clarification_q = generate_clarification(intent, [], intent.unresolved_dimensions)
+            clarification_q = generate_clarification(
+                intent, [], intent.unresolved_dimensions
+            )
             logger.debug(
                 "answer_bls_question: early_clarification unresolved=%s query=%r",
                 intent.unresolved_dimensions,

@@ -288,8 +288,8 @@ async def test_answer_summary_handles_empty_observations(monkeypatch) -> None:
 
 async def test_answer_no_flagship_match_returns_error_dict(monkeypatch) -> None:
     """A question that matches no flagship series should return an error dict."""
-    import example_server.tools.answer_bls_question as mod
     import example_server.bls_flagship_series as flagship_mod
+    import example_server.tools.answer_bls_question as mod
 
     fn = _capture(mod)
     # Monkeypatch search_flagship to return an empty list
@@ -463,7 +463,8 @@ async def test_log_records_clarification_decision(monkeypatch, caplog) -> None:
     """Logger must emit 'clarification_required=True' for ambiguous queries."""
     import logging
     client = _FakeBLSClient()
-    with caplog.at_level(logging.DEBUG, logger="example_server.tools.answer_bls_question"):
+    logger_name = "example_server.tools.answer_bls_question"
+    with caplog.at_level(logging.DEBUG, logger=logger_name):
         result = await _call(monkeypatch, client, question="Show me employment.")
     assert result.get("clarification_required") is True
     assert any("clarification_required=True" in r.message for r in caplog.records)
@@ -473,7 +474,8 @@ async def test_log_records_bls_api_called(monkeypatch, caplog) -> None:
     """Logger must emit 'bls_api_called=True' when API is invoked."""
     import logging
     client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
-    with caplog.at_level(logging.DEBUG, logger="example_server.tools.answer_bls_question"):
+    logger_name = "example_server.tools.answer_bls_question"
+    with caplog.at_level(logging.DEBUG, logger=logger_name):
         result = await _call(
             monkeypatch, client, question="What is the unemployment rate?"
         )
@@ -487,7 +489,8 @@ async def test_log_does_not_expose_api_key(monkeypatch, caplog) -> None:
     import logging
     import re
     client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
-    with caplog.at_level(logging.DEBUG, logger="example_server.tools.answer_bls_question"):
+    logger_name = "example_server.tools.answer_bls_question"
+    with caplog.at_level(logging.DEBUG, logger=logger_name):
         await _call(monkeypatch, client, question="What is the unemployment rate?")
     key_pattern = re.compile(r"[0-9a-fA-F]{32}")
     for record in caplog.records:

@@ -11,10 +11,7 @@ Covers:
 
 from __future__ import annotations
 
-import pytest
-
 from example_server.models import CandidateSeries, QueryIntent
-
 
 # ---------------------------------------------------------------------------
 # Phase 2 — data structure construction
@@ -267,7 +264,9 @@ def test_detect_unresolved_flags_measure_type_conflict() -> None:
 
 def test_detect_unresolved_no_conflict_single_candidate() -> None:
     from example_server.ambiguity import detect_unresolved_dimensions
-    intent = QueryIntent(original_query="unemployment rate", normalized_query="unemployment rate")
+    intent = QueryIntent(
+        original_query="unemployment rate", normalized_query="unemployment rate"
+    )
     candidates = [_make_candidate("LNS14000000", "unemployment_rate", "rate")]
     unresolved = detect_unresolved_dimensions(intent, candidates)
     assert unresolved == []
@@ -276,7 +275,9 @@ def test_detect_unresolved_no_conflict_single_candidate() -> None:
 def test_detect_unresolved_no_conflict_same_concept_different_sa() -> None:
     """SA vs NSA on same concept is NOT a concept conflict — resolved by default."""
     from example_server.ambiguity import detect_unresolved_dimensions
-    intent = QueryIntent(original_query="unemployment rate", normalized_query="unemployment rate")
+    intent = QueryIntent(
+        original_query="unemployment rate", normalized_query="unemployment rate"
+    )
     candidates = [
         _make_candidate("LNS14000000", "unemployment_rate", "rate", seasonal="S"),
         _make_candidate("LNU04000000", "unemployment_rate", "rate", seasonal="U"),
@@ -309,7 +310,9 @@ def test_detect_unresolved_flags_stock_flow() -> None:
 
 def test_generate_clarification_employment_level_vs_ratio() -> None:
     from example_server.ambiguity import generate_clarification
-    intent = QueryIntent(original_query="show employment", normalized_query="show employment")
+    intent = QueryIntent(
+        original_query="show employment", normalized_query="show employment"
+    )
     candidates = [
         _make_candidate("CES0000000001", "nonfarm_payrolls", "level"),
         _make_candidate("LNS12300000", "employment_population_ratio", "rate"),
@@ -366,7 +369,9 @@ def test_generate_clarification_ranking_needs_period() -> None:
 
 def test_apply_safe_defaults_ce_sets_sa() -> None:
     from example_server.ambiguity import apply_safe_defaults
-    intent = QueryIntent(original_query="payrolls", normalized_query="payrolls", dataset="CE")
+    intent = QueryIntent(
+        original_query="payrolls", normalized_query="payrolls", dataset="CE"
+    )
     candidates = [
         _make_candidate("CES0000000001", "nonfarm_payrolls", "level", seasonal="S"),
         _make_candidate("CEU0000000001", "nonfarm_payrolls", "level", seasonal="U"),

@@ -141,9 +141,17 @@ _STOCK_FLOW_CONCEPTS = {
 }
 
 # Concepts that are household (CPS) vs establishment (CE) — need disambiguation
-_HOUSEHOLD_CONCEPTS = {"civilian_employment", "civilian_labor_force", "civilian_unemployment"}
-_ESTABLISHMENT_CONCEPTS = {"nonfarm_payrolls", "private_payrolls", "goods_producing_payrolls",
-                           "service_payrolls"}
+_HOUSEHOLD_CONCEPTS = {
+    "civilian_employment",
+    "civilian_labor_force",
+    "civilian_unemployment",
+}
+_ESTABLISHMENT_CONCEPTS = {
+    "nonfarm_payrolls",
+    "private_payrolls",
+    "goods_producing_payrolls",
+    "service_payrolls",
+}
 
 
 def _query_lower(query: str) -> str:
@@ -230,7 +238,9 @@ def parse_intent_from_query(
 
     # ── Stock vs. flow ambiguity ──────────────────────────────────────────
     if any(sig in ql for sig in _STOCK_FLOW_TRIGGERS):
-        intent.unresolved_dimensions = list(intent.unresolved_dimensions) + ["stock_flow"]
+        intent.unresolved_dimensions = (
+            list(intent.unresolved_dimensions) + ["stock_flow"]
+        )
 
     # ── Context inheritance ───────────────────────────────────────────────
     if context:
@@ -333,7 +343,9 @@ def filter_candidates(
             got = c.measure_type
             # percent_change is *derived* from index/level — do not reject index
             # candidates when percent_change is requested; flag instead.
-            if req != got and not (req == "percent_change" and got in ("index", "level")):
+            if req != got and not (
+                req == "percent_change" and got in ("index", "level")
+            ):
                 reasons.append(
                     f"measure_type conflicts: requested {req}, got {got}"
                 )
@@ -342,7 +354,8 @@ def filter_candidates(
         if intent.seasonal_adjustment is not None:
             if c.seasonal_adjustment != intent.seasonal_adjustment:
                 reasons.append(
-                    f"seasonal_adjustment conflicts: requested {intent.seasonal_adjustment}, "
+                    f"seasonal_adjustment conflicts: "
+                    f"requested {intent.seasonal_adjustment}, "
                     f"got {c.seasonal_adjustment}"
                 )
 
@@ -498,18 +511,22 @@ def generate_clarification(
         if dim == "stock_flow":
             return (
                 "By 'people who lost jobs,' do you mean:\n"
-                "(a) unemployed people classified as job losers (a count of people currently"
+                "(a) unemployed people classified as job losers"
+                " (a count of people currently"
                 " unemployed because they lost their previous job),\n"
-                "(b) layoffs and discharges recorded during the month (from the JOLTS survey),"
-                " or\n"
+                "(b) layoffs and discharges recorded during the month"
+                " (from the JOLTS survey), or\n"
                 "(c) the decline in total payroll employment?"
             )
 
         if dim == "household_vs_establishment":
             return (
-                "Do you want payroll employment (the number of jobs on employer payrolls,"
-                " from the Current Employment Statistics survey) or household employment"
-                " (the number of employed people, from the Current Population Survey)?"
+                "Do you want payroll employment"
+                " (the number of jobs on employer payrolls,"
+                " from the Current Employment Statistics survey)"
+                " or household employment"
+                " (the number of employed people,"
+                " from the Current Population Survey)?"
             )
 
         if dim == "measure_type":
@@ -529,7 +546,7 @@ def generate_clarification(
             # Build options from candidates
             opts = _describe_measure_options(eligible_candidates)
             if opts:
-                return f"Which measure do you want?\n" + "\n".join(
+                return "Which measure do you want?\n" + "\n".join(
                     f"({chr(97+i)}) {o}" for i, o in enumerate(opts)
                 )
             return (

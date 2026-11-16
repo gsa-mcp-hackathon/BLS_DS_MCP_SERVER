@@ -11,10 +11,7 @@ from __future__ import annotations
 
 import json
 
-import pytest
-
 import example_server.utils as utils_module
-
 
 # ---------------------------------------------------------------------------
 # Shared mock plumbing (mirrors test_tools_answer_bls_question.py)
@@ -146,14 +143,17 @@ async def test_inflation_rate_now_clarifies(monkeypatch) -> None:
 
 def test_seasonal_default_is_currently_unadjusted(monkeypatch) -> None:
     """Before per-survey defaults, search_series uses 'U' as the global fallback."""
-    import example_server.tools.search_series as mod
     import example_server.catalog as catalog_module
+    import example_server.tools.search_series as mod
 
     # Minimal catalog so _search_ce can build an ID
     from example_server.catalog import Catalog
     c = object.__new__(Catalog)
     c._data = {
-        ("ce", "seasonal"): {"S": "Seasonally Adjusted", "U": "Not Seasonally Adjusted"},
+        ("ce", "seasonal"): {
+            "S": "Seasonally Adjusted",
+            "U": "Not Seasonally Adjusted",
+        },
         ("ce", "industry"): {"000000": "Total nonfarm"},
         ("ce", "supersector"): {"00": "Total nonfarm"},
         ("ce", "datatype"): {"01": "ALL EMPLOYEES, THOUSANDS"},

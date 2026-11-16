@@ -197,12 +197,11 @@ def register(mcp: FastMCP) -> None:
         explicit_seasonal = _match_first(query, _SEASONAL_HINTS)
         # We defer per-survey defaulting to the loop below so each survey uses
         # its own default.  ``explicit_seasonal`` is "" when no hint found.
-        seasonal = explicit_seasonal  # may be overridden per survey in loop
 
         results: list[dict[str, Any]] = []
 
         for sv in surveys_to_try:
-            # Apply per-survey seasonal-adjustment default when query has no explicit hint.
+            # Apply per-survey seasonal-adjustment default when no explicit hint.
             sv_seasonal = explicit_seasonal or SEASONAL_DEFAULTS.get(sv, "U")
             if sv == "SM":
                 results.extend(_search_sm(query, sv_seasonal, limit))
