@@ -54,4 +54,11 @@ do not convert them to floats when displaying to users.
 | LA | Local Area Unemployment Statistics | Unemployment rate, employment level |
 | JT | Job Openings and Labor Turnover | Openings, hires, quits, layoffs |
 | CU | Consumer Price Index — All Urban Consumers | CPI, inflation measures |
+| LN | Labor Force Statistics (CPS) | Participation rate, unemployment, employment |
+| PR | Productivity and Costs | Labor productivity, unit labor costs |
+| MP | Multifactor Productivity | Total factor productivity by sector |
+| CW | Consumer Price Index — Urban Wage Earners | CPI-W, inflation for wage earners |
+| WP | PPI Commodity Data | Producer price indexes by commodity |
+| EI | International Price Program | Import and export price indexes |
+| CI | Employer Costs for Employee Compensation | Total compensation, wages, benefits |
 """
