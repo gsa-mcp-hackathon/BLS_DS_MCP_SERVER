@@ -137,6 +137,18 @@ def test_decode_jt_returns_correct_structure() -> None:
     assert len(result["segments"]) == len(SCHEMAS["JT"].segments)
 
 
+def test_decode_jt_dataelement_and_ratelevel() -> None:
+    """dataelement and ratelevel must resolve to catalog labels, not bleed into industry."""
+    result = decode_id(_JT_SERIES)
+    segs = {s["name"]: s for s in result["segments"]}
+    assert segs["industry_code"]["value"] == "000000"
+    assert segs["industry_code"]["label"] == "Total nonfarm"
+    assert segs["dataelement_code"]["value"] == "JO"
+    assert segs["dataelement_code"]["label"] == "Job openings"
+    assert segs["ratelevel_code"]["value"] == "R"
+    assert segs["ratelevel_code"]["label"] == "Rate"
+
+
 # ---------------------------------------------------------------------------
 # decode_id — CU
 # ---------------------------------------------------------------------------

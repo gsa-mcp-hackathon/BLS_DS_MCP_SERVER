@@ -621,3 +621,16 @@ def test_bls_series_request_exactly_20_years_ok() -> None:
     req = BLSSeriesRequest(series_ids=["CUUR0000SA0"], start_year=2000, end_year=2019)
     assert req.start_year == 2000
     assert req.end_year == 2019
+
+
+def test_bls_series_request_21_char_jolts_id_accepted() -> None:
+    """Extended JOLTS series IDs up to 28 chars must be accepted (not rejected by regex)."""
+    sid = "JTS000000000000000JOL"  # 21 chars — real JOLTS extended format
+    req = BLSSeriesRequest(series_ids=[sid])
+    assert req.series_ids == [sid]
+
+
+def test_bls_series_request_29_char_id_rejected() -> None:
+    """Series IDs longer than 28 characters must be rejected."""
+    with pytest.raises(ValidationError, match="uppercase alphanumeric"):
+        BLSSeriesRequest(series_ids=["A" * 29])

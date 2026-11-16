@@ -565,6 +565,42 @@ _SURVEY_META: dict[str, dict] = {
             "State & Local Govt: owner=3"
         ),
     },
+    "PC": {
+        "full_name": "Producer Price Index — Industry Data",
+        "program": "Producer Price Index (PPI) — Industry Data",
+        "update_frequency": "Monthly — released ~2 weeks after the reference month",
+        "seasonal_note": (
+            "Seasonally adjusted (S) and not seasonally adjusted (U) series available. "
+            "PCU prefix = Not Seasonally Adjusted; PCS prefix = Seasonally Adjusted."
+        ),
+        "unit_note": (
+            "Index values (1982=100 base unless otherwise noted). "
+            "Measures average change in selling prices received by domestic producers."
+        ),
+        "data_api_note": (
+            "Variable-length series IDs (industry code + product code, NAICS-based). "
+            "v1: up to 25 series / 10-year range. "
+            "v2 (registered key): up to 50 series / 20-year range."
+        ),
+        "catalog_dimensions": [
+            (
+                "industry",
+                "pc.industry",
+                "6-digit NAICS industry code → industry name",
+            ),
+            (
+                "product",
+                "pc.product",
+                "Variable-length product code → product name",
+            ),
+        ],
+        "tool_guidance": (
+            "1. lookup_industry_code(query='...', survey='PC') — find a NAICS industry code\n"
+            "2. get_series_data    — fetch observations using a known PC series ID\n"
+            "   Series ID format: PC + seasonal(1) + industry(6) + product(variable)\n"
+            "   Example: PCU325412325412 — Pharmaceutical preparation manufacturing"
+        ),
+    },
 }
 
 

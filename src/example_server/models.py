@@ -52,8 +52,8 @@ class PaginationParams(BaseModel):
 
 # ── BLS series ID format ───────────────────────────────────────────────────────
 # BLS series IDs are uppercase alphanumeric strings. The practical length range
-# across all BLS surveys is 1–20 characters.
-_BLS_SERIES_ID_RE = re.compile(r"^[A-Z0-9]{1,20}$")
+# across all BLS surveys is 1–28 characters.
+_BLS_SERIES_ID_RE = re.compile(r"^[A-Z0-9]{1,28}$")
 
 
 class BLSSeriesRequest(BaseModel):
@@ -72,7 +72,7 @@ class BLSSeriesRequest(BaseModel):
     series_ids: list[str] = Field(
         description=(
             "One or more BLS series IDs (e.g. 'CUUR0000SA0'). "
-            "Uppercase alphanumeric, 1–20 characters each. "
+            "Uppercase alphanumeric, 1–28 characters each. "
             "v1 max: 25 series; v2 max: 50 series."
         ),
     )
@@ -121,7 +121,7 @@ class BLSSeriesRequest(BaseModel):
             if not _BLS_SERIES_ID_RE.match(sid):
                 raise ValueError(
                     f"Invalid series ID '{sid}'. "
-                    "BLS series IDs must be uppercase alphanumeric, 1–20 characters "
+                    "BLS series IDs must be uppercase alphanumeric, 1–28 characters "
                     "(e.g. 'CUUR0000SA0')."
                 )
         return v

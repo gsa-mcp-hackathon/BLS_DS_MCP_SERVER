@@ -5,7 +5,7 @@ decode_id, and validate_series_id share one authoritative definition.
 
 Reference: https://www.bls.gov/help/hlpforma.htm
 
-Supported surveys: SM, CE, LA, JT, CU, LN, PR, MP, CW, WP, EI, CI
+Supported surveys: SM, CE, LA, JT, CU, LN, PR, MP, CW, WP, EI, CI, PC
 """
 
 from __future__ import annotations
@@ -51,12 +51,17 @@ class SeriesSchema:
                        When None, decode_id skips no length guard, build_id returns
                        an error, and validate_series_id skips the length check.
         segments:      Ordered list of segments AFTER the 2-char prefix.
+        alt_segments:  Optional alternative segment list for a second known body
+                       length (keyed by body length = total_length - 2).  When the
+                       body length matches the key, decode_id uses these segments
+                       instead of ``segments``.
     """
 
     prefix: str
     survey_name: str
     total_length: int | None
     segments: list[SeriesSegment] = field(default_factory=list)
+    alt_segments: dict[int, list[SeriesSegment]] = field(default_factory=dict)
 
 
 # ---------------------------------------------------------------------------
@@ -122,33 +127,57 @@ _LA = SeriesSchema(
 )
 
 # JT — Job Openings and Labor Turnover Survey
-# Format: JT(2) + seasonal(1) + state(2) + industry(6) + sizeclass(2)
-#         + dataelement(2) + ratelevel(1) = 16 after prefix
-# Total: 18 chars  e.g. "JTS000000000000001"
+# Standard format (18 chars): JT(2)+seasonal(1)+state(2)+industry(6)+area_code(2)
+#   +sizeclass(2)+dataelement(2)+ratelevel(1)  e.g. "JTS000000000000JOR"
+# Extended format (21 chars): same but with an extra 3-char ownership/supersector
+#   field inserted between area_code and sizeclass  e.g. "JTS000000000000000JOL"
+# total_length=None covers both variants; alt_segments selects the right layout
+# automatically based on body length.
 _JT = SeriesSchema(
     prefix="JT",
     survey_name="Job Openings and Labor Turnover Survey",
-    total_length=18,
+    total_length=None,
     segments=[
+        # 18-char layout (body length = 16)
         SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("ce", "seasonal")),
         SeriesSegment("state_code", 1, 2, "State code", ("jt", "state")),
         SeriesSegment("industry_code", 3, 6, "Industry code", ("jt", "industry")),
+        SeriesSegment("area_code", 9, 2, "Area code", None),
         SeriesSegment(
-            "sizeclass_code", 9, 2, "Establishment size class", ("jt", "sizeclass")
+            "sizeclass_code", 11, 2, "Establishment size class", ("jt", "sizeclass")
         ),
         SeriesSegment(
-            "dataelement_code", 11, 2, "Data element code", ("jt", "dataelement")
+            "dataelement_code", 13, 2, "Data element code", ("jt", "dataelement")
         ),
-        SeriesSegment("ratelevel_code", 13, 1, "Rate or level", ("jt", "ratelevel")),
+        SeriesSegment("ratelevel_code", 15, 1, "Rate or level", ("jt", "ratelevel")),
     ],
+    alt_segments={
+        19: [
+            # 21-char layout (body length = 19): 3-char ownership_code at [11:14]
+            SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("ce", "seasonal")),
+            SeriesSegment("state_code", 1, 2, "State code", ("jt", "state")),
+            SeriesSegment("industry_code", 3, 6, "Industry code", ("jt", "industry")),
+            SeriesSegment("area_code", 9, 2, "Area code", None),
+            SeriesSegment("ownership_code", 11, 3, "Ownership/supersector code", None),
+            SeriesSegment(
+                "sizeclass_code", 14, 2, "Establishment size class", ("jt", "sizeclass")
+            ),
+            SeriesSegment(
+                "dataelement_code", 16, 2, "Data element code", ("jt", "dataelement")
+            ),
+            SeriesSegment("ratelevel_code", 18, 1, "Rate or level", ("jt", "ratelevel")),
+        ],
+    },
 )
 
 # CU — Consumer Price Index — All Urban Consumers
-# Format: CU(2) + seasonal(1) + periodicity(1) + area(4) + item(8) = 16
+# Format: CU(2) + seasonal(1) + periodicity(1) + area(4) + item(variable)
+# item_code length ranges from 2 (e.g. "S0") to 8+ chars (e.g. "SA0L1E").
+# total_length=None covers all item lengths without a length-mismatch error.
 _CU = SeriesSchema(
     prefix="CU",
     survey_name="Consumer Price Index — All Urban Consumers",
-    total_length=16,
+    total_length=None,
     segments=[
         SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("ce", "seasonal")),
         SeriesSegment("periodicity", 1, 1, "Periodicity code", None),
@@ -268,6 +297,21 @@ _CI = SeriesSchema(
     ],
 )
 
+# PC — Producer Price Index — Industry Data
+# Format: PC(2) + seasonal(1) + industry(6) + product(variable)
+# Total length varies (e.g. "PCU325412325412" = 15, naics-based product codes vary).
+# product_code mirrors the industry code for the primary product, then extends for sub-products.
+_PC = SeriesSchema(
+    prefix="PC",
+    survey_name="Producer Price Index — Industry Data",
+    total_length=None,
+    segments=[
+        SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("ce", "seasonal")),
+        SeriesSegment("industry_code", 1, 6, "Industry code (NAICS-based)", ("pc", "industry")),
+        SeriesSegment("product_code", 7, 6, "Product code", ("pc", "product")),
+    ],
+)
+
 # Master registry
 SCHEMAS: dict[str, SeriesSchema] = {
     "SM": _SM,
@@ -282,6 +326,7 @@ SCHEMAS: dict[str, SeriesSchema] = {
     "WP": _WP,
     "EI": _EI,
     "CI": _CI,
+    "PC": _PC,
 }
 
 
@@ -325,9 +370,12 @@ def decode_id(series_id: str) -> dict[str, Any]:
         }
 
     body = sid[2:]  # strip prefix
+    # Use alt_segments if the body length has a dedicated layout, else fall back
+    # to the primary segments list.
+    active_segments = schema.alt_segments.get(len(body), schema.segments)
     segments: list[dict[str, Any]] = []
 
-    for seg in schema.segments:
+    for seg in active_segments:
         value = body[seg.start : seg.start + seg.length]
         label: str | None = None
         if seg.catalog_key is not None:

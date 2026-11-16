@@ -73,9 +73,9 @@ _REGISTRY: dict[tuple[str, str], tuple[Path, bool, int, int]] = {
     # AP — Average Energy Prices
     ("ap", "area"): (_CACHE_DIR / "ap.area", False, 0, 1),
     ("ap", "item"): (_CACHE_DIR / "ap.item", False, 0, 1),
-    # PC — Producer Price Index
+    # PC — Producer Price Index — Industry Data
     ("pc", "industry"): (_CACHE_DIR / "pc.industry", False, 0, 1),
-    ("pc", "product"): (_CACHE_DIR / "pc.product", False, 0, 1),
+    ("pc", "product"): (_CACHE_DIR / "pc.product", False, 1, 2),
     # CW — Occupational Wages
     ("cw", "area"): (_CACHE_DIR / "cw.area", False, 0, 1),
     ("cw", "item"): (_CACHE_DIR / "cw.item", False, 0, 1),
