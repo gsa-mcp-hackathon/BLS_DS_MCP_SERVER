@@ -311,9 +311,7 @@ _PC = SeriesSchema(
     survey_name="Producer Price Index — Industry Data",
     total_length=None,
     segments=[
-        SeriesSegment(
-            "seasonal", 0, 1, "Seasonal adjustment code", ("ce", "seasonal")
-        ),
+        SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("ce", "seasonal")),
         SeriesSegment(
             "industry_code", 1, 6, "Industry code (NAICS-based)", ("pc", "industry")
         ),
