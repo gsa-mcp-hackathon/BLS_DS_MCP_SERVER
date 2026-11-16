@@ -60,18 +60,18 @@ BLS_V2_DAILY_LIMIT = 500
 # Per-survey seasonal-adjustment defaults.  These mirror SAFE_DEFAULTS in
 # ambiguity.py and are the single authoritative source imported by both modules.
 SEASONAL_DEFAULTS: dict[str, str] = {
-    "CE": "S",   # CE headline is seasonally adjusted
-    "LA": "S",   # LA national/state headline is SA
-    "LN": "S",   # LN CPS headline series are SA
-    "JT": "S",   # JOLTS headline figures are SA
-    "PR": "S",   # Productivity headline is SA
-    "CU": "U",   # CPI-U NSA is the reference series (CUUR0000SA0)
-    "CW": "U",   # CPI-W NSA is the COLA reference
-    "SM": "U",   # State/metro data is predominantly NSA
-    "MP": "U",   # Multifactor productivity is annual, NSA
-    "EI": "U",   # International price — NSA
-    "WP": "U",   # PPI commodity — NSA
-    "CI": "S",   # ECEC headline is SA
+    "CE": "S",  # CE headline is seasonally adjusted
+    "LA": "S",  # LA national/state headline is SA
+    "LN": "S",  # LN CPS headline series are SA
+    "JT": "S",  # JOLTS headline figures are SA
+    "PR": "S",  # Productivity headline is SA
+    "CU": "U",  # CPI-U NSA is the reference series (CUUR0000SA0)
+    "CW": "U",  # CPI-W NSA is the COLA reference
+    "SM": "U",  # State/metro data is predominantly NSA
+    "MP": "U",  # Multifactor productivity is annual, NSA
+    "EI": "U",  # International price — NSA
+    "WP": "U",  # PPI commodity — NSA
+    "CI": "S",  # ECEC headline is SA
 }
 
 # Feature flags — set via environment variables or .env to change behavior.

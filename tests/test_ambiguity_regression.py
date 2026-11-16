@@ -87,6 +87,7 @@ def _capture(module) -> object:
             def decorator(fn):
                 captured["fn"] = fn
                 return fn
+
             return decorator
 
     module.register(FakeMCP())
@@ -95,6 +96,7 @@ def _capture(module) -> object:
 
 async def _call_answer(monkeypatch, question: str, fake_client=None, **kwargs) -> dict:
     import example_server.tools.answer_bls_question as mod
+
     fn = _capture(mod)
     if fake_client is None:
         fake_client = _FakeBLSClient()
@@ -148,6 +150,7 @@ def test_seasonal_default_is_currently_unadjusted(monkeypatch) -> None:
 
     # Minimal catalog so _search_ce can build an ID
     from example_server.catalog import Catalog
+
     c = object.__new__(Catalog)
     c._data = {
         ("ce", "seasonal"): {

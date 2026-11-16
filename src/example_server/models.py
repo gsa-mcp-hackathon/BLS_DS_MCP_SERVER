@@ -231,4 +231,3 @@ class CandidateSeries:
     mismatch_reasons: list[str] = dc_field(default_factory=list)
     eligible: bool = True
     rejection_reason: str | None = None
-

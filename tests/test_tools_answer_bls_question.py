@@ -410,9 +410,7 @@ async def test_bls_api_not_called_when_cpi_vs_inflation_ambiguous(monkeypatch) -
 async def test_bls_api_called_when_fully_resolved(monkeypatch) -> None:
     """'What is the unemployment rate?' is unambiguous — API should be called."""
     client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
-    result = await _call(
-        monkeypatch, client, question="What is the unemployment rate?"
-    )
+    result = await _call(monkeypatch, client, question="What is the unemployment rate?")
     # Should NOT return clarification — should return data or error
     assert result.get("clarification_required") is not True
     assert client.called
@@ -433,9 +431,7 @@ async def test_clarification_response_shape(monkeypatch) -> None:
 async def test_resolved_response_includes_defaults_applied(monkeypatch) -> None:
     """Successful response must include defaults_applied list."""
     client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
-    result = await _call(
-        monkeypatch, client, question="What is the unemployment rate?"
-    )
+    result = await _call(monkeypatch, client, question="What is the unemployment rate?")
     if "series_id" in result:
         assert "defaults_applied" in result
         assert isinstance(result["defaults_applied"], list)
@@ -445,6 +441,7 @@ async def test_context_parameter_accepted(monkeypatch) -> None:
     """context parameter must be accepted without error."""
     client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
     import example_server.tools.answer_bls_question as mod
+
     fn = _capture(mod)
     monkeypatch.setattr(utils_module.httpx, "AsyncClient", client)
     result = await fn(
@@ -462,6 +459,7 @@ async def test_context_parameter_accepted(monkeypatch) -> None:
 async def test_log_records_clarification_decision(monkeypatch, caplog) -> None:
     """Logger must emit 'clarification_required=True' for ambiguous queries."""
     import logging
+
     client = _FakeBLSClient()
     logger_name = "example_server.tools.answer_bls_question"
     with caplog.at_level(logging.DEBUG, logger=logger_name):
@@ -473,6 +471,7 @@ async def test_log_records_clarification_decision(monkeypatch, caplog) -> None:
 async def test_log_records_bls_api_called(monkeypatch, caplog) -> None:
     """Logger must emit 'bls_api_called=True' when API is invoked."""
     import logging
+
     client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
     logger_name = "example_server.tools.answer_bls_question"
     with caplog.at_level(logging.DEBUG, logger=logger_name):
@@ -488,6 +487,7 @@ async def test_log_does_not_expose_api_key(monkeypatch, caplog) -> None:
     """Log records must never contain a 32-char hex API key."""
     import logging
     import re
+
     client = _FakeBLSClient(body=_make_bls_envelope("LNS14000000"))
     logger_name = "example_server.tools.answer_bls_question"
     with caplog.at_level(logging.DEBUG, logger=logger_name):

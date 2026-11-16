@@ -33,18 +33,18 @@ from example_server.models import CandidateSeries, QueryIntent
 
 SAFE_DEFAULTS: dict[str, str] = {
     # survey prefix → "S" (seasonally adjusted) or "U" (not seasonally adjusted)
-    "CE": "S",   # CE headline is SA (CES0000000001)
-    "LA": "S",   # LA national/state headline is SA
-    "LN": "S",   # LN CPS headline series are SA
-    "JT": "S",   # JOLTS headline figures are SA
-    "PR": "S",   # Productivity headline is SA
-    "CU": "U",   # CPI-U NSA is the reference series (CUUR0000SA0)
-    "CW": "U",   # CPI-W NSA is the COLA reference
-    "SM": "U",   # State/metro data is predominantly NSA
-    "MP": "U",   # Multifactor productivity is annual, NSA
-    "EI": "U",   # International price — NSA
-    "WP": "U",   # PPI commodity — NSA
-    "CI": "S",   # ECEC headline is SA
+    "CE": "S",  # CE headline is SA (CES0000000001)
+    "LA": "S",  # LA national/state headline is SA
+    "LN": "S",  # LN CPS headline series are SA
+    "JT": "S",  # JOLTS headline figures are SA
+    "PR": "S",  # Productivity headline is SA
+    "CU": "U",  # CPI-U NSA is the reference series (CUUR0000SA0)
+    "CW": "U",  # CPI-W NSA is the COLA reference
+    "SM": "U",  # State/metro data is predominantly NSA
+    "MP": "U",  # Multifactor productivity is annual, NSA
+    "EI": "U",  # International price — NSA
+    "WP": "U",  # PPI commodity — NSA
+    "CI": "S",  # ECEC headline is SA
 }
 
 # ---------------------------------------------------------------------------
@@ -127,9 +127,9 @@ _STOCK_FLOW_TRIGGERS = {
 
 # Geography extractor — rough phrase patterns
 _GEO_PATTERNS = [
-    r"\bin ([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)",       # "in California"
-    r"\bfor ([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)",       # "for Texas"
-    r"\b([A-Z][a-z]+)\s+(?:state|metro|area)\b",     # "Washington state"
+    r"\bin ([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)",  # "in California"
+    r"\bfor ([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)",  # "for Texas"
+    r"\b([A-Z][a-z]+)\s+(?:state|metro|area)\b",  # "Washington state"
 ]
 
 # Map of "stock/flow" concepts that share keywords → need disambiguation
@@ -238,9 +238,9 @@ def parse_intent_from_query(
 
     # ── Stock vs. flow ambiguity ──────────────────────────────────────────
     if any(sig in ql for sig in _STOCK_FLOW_TRIGGERS):
-        intent.unresolved_dimensions = (
-            list(intent.unresolved_dimensions) + ["stock_flow"]
-        )
+        intent.unresolved_dimensions = list(intent.unresolved_dimensions) + [
+            "stock_flow"
+        ]
 
     # ── Context inheritance ───────────────────────────────────────────────
     if context:
@@ -346,9 +346,7 @@ def filter_candidates(
             if req != got and not (
                 req == "percent_change" and got in ("index", "level")
             ):
-                reasons.append(
-                    f"measure_type conflicts: requested {req}, got {got}"
-                )
+                reasons.append(f"measure_type conflicts: requested {req}, got {got}")
 
         # Seasonal-adjustment conflict (only when explicitly stated in query)
         if intent.seasonal_adjustment is not None:
@@ -465,8 +463,7 @@ def apply_safe_defaults(
 
     sa_label = "seasonally adjusted" if default_sa == "S" else "not seasonally adjusted"
     disclosure = (
-        f"Seasonal adjustment defaulted to {sa_label} "
-        f"(standard for {survey} survey)."
+        f"Seasonal adjustment defaulted to {sa_label} (standard for {survey} survey)."
     )
     return preferred, [disclosure]
 
@@ -478,6 +475,7 @@ def apply_safe_defaults(
 # Canned clarification templates keyed by unresolved dimension name.
 # The generator picks the highest-priority unresolved dimension and uses its
 # template, filling in candidate descriptions where possible.
+
 
 def generate_clarification(
     intent: QueryIntent,
@@ -531,9 +529,12 @@ def generate_clarification(
 
         if dim == "measure_type":
             # Check whether this is a CPI/inflation context
-            is_cpi = any(
-                c.concept.startswith("cpi") for c in eligible_candidates
-            ) or "inflation" in ql or "cpi" in ql or "price" in ql
+            is_cpi = (
+                any(c.concept.startswith("cpi") for c in eligible_candidates)
+                or "inflation" in ql
+                or "cpi" in ql
+                or "price" in ql
+            )
 
             if is_cpi:
                 return (
@@ -547,7 +548,7 @@ def generate_clarification(
             opts = _describe_measure_options(eligible_candidates)
             if opts:
                 return "Which measure do you want?\n" + "\n".join(
-                    f"({chr(97+i)}) {o}" for i, o in enumerate(opts)
+                    f"({chr(97 + i)}) {o}" for i, o in enumerate(opts)
                 )
             return (
                 "Do you want an employment level (number of people or jobs) or a rate"
@@ -558,7 +559,7 @@ def generate_clarification(
             opts = _describe_concept_options(eligible_candidates)
             if opts:
                 return "Which of these did you mean?\n" + "\n".join(
-                    f"({chr(97+i)}) {o}" for i, o in enumerate(opts)
+                    f"({chr(97 + i)}) {o}" for i, o in enumerate(opts)
                 )
             return "Could you clarify which economic concept you are looking for?"
 

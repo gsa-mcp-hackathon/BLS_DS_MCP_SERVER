@@ -88,26 +88,31 @@ def test_candidate_series_ineligible() -> None:
 
 def test_safe_defaults_ce_is_seasonally_adjusted() -> None:
     from example_server.ambiguity import SAFE_DEFAULTS
+
     assert SAFE_DEFAULTS["CE"] == "S"
 
 
 def test_safe_defaults_cu_is_unadjusted() -> None:
     from example_server.ambiguity import SAFE_DEFAULTS
+
     assert SAFE_DEFAULTS["CU"] == "U"
 
 
 def test_safe_defaults_la_is_seasonally_adjusted() -> None:
     from example_server.ambiguity import SAFE_DEFAULTS
+
     assert SAFE_DEFAULTS["LA"] == "S"
 
 
 def test_safe_defaults_ln_is_seasonally_adjusted() -> None:
     from example_server.ambiguity import SAFE_DEFAULTS
+
     assert SAFE_DEFAULTS["LN"] == "S"
 
 
 def test_safe_defaults_sm_is_unadjusted() -> None:
     from example_server.ambiguity import SAFE_DEFAULTS
+
     assert SAFE_DEFAULTS["SM"] == "U"
 
 
@@ -118,30 +123,35 @@ def test_safe_defaults_sm_is_unadjusted() -> None:
 
 def test_parse_intent_detects_rate_measure() -> None:
     from example_server.ambiguity import parse_intent_from_query
+
     intent = parse_intent_from_query("What is the unemployment rate?")
     assert intent.requested_measure_type == "rate"
 
 
 def test_parse_intent_detects_level_measure() -> None:
     from example_server.ambiguity import parse_intent_from_query
+
     intent = parse_intent_from_query("Show me the employment level")
     assert intent.requested_measure_type == "level"
 
 
 def test_parse_intent_detects_percent_change() -> None:
     from example_server.ambiguity import parse_intent_from_query
+
     intent = parse_intent_from_query("What is the inflation rate?")
     assert intent.requested_measure_type == "percent_change"
 
 
 def test_parse_intent_detects_ranking() -> None:
     from example_server.ambiguity import parse_intent_from_query
+
     intent = parse_intent_from_query("What industry added the most jobs?")
     assert intent.calculation_type == "ranking"
 
 
 def test_parse_intent_detects_geography() -> None:
     from example_server.ambiguity import parse_intent_from_query
+
     intent = parse_intent_from_query("unemployment rate in California")
     assert intent.geography_value is not None
     assert "california" in intent.geography_value.lower()
@@ -149,12 +159,14 @@ def test_parse_intent_detects_geography() -> None:
 
 def test_parse_intent_detects_seasonally_adjusted() -> None:
     from example_server.ambiguity import parse_intent_from_query
+
     intent = parse_intent_from_query("Show seasonally adjusted payrolls")
     assert intent.seasonal_adjustment == "S"
 
 
 def test_parse_intent_stock_vs_flow_lost_jobs() -> None:
     from example_server.ambiguity import parse_intent_from_query
+
     intent = parse_intent_from_query("How many people lost jobs?")
     # Should detect stock/flow ambiguity — multiple plausible concepts
     assert "stock_flow" in intent.unresolved_dimensions
@@ -163,6 +175,7 @@ def test_parse_intent_stock_vs_flow_lost_jobs() -> None:
 # ---------------------------------------------------------------------------
 # Phase 3 — filter_candidates
 # ---------------------------------------------------------------------------
+
 
 def _make_candidate(
     series_id: str,
@@ -188,6 +201,7 @@ def _make_candidate(
 
 def test_filter_candidates_rejects_rate_when_level_requested() -> None:
     from example_server.ambiguity import filter_candidates
+
     intent = QueryIntent(
         original_query="employment level",
         normalized_query="employment level",
@@ -205,6 +219,7 @@ def test_filter_candidates_rejects_rate_when_level_requested() -> None:
 
 def test_filter_candidates_keeps_all_when_no_measure_requested() -> None:
     from example_server.ambiguity import filter_candidates
+
     intent = QueryIntent(
         original_query="employment",
         normalized_query="employment",
@@ -220,6 +235,7 @@ def test_filter_candidates_keeps_all_when_no_measure_requested() -> None:
 
 def test_filter_candidates_respects_explicit_seasonal() -> None:
     from example_server.ambiguity import filter_candidates
+
     intent = QueryIntent(
         original_query="unemployment rate seasonally adjusted",
         normalized_query="unemployment rate seasonally adjusted",
@@ -242,6 +258,7 @@ def test_filter_candidates_respects_explicit_seasonal() -> None:
 
 def test_detect_unresolved_flags_concept_conflict() -> None:
     from example_server.ambiguity import detect_unresolved_dimensions
+
     intent = QueryIntent(original_query="employment", normalized_query="employment")
     candidates = [
         _make_candidate("CES0000000001", "nonfarm_payrolls", "level"),
@@ -253,6 +270,7 @@ def test_detect_unresolved_flags_concept_conflict() -> None:
 
 def test_detect_unresolved_flags_measure_type_conflict() -> None:
     from example_server.ambiguity import detect_unresolved_dimensions
+
     intent = QueryIntent(original_query="employment", normalized_query="employment")
     candidates = [
         _make_candidate("CES0000000001", "nonfarm_payrolls", "level"),
@@ -264,6 +282,7 @@ def test_detect_unresolved_flags_measure_type_conflict() -> None:
 
 def test_detect_unresolved_no_conflict_single_candidate() -> None:
     from example_server.ambiguity import detect_unresolved_dimensions
+
     intent = QueryIntent(
         original_query="unemployment rate", normalized_query="unemployment rate"
     )
@@ -275,6 +294,7 @@ def test_detect_unresolved_no_conflict_single_candidate() -> None:
 def test_detect_unresolved_no_conflict_same_concept_different_sa() -> None:
     """SA vs NSA on same concept is NOT a concept conflict — resolved by default."""
     from example_server.ambiguity import detect_unresolved_dimensions
+
     intent = QueryIntent(
         original_query="unemployment rate", normalized_query="unemployment rate"
     )
@@ -290,6 +310,7 @@ def test_detect_unresolved_no_conflict_same_concept_different_sa() -> None:
 
 def test_detect_unresolved_flags_stock_flow() -> None:
     from example_server.ambiguity import detect_unresolved_dimensions
+
     intent = QueryIntent(
         original_query="how many people lost jobs",
         normalized_query="how many people lost jobs",
@@ -310,6 +331,7 @@ def test_detect_unresolved_flags_stock_flow() -> None:
 
 def test_generate_clarification_employment_level_vs_ratio() -> None:
     from example_server.ambiguity import generate_clarification
+
     intent = QueryIntent(
         original_query="show employment", normalized_query="show employment"
     )
@@ -324,6 +346,7 @@ def test_generate_clarification_employment_level_vs_ratio() -> None:
 
 def test_generate_clarification_cpi_index_vs_rate() -> None:
     from example_server.ambiguity import generate_clarification
+
     intent = QueryIntent(
         original_query="what is the inflation rate",
         normalized_query="what is the inflation rate",
@@ -338,6 +361,7 @@ def test_generate_clarification_cpi_index_vs_rate() -> None:
 
 def test_generate_clarification_lost_jobs() -> None:
     from example_server.ambiguity import generate_clarification
+
     intent = QueryIntent(
         original_query="how many people lost jobs",
         normalized_query="how many people lost jobs",
@@ -353,6 +377,7 @@ def test_generate_clarification_lost_jobs() -> None:
 
 def test_generate_clarification_ranking_needs_period() -> None:
     from example_server.ambiguity import generate_clarification
+
     intent = QueryIntent(
         original_query="what industry added the most jobs",
         normalized_query="what industry added the most jobs",
@@ -369,6 +394,7 @@ def test_generate_clarification_ranking_needs_period() -> None:
 
 def test_apply_safe_defaults_ce_sets_sa() -> None:
     from example_server.ambiguity import apply_safe_defaults
+
     intent = QueryIntent(
         original_query="payrolls", normalized_query="payrolls", dataset="CE"
     )
@@ -384,6 +410,7 @@ def test_apply_safe_defaults_ce_sets_sa() -> None:
 
 def test_apply_safe_defaults_cu_sets_nsa() -> None:
     from example_server.ambiguity import apply_safe_defaults
+
     intent = QueryIntent(original_query="cpi", normalized_query="cpi", dataset="CU")
     candidates = [
         _make_candidate("CUUR0000SA0", "cpi_all_items", "index", seasonal="U"),
@@ -396,6 +423,7 @@ def test_apply_safe_defaults_cu_sets_nsa() -> None:
 
 def test_apply_safe_defaults_no_op_when_sa_explicit() -> None:
     from example_server.ambiguity import apply_safe_defaults
+
     intent = QueryIntent(
         original_query="cpi",
         normalized_query="cpi",

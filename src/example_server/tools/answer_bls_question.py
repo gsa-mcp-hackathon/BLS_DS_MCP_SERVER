@@ -343,9 +343,7 @@ def register(mcp: FastMCP) -> None:
         # ------------------------------------------------------------------
         raw_hits = search_flagship(question, limit=10)
         if not raw_hits:
-            logger.debug(
-                "answer_bls_question: no_flagship_match query=%r", question
-            )
+            logger.debug("answer_bls_question: no_flagship_match query=%r", question)
             return {
                 "question": question,
                 "error": (
@@ -418,7 +416,7 @@ def register(mcp: FastMCP) -> None:
                 "question": question,
                 "clarification_required": True,
                 "clarification_question": clarification_q,
-                "clarification_options": [],   # embedded in the question text
+                "clarification_options": [],  # embedded in the question text
                 "hint": (
                     "Please answer the clarification question, then re-call "
                     "answer_bls_question with the additional context in the "
@@ -441,8 +439,8 @@ def register(mcp: FastMCP) -> None:
             "survey_name": best_candidate.dataset,
             "description": best_candidate.description,
             "rationale": f"concept={best_candidate.concept}, "
-                         f"measure_type={best_candidate.measure_type}, "
-                         f"unit={best_candidate.unit}",
+            f"measure_type={best_candidate.measure_type}, "
+            f"unit={best_candidate.unit}",
         }
 
         logger.debug(

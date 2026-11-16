@@ -89,6 +89,7 @@ def _capture(module) -> object:
             def decorator(fn):
                 captured["fn"] = fn
                 return fn
+
             return decorator
 
     module.register(FakeMCP())
@@ -97,6 +98,7 @@ def _capture(module) -> object:
 
 async def _call(monkeypatch, question: str, client=None, **kwargs) -> dict:
     import example_server.tools.answer_bls_question as mod
+
     fn = _capture(mod)
     if client is None:
         client = _FakeBLSClient()
@@ -118,9 +120,7 @@ def _must_resolve(result: dict, client: _FakeBLSClient, msg: str = "") -> None:
     assert result.get("clarification_required") is not True, (
         f"Expected resolved (not clarification){suffix}. Got: {result}"
     )
-    assert client.called, (
-        f"Expected BLS API to be called{': ' + msg if msg else ''}"
-    )
+    assert client.called, f"Expected BLS API to be called{': ' + msg if msg else ''}"
 
 
 # ---------------------------------------------------------------------------
@@ -342,13 +342,21 @@ async def test_boundary_two_candidates_different_concepts_requires_clarification
 
     def _make(sid, concept, mt):
         return CandidateSeries(
-            series_id=sid, description=concept, dataset=sid[:2],
-            concept=concept, measure_type=mt, unit="percent",
-            geography=None, seasonal_adjustment="S", frequency="monthly",
-            available_date_range=None, match_score=2,
+            series_id=sid,
+            description=concept,
+            dataset=sid[:2],
+            concept=concept,
+            measure_type=mt,
+            unit="percent",
+            geography=None,
+            seasonal_adjustment="S",
+            frequency="monthly",
+            available_date_range=None,
+            match_score=2,
         )
 
     from example_server.models import QueryIntent
+
     intent = QueryIntent(original_query="employment", normalized_query="employment")
     candidates = [
         _make("CES0000000001", "nonfarm_payrolls", "level"),
@@ -370,10 +378,17 @@ async def test_boundary_same_concept_different_sa_applies_default(
 
     def _make(sid, sa):
         return CandidateSeries(
-            series_id=sid, description="Unemployment Rate", dataset="LN",
-            concept="unemployment_rate", measure_type="rate", unit="percent",
-            geography=None, seasonal_adjustment=sa, frequency="monthly",
-            available_date_range=None, match_score=3,
+            series_id=sid,
+            description="Unemployment Rate",
+            dataset="LN",
+            concept="unemployment_rate",
+            measure_type="rate",
+            unit="percent",
+            geography=None,
+            seasonal_adjustment=sa,
+            frequency="monthly",
+            available_date_range=None,
+            match_score=3,
         )
 
     intent = QueryIntent(
@@ -406,10 +421,17 @@ async def test_boundary_high_score_does_not_override_measure_conflict(
 
     def _make(sid, mt, score):
         return CandidateSeries(
-            series_id=sid, description=f"{mt} series", dataset="LN",
-            concept="labor_metric", measure_type=mt, unit="percent",
-            geography=None, seasonal_adjustment="S", frequency="monthly",
-            available_date_range=None, match_score=score,
+            series_id=sid,
+            description=f"{mt} series",
+            dataset="LN",
+            concept="labor_metric",
+            measure_type=mt,
+            unit="percent",
+            geography=None,
+            seasonal_adjustment="S",
+            frequency="monthly",
+            available_date_range=None,
+            match_score=score,
         )
 
     intent = QueryIntent(
@@ -473,6 +495,7 @@ def test_suggest_series_employment_has_measure_conflict() -> None:
             def decorator(fn):
                 captured["fn"] = fn
                 return fn
+
             return decorator
 
     mod.register(FakeMCP())
@@ -494,6 +517,7 @@ def test_suggest_series_unemployment_rate_no_conflict() -> None:
             def decorator(fn):
                 captured["fn"] = fn
                 return fn
+
             return decorator
 
     mod.register(FakeMCP())
