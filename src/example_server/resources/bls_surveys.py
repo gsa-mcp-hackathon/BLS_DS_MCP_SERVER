@@ -595,10 +595,12 @@ _SURVEY_META: dict[str, dict] = {
             ),
         ],
         "tool_guidance": (
-            "1. lookup_industry_code(query='...', survey='PC') — find a NAICS industry code\n"
+            "1. lookup_industry_code(query='...', survey='PC')"
+            " — find a NAICS industry code\n"
             "2. get_series_data    — fetch observations using a known PC series ID\n"
             "   Series ID format: PC + seasonal(1) + industry(6) + product(variable)\n"
-            "   Example: PCU325412325412 — Pharmaceutical preparation manufacturing"
+            "   Example: PCU325412325412"
+            " — Pharmaceutical preparation manufacturing"
         ),
     },
 }

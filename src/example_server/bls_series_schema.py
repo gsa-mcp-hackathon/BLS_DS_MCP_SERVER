@@ -154,7 +154,9 @@ _JT = SeriesSchema(
     alt_segments={
         19: [
             # 21-char layout (body length = 19): 3-char ownership_code at [11:14]
-            SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("ce", "seasonal")),
+            SeriesSegment(
+                "seasonal", 0, 1, "Seasonal adjustment code", ("ce", "seasonal")
+            ),
             SeriesSegment("state_code", 1, 2, "State code", ("jt", "state")),
             SeriesSegment("industry_code", 3, 6, "Industry code", ("jt", "industry")),
             SeriesSegment("area_code", 9, 2, "Area code", None),
@@ -165,7 +167,9 @@ _JT = SeriesSchema(
             SeriesSegment(
                 "dataelement_code", 16, 2, "Data element code", ("jt", "dataelement")
             ),
-            SeriesSegment("ratelevel_code", 18, 1, "Rate or level", ("jt", "ratelevel")),
+            SeriesSegment(
+                "ratelevel_code", 18, 1, "Rate or level", ("jt", "ratelevel")
+            ),
         ],
     },
 )
@@ -299,15 +303,20 @@ _CI = SeriesSchema(
 
 # PC — Producer Price Index — Industry Data
 # Format: PC(2) + seasonal(1) + industry(6) + product(variable)
-# Total length varies (e.g. "PCU325412325412" = 15, naics-based product codes vary).
-# product_code mirrors the industry code for the primary product, then extends for sub-products.
+# Total length varies (e.g. "PCU325412325412" = 15, NAICS-based product codes vary).
+# product_code mirrors the industry code for the primary product, then extends
+# for sub-products.
 _PC = SeriesSchema(
     prefix="PC",
     survey_name="Producer Price Index — Industry Data",
     total_length=None,
     segments=[
-        SeriesSegment("seasonal", 0, 1, "Seasonal adjustment code", ("ce", "seasonal")),
-        SeriesSegment("industry_code", 1, 6, "Industry code (NAICS-based)", ("pc", "industry")),
+        SeriesSegment(
+            "seasonal", 0, 1, "Seasonal adjustment code", ("ce", "seasonal")
+        ),
+        SeriesSegment(
+            "industry_code", 1, 6, "Industry code (NAICS-based)", ("pc", "industry")
+        ),
         SeriesSegment("product_code", 7, 6, "Product code", ("pc", "product")),
     ],
 )

@@ -624,7 +624,8 @@ def test_bls_series_request_exactly_20_years_ok() -> None:
 
 
 def test_bls_series_request_21_char_jolts_id_accepted() -> None:
-    """Extended JOLTS series IDs up to 28 chars must be accepted (not rejected by regex)."""
+    """Extended JOLTS series IDs up to 28 chars must be accepted (not rejected by
+    regex)."""
     sid = "JTS000000000000000JOL"  # 21 chars — real JOLTS extended format
     req = BLSSeriesRequest(series_ids=[sid])
     assert req.series_ids == [sid]

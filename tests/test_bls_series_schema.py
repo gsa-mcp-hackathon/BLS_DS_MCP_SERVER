@@ -138,7 +138,8 @@ def test_decode_jt_returns_correct_structure() -> None:
 
 
 def test_decode_jt_dataelement_and_ratelevel() -> None:
-    """dataelement and ratelevel must resolve to catalog labels, not bleed into industry."""
+    """dataelement and ratelevel must resolve to catalog labels, not bleed into
+    industry."""
     result = decode_id(_JT_SERIES)
     segs = {s["name"]: s for s in result["segments"]}
     assert segs["industry_code"]["value"] == "000000"
