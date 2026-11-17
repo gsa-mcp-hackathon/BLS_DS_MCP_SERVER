@@ -81,13 +81,16 @@ def match_expected_response(
         "correct" or "incorrect".
     """
     evaluator = ClassificationEvaluator(
+        name="correctness",
         llm=_make_llm(),
-        template=_TEMPLATE,
+        prompt_template=_TEMPLATE,
         choices={"correct": 1, "incorrect": 0},
     )
     result = evaluator.evaluate(
-        input=input.get("query", ""),
-        output=output.get("output", ""),
-        reference=expected.get("responses", ""),
+        eval_input={
+            "input": input.get("query", ""),
+            "output": output.get("output", ""),
+            "reference": expected.get("responses", ""),
+        }
     )
-    return result[0]
+    return result[0].label

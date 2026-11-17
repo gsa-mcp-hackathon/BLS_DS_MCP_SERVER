@@ -92,12 +92,15 @@ def check_answer_scope(
         "within_scope" or "out_of_scope".
     """
     evaluator = ClassificationEvaluator(
+        name="answer_scope",
         llm=_make_llm(),
-        template=_TEMPLATE,
+        prompt_template=_TEMPLATE,
         choices={"within_scope": 1, "out_of_scope": 0},
     )
     result = evaluator.evaluate(
-        input=input.get("query", ""),
-        output=output.get("output", ""),
+        eval_input={
+            "input": input.get("query", ""),
+            "output": output.get("output", ""),
+        }
     )
-    return result[0]
+    return result[0].label
