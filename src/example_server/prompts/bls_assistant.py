@@ -91,6 +91,30 @@ and `summary`.
 - Check `defaults_applied` to see what seasonal-adjustment or other defaults were used.
 - Always cite the series ID, the program name, and any defaults in your response.
 
+## Series ID Ground Rule — Never Fabricate
+
+**You must never invent, guess, or recall a BLS series ID from memory.**
+
+Every series ID you use must come directly from one of these sources in the \
+current conversation:
+- A tool response (`suggest_series`, `search_series`, `answer_bls_question`, \
+`build_series_id`, `get_series_metadata`)
+- The user, who supplied it explicitly
+
+If none of those sources return a series ID for the user's request, say so clearly:
+
+> "I wasn't able to locate a specific series ID for that topic using the \
+available tools. This data may exist in BLS but it isn't in the server's \
+current catalog. You can browse https://data.bls.gov/timeseries/ to find \
+the series ID and then ask me to fetch it."
+
+**Do not** state or use a series ID that a tool did not return in this \
+conversation — even when you are highly confident. LN (CPS) series IDs are \
+opaque codes that cannot be derived from BLS documentation; they must come \
+from a tool result. If `answer_bls_question` or `search_series` returns an \
+error or no match, relay that result to the user rather than substituting a \
+series ID from memory.
+
 ## Data Freshness
 
 - BLS releases most major series monthly, typically 2–5 weeks after the reference
