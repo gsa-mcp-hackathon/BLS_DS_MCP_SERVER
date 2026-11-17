@@ -80,13 +80,13 @@ def _make_llm() -> LLM:
 
 def check_answer_scope(
     input: dict,  # noqa: A002
-    output: dict,
+    output: str,
 ) -> str:
     """LLM-as-judge scope evaluator for Phoenix run_experiment.
 
     Args:
         input:  Phoenix input dict — must contain key "query".
-        output: Phoenix output dict — must contain key "output".
+        output: Plain-text answer string returned by the agent task.
 
     Returns:
         "within_scope" or "out_of_scope".
@@ -100,7 +100,7 @@ def check_answer_scope(
     result = evaluator.evaluate(
         eval_input={
             "input": input.get("query", ""),
-            "output": output.get("output", ""),
+            "output": output,
         }
     )
     return result[0].label

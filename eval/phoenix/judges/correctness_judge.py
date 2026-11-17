@@ -67,14 +67,14 @@ def _make_llm() -> LLM:
 
 def match_expected_response(
     input: dict,  # noqa: A002
-    output: dict,
+    output: str,
     expected: dict,
 ) -> str:
     """LLM-as-judge correctness evaluator for Phoenix run_experiment.
 
     Args:
         input:    Phoenix input dict — must contain key "query".
-        output:   Phoenix output dict — must contain key "output".
+        output:   Plain-text answer string returned by the agent task.
         expected: Phoenix expected dict — must contain key "responses".
 
     Returns:
@@ -89,7 +89,7 @@ def match_expected_response(
     result = evaluator.evaluate(
         eval_input={
             "input": input.get("query", ""),
-            "output": output.get("output", ""),
+            "output": output,
             "reference": expected.get("responses", ""),
         }
     )
