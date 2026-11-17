@@ -44,3 +44,4 @@ htmlcov/
 eval/databricks/agent_server/agent.py
 eval/databricks/agent_server/utils.py 
 
+sandbox/
