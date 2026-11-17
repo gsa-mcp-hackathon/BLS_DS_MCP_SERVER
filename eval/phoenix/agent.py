@@ -1,5 +1,5 @@
 """OrchestrateAgent — sends questions to the deployed gsa_ds_bls_agent via
-the watsonx.ai deployments REST API and returns plain-text answers.
+the watsonx Orchestrate chat completions API and returns plain-text answers.
 
 Replaces the MultiServerMCPClient stdio pattern used in local harnesses.
 Orchestrate handles tool routing internally; only the final answer is visible.
@@ -34,9 +34,10 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 _IAM_TOKEN_URL = "https://iam.cloud.ibm.com/identity/token"
 
-# BLS deployment chat endpoint template (watsonx.ai ML API v1)
-_CHAT_PATH = "/ml/v1/deployments/{deployment_id}/text/chat"
-_CHAT_VERSION = "2024-05-31"
+# Orchestrate chat completions endpoint (Orchestrate API, not watsonx.ai ML API)
+# Full URL: {ORCHESTRATE_BASE_URL}/v1/orchestrate/{agent_id}/chat/completions
+# e.g. https://ca-tor.watson-orchestrate.cloud.ibm.com/v1/orchestrate/{id}/chat/completions
+_CHAT_PATH = "/v1/orchestrate/{agent_id}/chat/completions"
 
 
 class OrchestrateError(RuntimeError):
@@ -50,15 +51,20 @@ class OrchestrateAgent:
     """Agent under test: the deployed gsa_ds_bls_agent in IBM watsonx Orchestrate.
 
     Authenticates via IAM token exchange (IBM_CLOUD_API_KEY → bearer token),
-    then POSTs questions to the watsonx.ai deployments chat endpoint.
+    then POSTs questions to the Orchestrate chat completions endpoint.
     Tokens are cached and re-used until they have fewer than 60 seconds left,
     at which point a fresh token is fetched automatically.
+
+    Required env vars:
+        ORCHESTRATE_BASE_URL   e.g. https://ca-tor.watson-orchestrate.cloud.ibm.com
+        ORCHESTRATE_AGENT_ID   UUID of the deployed agent (from Orchestrate UI)
+        IBM_CLOUD_API_KEY      IBM Cloud API key for IAM token exchange
     """
 
     def __init__(self, system_prompt_version: str = "v1") -> None:
         load_dotenv()
         self._base_url: str = os.environ["ORCHESTRATE_BASE_URL"].rstrip("/")
-        self._deployment_id: str = os.environ["ORCHESTRATE_DEPLOYMENT_ID"]
+        self._agent_id: str = os.environ["ORCHESTRATE_AGENT_ID"]
         self._api_key: str = os.environ["IBM_CLOUD_API_KEY"]
         self._system_prompt_version = system_prompt_version
         self._cached_token: str | None = None
@@ -112,11 +118,7 @@ class OrchestrateAgent:
                               Never includes the bearer token or API key.
         """
         token = await self._get_iam_token()
-        url = (
-            self._base_url
-            + _CHAT_PATH.format(deployment_id=self._deployment_id)
-            + f"?version={_CHAT_VERSION}"
-        )
+        url = self._base_url + _CHAT_PATH.format(agent_id=self._agent_id)
 
         payload: dict[str, Any] = {
             "messages": [{"role": "user", "content": query}],
@@ -140,14 +142,27 @@ class OrchestrateAgent:
         if resp.status_code in (401, 403):
             raise OrchestrateError(
                 f"Orchestrate returned HTTP {resp.status_code}. "
-                "Check ORCHESTRATE_DEPLOYMENT_ID and that the IAM key has access."
+                "Check ORCHESTRATE_AGENT_ID and that IBM_CLOUD_API_KEY has access."
             )
         if resp.status_code != 200:
             raise OrchestrateError(f"Orchestrate returned HTTP {resp.status_code}.")
 
         try:
             body = resp.json()
-            return body["choices"][0]["message"]["content"]
+            # Orchestrate chat completions response shape:
+            # {"choices": [{"message": {"content": [{"text": "...", ...}]}}], ...}
+            # Content may be a list of content blocks or a plain string.
+            content = body["choices"][0]["message"]["content"]
+            if isinstance(content, list):
+                # Extract text from the first text-type content block
+                for block in content:
+                    if isinstance(block, dict) and block.get("response_type") == "text":
+                        return block.get("text", "")
+                # Fallback: join all text values found
+                return " ".join(
+                    b.get("text", "") for b in content if isinstance(b, dict)
+                )
+            return str(content)
         except (KeyError, IndexError, ValueError) as exc:
             raise OrchestrateError(
                 f"Unexpected response shape from Orchestrate: {exc}"

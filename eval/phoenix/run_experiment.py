@@ -36,8 +36,8 @@ def _load_registry() -> dict:
 def _check_env() -> None:
     """Fail fast with clear messages if required env vars are missing."""
     required = {
-        "ORCHESTRATE_BASE_URL": "watsonx.ai regional base URL",
-        "ORCHESTRATE_DEPLOYMENT_ID": "Orchestrate deployment ID",
+        "ORCHESTRATE_BASE_URL": "Orchestrate instance base URL",
+        "ORCHESTRATE_AGENT_ID": "UUID of the deployed Orchestrate agent",
         "IBM_CLOUD_API_KEY": "IBM Cloud API key for IAM token exchange",
     }
     missing = {k: v for k, v in required.items() if not os.getenv(k)}
