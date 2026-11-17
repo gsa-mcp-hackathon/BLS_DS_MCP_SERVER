@@ -10,13 +10,12 @@ from __future__ import annotations
 
 import os
 
+import litellm
 from dotenv import load_dotenv
-from phoenix.evals import LLM, ClassificationEvaluator
 
 load_dotenv()
 
-_TEMPLATE = """
-You are evaluating an AI assistant that answers questions about Bureau of
+_TEMPLATE = """You are evaluating an AI assistant that answers questions about Bureau of
 Labor Statistics (BLS) time-series data.
 
 Question asked:
@@ -43,26 +42,9 @@ Rules:
 - If the agent provides additional correct context beyond the reference,
   still mark CORRECT.
 
-Return exactly one word: correct or incorrect.
-""".strip()
-
+Return exactly one word: correct or incorrect."""
 
 _DEFAULT_JUDGE = "meta-llama/llama-3-3-70b-instruct"
-
-
-def _make_llm() -> LLM:
-    """Return a Phoenix LLM wrapper reaching watsonx.ai via LiteLLM.
-
-    Credentials are read from env vars automatically:
-      WATSONX_API_KEY      IBM Cloud API key
-      WATSONX_URL          watsonx.ai regional endpoint
-      WATSONX_PROJECT_ID   watsonx.ai project ID
-    """
-    model_id = os.getenv("JUDGE_MODEL", _DEFAULT_JUDGE)
-    return LLM(
-        provider="litellm",
-        model=f"watsonx/{model_id}",
-    )
 
 
 def match_expected_response(
@@ -80,17 +62,20 @@ def match_expected_response(
     Returns:
         "correct" or "incorrect".
     """
-    evaluator = ClassificationEvaluator(
-        name="correctness",
-        llm=_make_llm(),
-        prompt_template=_TEMPLATE,
-        choices={"correct": 1, "incorrect": 0},
+    model_id = os.getenv("JUDGE_MODEL", _DEFAULT_JUDGE)
+    prompt = _TEMPLATE.format(
+        input=input.get("query", ""),
+        output=output,
+        reference=expected.get("responses", ""),
     )
-    result = evaluator.evaluate(
-        eval_input={
-            "input": input.get("query", ""),
-            "output": output,
-            "reference": expected.get("responses", ""),
-        }
+    response = litellm.completion(
+        model=f"watsonx/{model_id}",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=5,
+        temperature=0,
     )
-    return result[0].label
+    label = response.choices[0].message.content.strip().lower()
+    # Normalise to one of the two expected labels
+    if "incorrect" in label:
+        return "incorrect"
+    return "correct"

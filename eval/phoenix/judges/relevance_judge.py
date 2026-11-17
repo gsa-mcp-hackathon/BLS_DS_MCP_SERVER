@@ -12,13 +12,12 @@ from __future__ import annotations
 
 import os
 
+import litellm
 from dotenv import load_dotenv
-from phoenix.evals import LLM, ClassificationEvaluator
 
 load_dotenv()
 
-_TEMPLATE = """
-You are evaluating an AI assistant that answers questions about Bureau of
+_TEMPLATE = """You are evaluating an AI assistant that answers questions about Bureau of
 Labor Statistics (BLS) time-series data.
 
 IN-SCOPE topics (the agent should answer these):
@@ -56,26 +55,9 @@ Rules:
   were a BLS question (e.g. made up a prediction, gave investment advice),
   return out_of_scope.
 
-Return exactly one of: within_scope or out_of_scope.
-""".strip()
-
+Return exactly one of: within_scope or out_of_scope."""
 
 _DEFAULT_JUDGE = "meta-llama/llama-3-3-70b-instruct"
-
-
-def _make_llm() -> LLM:
-    """Return a Phoenix LLM wrapper reaching watsonx.ai via LiteLLM.
-
-    Credentials are read from env vars automatically:
-      WATSONX_API_KEY      IBM Cloud API key
-      WATSONX_URL          watsonx.ai regional endpoint
-      WATSONX_PROJECT_ID   watsonx.ai project ID
-    """
-    model_id = os.getenv("JUDGE_MODEL", _DEFAULT_JUDGE)
-    return LLM(
-        provider="litellm",
-        model=f"watsonx/{model_id}",
-    )
 
 
 def check_answer_scope(
@@ -91,16 +73,19 @@ def check_answer_scope(
     Returns:
         "within_scope" or "out_of_scope".
     """
-    evaluator = ClassificationEvaluator(
-        name="answer_scope",
-        llm=_make_llm(),
-        prompt_template=_TEMPLATE,
-        choices={"within_scope": 1, "out_of_scope": 0},
+    model_id = os.getenv("JUDGE_MODEL", _DEFAULT_JUDGE)
+    prompt = _TEMPLATE.format(
+        input=input.get("query", ""),
+        output=output,
     )
-    result = evaluator.evaluate(
-        eval_input={
-            "input": input.get("query", ""),
-            "output": output,
-        }
+    response = litellm.completion(
+        model=f"watsonx/{model_id}",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=5,
+        temperature=0,
     )
-    return result[0].label
+    label = response.choices[0].message.content.strip().lower()
+    # Normalise to one of the two expected labels
+    if "out_of_scope" in label or "out of scope" in label:
+        return "out_of_scope"
+    return "within_scope"
