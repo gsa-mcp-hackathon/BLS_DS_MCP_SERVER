@@ -122,6 +122,7 @@ class OrchestrateAgent:
 
         payload: dict[str, Any] = {
             "messages": [{"role": "user", "content": query}],
+            "stream": False,
         }
 
         try:
