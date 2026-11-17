@@ -11,8 +11,7 @@ from __future__ import annotations
 import os
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
-from phoenix.evals import ClassificationEvaluator
+from phoenix.evals import LLM, ClassificationEvaluator
 
 load_dotenv()
 
@@ -48,12 +47,21 @@ Return exactly one word: correct or incorrect.
 """.strip()
 
 
-def _make_llm() -> ChatOpenAI:
-    return ChatOpenAI(
-        model=os.getenv("JUDGE_MODEL", "claude_4_6_sonnet"),
-        api_key=os.getenv("USAI_API_KEY", ""),
-        base_url=os.getenv("USAI_BASE_URL", ""),
-        temperature=0.0,
+_DEFAULT_JUDGE = "meta-llama/llama-3-3-70b-instruct"
+
+
+def _make_llm() -> LLM:
+    """Return a Phoenix LLM wrapper reaching watsonx.ai via LiteLLM.
+
+    Credentials are read from env vars automatically:
+      WATSONX_API_KEY      IBM Cloud API key
+      WATSONX_URL          watsonx.ai regional endpoint
+      WATSONX_PROJECT_ID   watsonx.ai project ID
+    """
+    model_id = os.getenv("JUDGE_MODEL", _DEFAULT_JUDGE)
+    return LLM(
+        provider="litellm",
+        model=f"watsonx/{model_id}",
     )
 
 

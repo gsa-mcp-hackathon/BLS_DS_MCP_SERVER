@@ -27,12 +27,13 @@ packages = ["src/example_server"]
 # Dev + eval-only deps. Install with `uv sync --group dev`.
 # Includes the Phoenix evaluation harness stack (eval/phoenix/).
 dev = [
-    "arize-phoenix>=8.0.0",
+    "arize-phoenix>=18.0.0",
     "arize-phoenix-client>=2.13.0",
     "arize-phoenix-evals>=3.1.1",
     "ipykernel>=7.4.0",
     "langchain>=0.3.0",
     "langchain-openai>=0.3.0",
+    "litellm>=1.0.0",
     "nbconvert>=7.17.2",
     "openinference-instrumentation-langchain>=0.1.67",
     "opentelemetry-exporter-otlp>=1.43.0",
