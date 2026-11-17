@@ -133,10 +133,10 @@ def main() -> None:
     agent.initialize()
 
     # ── Load Phoenix dataset ───────────────────────────────────────────────
-    client = Client(endpoint=args.phoenix_endpoint)
+    client = Client(base_url=args.phoenix_endpoint)
     try:
         dataset = client.datasets.get_dataset(
-            name=args.dataset_name,
+            dataset=args.dataset_name,
             version_id=args.dataset_version_id,
         )
     except Exception as exc:
@@ -159,9 +159,10 @@ def main() -> None:
         f"-{slug}" if slug else ""
     )
 
+    n_examples = len(dataset)
     print(
         f"\nRunning experiment:\n"
-        f"  Dataset:        {args.dataset_name} ({len(dataset)} questions)\n"
+        f"  Dataset:        {args.dataset_name} ({n_examples} questions)\n"
         f"  Prompt version: {args.system_prompt_version}\n"
         f"  Experiment:     {experiment_name}\n"
         f"  Phoenix:        {args.phoenix_endpoint}\n"
@@ -179,7 +180,7 @@ def main() -> None:
     )
 
     # ── Print summary ──────────────────────────────────────────────────────
-    print(f"\nExperiment complete: {experiment.name}")
+    print(f"\nExperiment complete: {experiment['experiment_id']}")
     print(f"View results at: {args.phoenix_endpoint}/projects/{args.project_name}")
 
 

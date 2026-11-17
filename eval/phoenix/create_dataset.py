@@ -115,10 +115,10 @@ def cmd_upload(args: argparse.Namespace) -> None:
         from phoenix.client import Client
 
         df = pd.read_csv(csv_path)
-        client = Client(endpoint=endpoint)
-        dataset = client.datasets.upload(
+        client = Client(base_url=endpoint)
+        dataset = client.datasets.create_dataset(
+            name=phoenix_name,
             dataframe=df,
-            dataset_name=phoenix_name,
             input_keys=input_keys,
             output_keys=output_keys,
         )

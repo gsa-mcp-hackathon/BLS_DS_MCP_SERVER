@@ -23,9 +23,9 @@ import time
 from typing import Any
 
 import httpx
-import phoenix as px
 from dotenv import load_dotenv
 from openinference.instrumentation.langchain import LangChainInstrumentor
+from phoenix.otel import register as phoenix_register
 
 logger = logging.getLogger(__name__)
 
@@ -183,7 +183,7 @@ class OrchestrateAgent:
         endpoint = os.getenv("PHOENIX_ENDPOINT", "http://localhost:6006")
         otlp_endpoint = endpoint.rstrip("/") + "/v1/traces"
 
-        tracer_provider = px.otel.register(
+        tracer_provider = phoenix_register(
             project_name=project_name,
             endpoint=otlp_endpoint,
         )
