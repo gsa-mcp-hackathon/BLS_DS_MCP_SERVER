@@ -84,7 +84,8 @@ def main() -> None:
     else:
         # Most recent is first in the list
         exp_id = experiments[0]["id"]
-        print(f"Using most recent experiment: {experiments[0].get('name')} ({exp_id})\n")
+        exp_name = experiments[0].get("name")
+        print(f"Using most recent experiment: {exp_name} ({exp_id})\n")
 
     exp = client.experiments.get_experiment(experiment_id=exp_id)
     rows = build_table(exp, examples)
@@ -110,7 +111,7 @@ def main() -> None:
         print("No rows match the filter.")
         return
 
-    print(f"{'#':<4} {'Correctness':<13} {'Scope':<14} {'Question / Output (truncated)'}")
+    print(f"{'#':<4} {'Correctness':<13} {'Scope':<14} {'Question (truncated)'}")
     print("-" * 100)
     for i, r in enumerate(rows, 1):
         preview = (r["question"] or r["agent_response"])[:70].replace("\n", " ")
