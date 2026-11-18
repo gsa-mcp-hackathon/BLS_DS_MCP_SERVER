@@ -20,6 +20,7 @@ import asyncio
 import logging
 import os
 import time
+from pathlib import Path
 from typing import Any
 
 import httpx
@@ -38,6 +39,21 @@ _IAM_TOKEN_URL = "https://iam.cloud.ibm.com/identity/token"
 # Full URL: {ORCHESTRATE_BASE_URL}/v1/orchestrate/{agent_id}/chat/completions
 # e.g. https://ca-tor.watson-orchestrate.cloud.ibm.com/v1/orchestrate/{id}/chat/completions
 _CHAT_PATH = "/v1/orchestrate/{agent_id}/chat/completions"
+
+_PROMPTS_DIR = Path(__file__).parent / "prompts"
+
+
+def _load_system_prompt(version: str) -> str:
+    """Load the system prompt text for *version* from the prompts directory.
+
+    Returns the prompt string, or an empty string if the file is not found
+    (so the agent still works without a system prompt during testing).
+    """
+    prompt_path = _PROMPTS_DIR / f"system_prompt_{version}.txt"
+    if not prompt_path.exists():
+        logger.warning("System prompt file not found: %s", prompt_path)
+        return ""
+    return prompt_path.read_text(encoding="utf-8").strip()
 
 
 class OrchestrateError(RuntimeError):
@@ -67,6 +83,7 @@ class OrchestrateAgent:
         self._agent_id: str = os.environ["ORCHESTRATE_AGENT_ID"]
         self._api_key: str = os.environ["IBM_CLOUD_API_KEY"]
         self._system_prompt_version = system_prompt_version
+        self._system_prompt: str = _load_system_prompt(system_prompt_version)
         self._cached_token: str | None = None
         self._token_expires_at: float = 0.0
 
@@ -120,8 +137,13 @@ class OrchestrateAgent:
         token = await self._get_iam_token()
         url = self._base_url + _CHAT_PATH.format(agent_id=self._agent_id)
 
+        messages: list[dict[str, str]] = []
+        if self._system_prompt:
+            messages.append({"role": "system", "content": self._system_prompt})
+        messages.append({"role": "user", "content": query})
+
         payload: dict[str, Any] = {
-            "messages": [{"role": "user", "content": query}],
+            "messages": messages,
             "stream": False,
         }
 

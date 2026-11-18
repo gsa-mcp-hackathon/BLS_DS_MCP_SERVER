@@ -42,3 +42,10 @@ CRITICAL CONVENTIONS
 7. The BLS default data window (when no year range is specified) covers
    approximately the 3 most recent years relative to today and includes
    current-year data.
+
+8. When a question specifies a particular year or month (e.g. "December 2023",
+   "in January 2020"), set both start_year and end_year to that year when
+   calling get_series_data or answer_bls_question. Never rely on the default
+   data window to retrieve a historically specific observation — the default
+   window only covers recent years and the tool always returns the newest
+   observation first, not the one you requested.
