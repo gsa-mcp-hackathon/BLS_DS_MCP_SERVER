@@ -438,3 +438,107 @@ def test_apply_safe_defaults_no_op_when_sa_explicit() -> None:
     # Explicit SA="S" in intent overrides the default
     assert len(resolved) == 1
     assert resolved[0].series_id == "CUSR0000SA0"
+
+
+# ---------------------------------------------------------------------------
+# Defect fixes — regression tests
+# ---------------------------------------------------------------------------
+
+
+def test_generate_clarification_ppi_query_does_not_produce_cpi_text() -> None:
+    """Defect 1 fix: 'price' in query must not trigger the CPI clarification branch.
+
+    Before the fix, is_cpi was True whenever 'price' appeared in the query,
+    so a producer-price question returned CPI copy.  After the fix only
+    'consumer price', 'cpi', or 'inflation' in the query (or a CPI concept in
+    the candidates) activates the CPI branch.
+    """
+    from example_server.ambiguity import generate_clarification
+
+    intent = QueryIntent(
+        original_query="suggest a series for tracking u.s. producer prices",
+        normalized_query="suggest a series for tracking u.s. producer prices",
+    )
+    # Simulate WP candidates returned by search_flagship for the PPI query
+    candidates = [
+        _make_candidate("WPSFD4", "ppi_final_demand_sa", "index", seasonal="S"),
+        _make_candidate("WPUFD4", "ppi_final_demand_nsa", "index", seasonal="U"),
+    ]
+    q = generate_clarification(intent, candidates, ["measure_type"])
+    # Must NOT contain CPI-specific language
+    assert "CPI" not in q
+    assert "1982" not in q  # CPI base-period text
+    # Should still be a valid clarification string
+    assert isinstance(q, str)
+    assert len(q) > 5
+
+
+def test_generate_clarification_concept_prioritised_over_measure_type() -> None:
+    """Defect 2 fix: concept conflict is addressed before measure_type conflict.
+
+    When both 'concept' and 'measure_type' are unresolved, the clarification
+    must ask which concept the user wants, not which measure type — because
+    resolving the concept (e.g. CPI vs. PPI) also resolves the measure type.
+    """
+    from example_server.ambiguity import generate_clarification
+
+    intent = QueryIntent(
+        original_query="suggest a series for tracking u.s. producer prices",
+        normalized_query="suggest a series for tracking u.s. producer prices",
+    )
+    # Mixed CPI + WP candidates — the situation that triggered the bug
+    candidates = [
+        _make_candidate("CUUR0000SA0", "cpi_all_items", "index", seasonal="U"),
+        _make_candidate("WPSFD4", "ppi_final_demand_sa", "index", seasonal="S"),
+    ]
+    q = generate_clarification(intent, candidates, ["concept", "measure_type"])
+    # The concept branch fires first and must NOT return CPI-centric text
+    assert "CPI" not in q or "producer" in q.lower() or "ppi" in q.lower()
+    # The concept branch returns a "which of these" style question
+    assert isinstance(q, str)
+    assert len(q) > 5
+
+
+def test_is_cpi_true_for_consumer_price_query() -> None:
+    """Defect 1: 'consumer price' in query still activates the CPI branch."""
+    from example_server.ambiguity import generate_clarification
+
+    intent = QueryIntent(
+        original_query="what is the consumer price index",
+        normalized_query="what is the consumer price index",
+    )
+    candidates = [
+        _make_candidate("CUUR0000SA0", "cpi_all_items", "index", seasonal="U"),
+    ]
+    q = generate_clarification(intent, candidates, ["measure_type"])
+    assert "CPI" in q or "inflation" in q.lower() or "percent" in q.lower()
+
+
+def test_is_cpi_true_for_inflation_query() -> None:
+    """Defect 1: 'inflation' in query still activates the CPI branch."""
+    from example_server.ambiguity import generate_clarification
+
+    intent = QueryIntent(
+        original_query="what is the inflation",
+        normalized_query="what is the inflation",
+    )
+    candidates = [
+        _make_candidate("CUUR0000SA0", "cpi_all_items", "index", seasonal="U"),
+    ]
+    q = generate_clarification(intent, candidates, ["measure_type"])
+    assert "CPI" in q or "inflation" in q.lower() or "percent" in q.lower()
+
+
+def test_is_cpi_true_when_candidate_has_cpi_concept() -> None:
+    """Defect 1: candidate with cpi_* concept still activates the CPI branch."""
+    from example_server.ambiguity import generate_clarification
+
+    intent = QueryIntent(
+        original_query="track prices",  # no 'cpi' / 'consumer price' / 'inflation'
+        normalized_query="track prices",
+    )
+    candidates = [
+        _make_candidate("CUUR0000SA0", "cpi_all_items", "index", seasonal="U"),
+    ]
+    q = generate_clarification(intent, candidates, ["measure_type"])
+    assert "CPI" in q or "inflation" in q.lower() or "percent" in q.lower()

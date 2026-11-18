@@ -499,12 +499,15 @@ def generate_clarification(
 
     ql = intent.normalized_query
 
-    # Priority order for clarification
+    # Priority order for clarification.
+    # "concept" comes before "measure_type": a cross-survey concept conflict
+    # (e.g. CPI vs. PPI both matching "price") must be resolved first so that
+    # the measure_type branch never fires hardcoded CPI copy for PPI queries.
     priority = [
         "stock_flow",
         "household_vs_establishment",
-        "measure_type",
         "concept",
+        "measure_type",
         "comparison_period",
         "geography",
     ]
@@ -535,12 +538,14 @@ def generate_clarification(
             )
 
         if dim == "measure_type":
-            # Check whether this is a CPI/inflation context
+            # Check whether this is a CPI/inflation context.
+            # Deliberately excludes the bare word "price" so that PPI and
+            # import-price queries are not misrouted to CPI clarification copy.
             is_cpi = (
                 any(c.concept.startswith("cpi") for c in eligible_candidates)
                 or "inflation" in ql
                 or "cpi" in ql
-                or "price" in ql
+                or "consumer price" in ql
             )
 
             if is_cpi:
@@ -563,6 +568,23 @@ def generate_clarification(
             )
 
         if dim == "concept":
+            # When the query is clearly about consumer inflation (CPI context),
+            # the ambiguity is measure form (index vs. percent change), not which
+            # economic concept.  Emit the CPI-specific copy so the user gets a
+            # meaningful choice rather than a noisy concept list.
+            is_cpi = (
+                any(c.concept.startswith("cpi") for c in eligible_candidates)
+                or "inflation" in ql
+                or "cpi" in ql
+                or "consumer price" in ql
+            )
+            if is_cpi and "percent_change" in (intent.requested_measure_type or ""):
+                return (
+                    "By 'inflation,' do you want:\n"
+                    "(a) the CPI index level (e.g. 314.2 on a 1982–84=100 scale),\n"
+                    "(b) the one-month percent change in the CPI, or\n"
+                    "(c) the 12-month percent change in the CPI (year-over-year)?"
+                )
             opts = _describe_concept_options(eligible_candidates)
             if opts:
                 return "Which of these did you mean?\n" + "\n".join(
