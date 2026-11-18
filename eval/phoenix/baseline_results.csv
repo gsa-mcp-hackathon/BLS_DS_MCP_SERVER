@@ -1,0 +1,7 @@
+run,experiment_id,n_questions,n_correct,correctness_rate,n_within_scope,scope_adherence_rate,avg_latency_s,p95_latency_s,avg_tool_calls,error
+1,RXhwZXJpbWVudDoxNA==,30,10,0.3333,28,0.9333,3.89,8.13,N/A,False
+2,RXhwZXJpbWVudDoxNQ==,30,12,0.4000,30,1.0000,3.78,9.30,N/A,False
+3,RXhwZXJpbWVudDoxNg==,30,13,0.4333,29,0.9667,3.50,8.29,N/A,False
+4,RXhwZXJpbWVudDoxNw==,30,10,0.3333,28,0.9333,3.23,8.76,N/A,False
+5,RXhwZXJpbWVudDoxOA==,30,10,0.3333,30,1.0000,3.66,7.77,N/A,False
+AVERAGE,,30,11,0.3667,29,0.9667,3.61,8.45,N/A,
