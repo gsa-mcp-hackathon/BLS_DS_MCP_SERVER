@@ -1,9 +1,9 @@
 """run_baseline.py — run a no-tool baseline experiment against the BLS dataset.
 
-Sends each question directly to a plain LLM (no tools, no Orchestrate) and
-scores the answers with the same two judges used in run_experiment.py.  The
-resulting experiment appears in Phoenix alongside the tool-augmented run so
-you can compare correctness lift directly.
+Sends each question to the gsa_ds_bls_baseline_agent in Orchestrate (same
+model as the tool-augmented agent but with no tools attached).  The resulting
+experiment appears in Phoenix alongside the tool-augmented run so you can
+compare correctness lift directly.
 
 Usage:
     uv run run_baseline.py --dataset-name bls-eval-0
@@ -11,16 +11,20 @@ Usage:
         --experiment-description "no-tool baseline"
 
 Run from eval/phoenix/.
+
+Required env vars (in addition to the standard Orchestrate vars):
+    ORCHESTRATE_BASELINE_AGENT_ID   UUID of the gsa_ds_bls_baseline_agent
+                                    (05ae1efe-2067-4aae-a6f7-fd111a7517d5)
 """
 
 from __future__ import annotations
 
 import argparse
+import asyncio
 import os
 import sys
 from pathlib import Path
 
-import litellm
 import yaml
 from dotenv import load_dotenv
 
@@ -29,13 +33,8 @@ load_dotenv()
 _HERE = Path(__file__).parent
 _DATASETS_YAML = _HERE / "datasets.yaml"
 
-_DEFAULT_MODEL = "meta-llama/llama-3-3-70b-instruct"
-
-_SYSTEM_PROMPT = (
-    "You are a helpful assistant that answers questions about U.S. Bureau of "
-    "Labor Statistics (BLS) data. Answer as accurately as you can from your "
-    "training knowledge. If you do not know the answer, say so."
-)
+# UUID of the gsa_ds_bls_baseline_agent created in Orchestrate
+_BASELINE_AGENT_ID = "05ae1efe-2067-4aae-a6f7-fd111a7517d5"
 
 
 def _load_registry() -> dict:
@@ -43,23 +42,21 @@ def _load_registry() -> dict:
         return yaml.safe_load(f)["datasets"]
 
 
-def _make_task(model_id: str):
-    """Return a Phoenix-compatible sync task that calls the LLM with no tools."""
+def _make_task():
+    """Return a Phoenix-compatible sync task using the no-tool Orchestrate agent."""
+    from agent import OrchestrateAgent, OrchestrateError
+
+    # Override ORCHESTRATE_AGENT_ID with the baseline agent for this run
+    baseline_id = os.getenv("ORCHESTRATE_BASELINE_AGENT_ID", _BASELINE_AGENT_ID)
+    os.environ["ORCHESTRATE_AGENT_ID"] = baseline_id
+
+    agent = OrchestrateAgent()
 
     def task(example) -> str:
         query = example.input["query"]
         try:
-            response = litellm.completion(
-                model=f"watsonx/{model_id}",
-                messages=[
-                    {"role": "system", "content": _SYSTEM_PROMPT},
-                    {"role": "user", "content": query},
-                ],
-                max_tokens=256,
-                temperature=0,
-            )
-            return response.choices[0].message.content or ""
-        except Exception as exc:  # noqa: BLE001
+            return asyncio.run(agent.run(query))
+        except OrchestrateError as exc:
             return f"[BaselineError] {exc}"
 
     return task
@@ -71,10 +68,13 @@ def main() -> None:
     )
     parser.add_argument("--dataset-name", required=True, metavar="NAME")
     parser.add_argument(
-        "--baseline-model",
-        default=os.getenv("JUDGE_MODEL", _DEFAULT_MODEL),
-        metavar="MODEL_ID",
-        help=f"watsonx.ai model ID for the baseline LLM. Default: {_DEFAULT_MODEL}",
+        "--baseline-agent-id",
+        default=os.getenv("ORCHESTRATE_BASELINE_AGENT_ID", _BASELINE_AGENT_ID),
+        metavar="UUID",
+        help=(
+            "Orchestrate agent ID for the no-tool baseline. "
+            f"Default: {_BASELINE_AGENT_ID}"
+        ),
     )
     parser.add_argument(
         "--project-name",
@@ -114,6 +114,7 @@ def main() -> None:
 
     os.environ["PHOENIX_PROJECT_NAME"] = args.project_name
     os.environ["PHOENIX_ENDPOINT"] = args.phoenix_endpoint
+    os.environ["ORCHESTRATE_BASELINE_AGENT_ID"] = args.baseline_agent_id
 
     client = Client(base_url=args.phoenix_endpoint)
     try:
@@ -141,13 +142,13 @@ def main() -> None:
     n_examples = len(dataset)
     print(
         f"\nRunning no-tool baseline experiment:\n"
-        f"  Dataset:  {args.dataset_name} ({n_examples} questions)\n"
-        f"  Model:    {args.baseline_model}\n"
+        f"  Dataset:    {args.dataset_name} ({n_examples} questions)\n"
+        f"  Baseline agent: {args.baseline_agent_id}\n"
         f"  Experiment: {experiment_name}\n"
-        f"  Phoenix:  {args.phoenix_endpoint}\n"
+        f"  Phoenix:    {args.phoenix_endpoint}\n"
     )
 
-    task = _make_task(args.baseline_model)
+    task = _make_task()
 
     experiment = client.experiments.run_experiment(
         dataset=dataset,
