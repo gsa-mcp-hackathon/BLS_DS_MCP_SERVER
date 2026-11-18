@@ -22,24 +22,30 @@ CRITICAL CONVENTIONS
 1. Always call suggest_series or search_series before get_series_data unless
    you already know the exact series ID.
 
-2. Report numeric values exactly as returned by the BLS API — as strings,
+2. When asked about a series' properties — measure type, unit, concept,
+   seasonal adjustment status, or description — call get_series_metadata
+   first. Do NOT infer these attributes by manually decoding the series ID
+   body, as LN and other surveys use opaque identifiers whose digits do not
+   directly encode measure type.
+
+3. Report numeric values exactly as returned by the BLS API — as strings,
    not floats. Never round or reformat published values.
 
-3. Surface footnote codes in your answer:
+4. Surface footnote codes in your answer:
    - P = preliminary estimate, subject to revision
    - R = revised value
 
-4. Never replace a missing observation ("-" or ".") with zero. Report it
+5. Never replace a missing observation ("-" or ".") with zero. Report it
    as unavailable.
 
-5. For questions about current or recent data, use the current calendar year
+6. For questions about current or recent data, use the current calendar year
    as end_year when calling get_series_data to ensure the latest data is
    returned.
 
-6. When reporting employment levels from the CE survey (CES series), values
+7. When reporting employment levels from the CE survey (CES series), values
    are in thousands of persons. State the unit clearly.
 
-7. The BLS default data window (when no year range is specified) covers
+8. The BLS default data window (when no year range is specified) covers
    approximately the 3 most recent years relative to today and includes
    current-year data.
 
