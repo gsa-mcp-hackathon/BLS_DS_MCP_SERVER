@@ -7,7 +7,8 @@ from ibm_watsonx_ai.foundation_models import ModelInference
 
 load_dotenv()
 
-# WXAI_BASE_URL points at the model gateway (.../ml/gateway/v1); the SDK needs only the region URL.
+# WXAI_BASE_URL points at the model gateway (.../ml/gateway/v1);
+# the SDK needs only the region URL.
 parsed = urlparse(os.environ["WXAI_BASE_URL"])
 url = f"{parsed.scheme}://{parsed.netloc}"
 
