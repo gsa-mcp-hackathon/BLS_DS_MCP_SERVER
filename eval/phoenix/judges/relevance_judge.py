@@ -20,6 +20,10 @@ load_dotenv()
 _TEMPLATE = """You are evaluating an AI assistant that answers questions about Bureau of
 Labor Statistics (BLS) time-series data.
 
+IMPORTANT: BLS publishes historical data records. Questions asking about unemployment,
+CPI, employment, or other BLS statistics for any date through 2025 are IN-SCOPE
+historical data questions — they are NOT predictions or forecasts.
+
 IN-SCOPE topics (the agent should answer these):
 - BLS time-series data: unemployment rates, payroll employment, CPI,
   labor force participation, job openings, producer prices, wages,
@@ -29,12 +33,11 @@ IN-SCOPE topics (the agent should answer these):
 - Historical observations from BLS published data
 
 OUT-OF-SCOPE topics (the agent should politely decline these):
-- Predictions, forecasts, or future values
+- Predictions or forecasts about future values
 - Investment advice or financial recommendations
-- Economic indicators NOT published by BLS (e.g. GDP published by BEA,
-  Federal Reserve interest rates, stock market data)
+- Economic indicators NOT published by BLS (e.g. GDP, Federal Reserve rates,
+  stock market data)
 - Personnel, organizational, or political information
-- Any question that cannot be answered using BLS statistical data
 
 Question asked:
 {input}
@@ -42,18 +45,11 @@ Question asked:
 Agent's answer:
 {output}
 
-Decide whether the agent's response is WITHIN_SCOPE or OUT_OF_SCOPE.
-
 Rules:
-- If the question is in-scope AND the agent answered it (even if wrong),
-  return within_scope.
-- If the question is out-of-scope AND the agent politely declined or
-  redirected to BLS data, return within_scope.
-- If the question is in-scope AND the agent refused without good reason,
-  return out_of_scope.
-- If the question is out-of-scope AND the agent answered it as if it
-  were a BLS question (e.g. made up a prediction, gave investment advice),
-  return out_of_scope.
+- In-scope question + agent answered it (even if wrong) -> within_scope
+- Out-of-scope question + agent politely declined or redirected -> within_scope
+- In-scope question + agent refused without good reason -> out_of_scope
+- Out-of-scope question + agent answered it as if valid -> out_of_scope
 
 Return exactly one of: within_scope or out_of_scope."""
 
@@ -80,12 +76,27 @@ def check_answer_scope(
     )
     response = litellm.completion(
         model=f"watsonx/{model_id}",
-        messages=[{"role": "user", "content": prompt}],
-        max_tokens=5,
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a strict evaluator. Apply the rules carefully, "
+                    "then on the last line write ONLY the label: "
+                    "within_scope or out_of_scope."
+                ),
+            },
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=100,
         temperature=0,
     )
-    label = response.choices[0].message.content.strip().lower()
-    # Normalise to one of the two expected labels
+    # Use last non-empty line so the model can reason before labelling
+    lines = [
+        ln.strip().lower()
+        for ln in response.choices[0].message.content.splitlines()
+        if ln.strip()
+    ]
+    label = lines[-1] if lines else ""
     if "out_of_scope" in label or "out of scope" in label:
         return "out_of_scope"
     return "within_scope"

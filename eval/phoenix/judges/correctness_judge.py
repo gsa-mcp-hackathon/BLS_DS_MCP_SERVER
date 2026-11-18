@@ -18,6 +18,9 @@ load_dotenv()
 _TEMPLATE = """You are evaluating an AI assistant that answers questions about Bureau of
 Labor Statistics (BLS) time-series data.
 
+IMPORTANT: BLS publishes historical data records. All questions about dates through
+2025 refer to published historical data.
+
 Question asked:
 {input}
 
@@ -27,20 +30,19 @@ Agent's answer:
 Expected answer (ground truth):
 {reference}
 
-Decide whether the agent's answer is CORRECT or INCORRECT.
-
 Rules:
-- A numeric value is correct if it matches the reference number, even if
-  the agent includes units, percent signs, or surrounding context
-  (e.g. "3.7 percent" is correct when the reference is "3.7").
-- A series ID is correct if it matches exactly (case-insensitive).
-- A survey name is correct if the key identifying words match
-  (e.g. "Current Employment Statistics" matches "CES").
-- "Yes" / "No" answers are correct only if they match the reference.
-- If the agent refuses to answer or says the data is unavailable when
-  the reference provides a concrete answer, mark INCORRECT.
-- If the agent provides additional correct context beyond the reference,
-  still mark CORRECT.
+- Numeric: correct if the number matches the reference, regardless of units or
+  surrounding context ("3.7 percent" is correct when reference is "3.7").
+- Series ID: correct if it matches exactly (case-insensitive).
+- Description / name: correct if the core identifying words match — extra
+  qualifiers ("seasonally adjusted"), abbreviations in parentheses, or minor
+  wording differences do NOT make an answer incorrect
+  ("Current Employment Statistics" is correct when reference is
+  "Current Employment Statistics (CES)", and vice-versa).
+- Yes / No: correct only if they match the reference.
+- If the agent refuses to answer when the reference provides a concrete answer,
+  mark incorrect.
+- If the agent gives additional correct context beyond the reference, mark correct.
 
 Return exactly one word: correct or incorrect."""
 
@@ -70,12 +72,27 @@ def match_expected_response(
     )
     response = litellm.completion(
         model=f"watsonx/{model_id}",
-        messages=[{"role": "user", "content": prompt}],
-        max_tokens=5,
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a strict evaluator. Apply the rules carefully, "
+                    "then on the last line write ONLY the label: "
+                    "correct or incorrect."
+                ),
+            },
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=100,
         temperature=0,
     )
-    label = response.choices[0].message.content.strip().lower()
-    # Normalise to one of the two expected labels
+    # Use last non-empty line so the model can reason before labelling
+    lines = [
+        ln.strip().lower()
+        for ln in response.choices[0].message.content.splitlines()
+        if ln.strip()
+    ]
+    label = lines[-1] if lines else ""
     if "incorrect" in label:
         return "incorrect"
     return "correct"
