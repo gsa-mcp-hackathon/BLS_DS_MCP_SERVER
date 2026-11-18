@@ -22,6 +22,7 @@ import csv
 import os
 import statistics
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml
@@ -114,14 +115,16 @@ def _extract_metrics(exp: dict, run_index: int) -> dict:
         scope = scores.get("check_answer_scope", "")
         rows.append({"correctness": correctness, "scope": scope})
 
-        # Latency — present when Phoenix records start_time / end_time on task runs
+        # Latency from Phoenix ISO 8601 start_time / end_time fields
         start = tr.get("start_time")
         end = tr.get("end_time")
         if start is not None and end is not None:
             try:
-                latencies.append(float(end) - float(start))
+                t0 = datetime.fromisoformat(str(start)).replace(tzinfo=timezone.utc)
+                t1 = datetime.fromisoformat(str(end)).replace(tzinfo=timezone.utc)
+                latencies.append((t1 - t0).total_seconds())
             except (TypeError, ValueError):
-                pass  # non-numeric timestamps — skip silently
+                pass  # unparseable timestamp — skip silently
 
     n_questions = len(rows)
     n_correct = sum(1 for r in rows if r["correctness"] == "correct")
