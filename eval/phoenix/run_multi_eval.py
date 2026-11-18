@@ -167,9 +167,15 @@ def _build_average_row(successful: list[dict]) -> dict:
     }
 
     if not successful:
-        for key in ("n_questions", "n_correct", "correctness_rate",
-                    "n_within_scope", "scope_adherence_rate",
-                    "avg_latency_s", "p95_latency_s"):
+        for key in (
+            "n_questions",
+            "n_correct",
+            "correctness_rate",
+            "n_within_scope",
+            "scope_adherence_rate",
+            "avg_latency_s",
+            "p95_latency_s",
+        ):
             avg[key] = "N/A"
         return avg
 
@@ -178,9 +184,7 @@ def _build_average_row(successful: list[dict]) -> dict:
     avg["n_within_scope"] = round(
         statistics.mean(r["n_within_scope"] for r in successful)
     )
-    avg["correctness_rate"] = statistics.mean(
-        r["correctness_rate"] for r in successful
-    )
+    avg["correctness_rate"] = statistics.mean(r["correctness_rate"] for r in successful)
     avg["scope_adherence_rate"] = statistics.mean(
         r["scope_adherence_rate"] for r in successful
     )
@@ -392,19 +396,21 @@ def main() -> None:
 
         except Exception as exc:  # noqa: BLE001
             print(f"  WARNING: run {i} failed — {exc}")
-            results.append({
-                "run": i,
-                "experiment_id": "",
-                "n_questions": "",
-                "n_correct": "",
-                "correctness_rate": "",
-                "n_within_scope": "",
-                "scope_adherence_rate": "",
-                "avg_latency_s": "",
-                "p95_latency_s": "",
-                "avg_tool_calls": "N/A",
-                "error": True,
-            })
+            results.append(
+                {
+                    "run": i,
+                    "experiment_id": "",
+                    "n_questions": "",
+                    "n_correct": "",
+                    "correctness_rate": "",
+                    "n_within_scope": "",
+                    "scope_adherence_rate": "",
+                    "avg_latency_s": "",
+                    "p95_latency_s": "",
+                    "avg_tool_calls": "N/A",
+                    "error": True,
+                }
+            )
 
     # ── Aggregate and write CSV ────────────────────────────────────────────
     successful = [r for r in results if not r["error"]]
