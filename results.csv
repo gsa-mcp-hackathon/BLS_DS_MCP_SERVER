@@ -1,0 +1,319 @@
+question,expected,agent_response,correctness,scope
+Can you give me the name of the current U.S. Secretary of Labor?,Personnel information is outside the scope of BLS statistical data,The current U.S. Secretary of Labor is **Marty Walsh**.,incorrect,out_of_scope
+What is the GDP of the United States?,GDP is not a BLS metric; it is published by the Bureau of Economic Analysis,"I’m sorry, but the U.S. Gross Domestic Product (GDP) is not a statistic that the Bureau of Labor Statistics (BLS) publishes. GDP data is produced by the U.S. Bureau of Economic Analysis (BEA) instead. If you have any other questions about BLS data—such as employment, unemployment, wages, consumer prices, or other labor‑related statistics—I’d be happy to help!",correct,within_scope
+Should I invest in stocks based on the latest CPI reading?,I cannot provide investment advice,"I’m not able to provide investment or financial advice. However, I can help you retrieve the latest Consumer Price Index (CPI) data from the U.S. Bureau of Labor Statistics if you’d like to see the numbers yourself. Let me know if you’d like me to pull that information for you.",correct,within_scope
+What will the unemployment rate be next year?,I cannot predict future values; BLS only publishes historical data,"I’m sorry, but I can’t provide forecasts or predictions for future BLS statistics. I can retrieve the most recent unemployment‑rate data that has been published by the U.S. Bureau of Labor Statistics, but projecting what the rate will be next year is outside the scope of the available BLS data and tools. Let me know if you’d like the latest observed unemployment‑rate figures or any other historical information.",correct,within_scope
+What was the U.S. unemployment rate in December 2019?,3.6,"**U.S. unemployment rate (U‑3, seasonally adjusted)**  
+*Series ID: **LNS14000000***  
+
+| Year | Month (period) | Unemployment rate (%) |
+|------|----------------|-----------------------|
+| 2019 | December (M12) | **3.9** |
+
+**Source:** U.S. Bureau of Labor Statistics (Current Population Survey – Labor Force Statistics)  
+
+*The value is seasonally adjusted, as is standard for this series.*",incorrect,within_scope
+What were total nonfarm payrolls in January 2023?,154776,"**Total non‑farm payrolls (seasonally adjusted) – January 2023**
+
+| Year | Month   | Payrolls (thousands of persons) |
+|------|---------|---------------------------------|
+| 2023 | January | **154,776** |
+
+*Series ID:* **CES0000000001** – Current Employment Statistics (CES) – Seasonally Adjusted, Total non‑farm payrolls.  
+
+Source: U.S. Bureau of Labor Statistics.",correct,within_scope
+What was the CPI for All Urban Consumers in February 2020?,258.678,"The system needs clarification about which specific CPI measure you want (All Items, Food, Energy, or Core). Please let me know which one you’re interested in so I can retrieve the exact February 2020 value.",incorrect,within_scope
+What was the U.S. unemployment rate in January 2020?,3.6,"**U.S. Unemployment Rate (U‑3) – January 2020**
+
+| Year | Period | Value (%) |
+|------|--------|-----------|
+| 2020 | Jan (M01) | **3.6** |
+
+*Series ID:* **LNS14000000** – Labor Force Statistics from the Current Population Survey (CPS), seasonally adjusted.
+
+**Source:** U.S. Bureau of Labor Statistics  
+
+*Note:* The value is seasonally adjusted, which is the default for this series.",correct,within_scope
+What was the labor force participation rate in March 2024?,62.7,"**Labor Force Participation Rate – March 2024**
+
+| Year | Month | Participation Rate (%) |
+|------|-------|--------------------------|
+| 2024 | March | **62.7** |
+
+*Series ID:* **LNS11300000** – Labor Force Statistics from the Current Population Survey (CPS), seasonally adjusted.
+
+**Source:** U.S. Bureau of Labor Statistics.",correct,out_of_scope
+What was the CPI for All Urban Consumers in June 2023?,305.109,"I’m not sure which CPI measure you’d like. The CPI for All‑Urban‑Consumers (CPI‑U) has several common series, such as:
+
+**(a)** All Items – U.S. City Average (not seasonally adjusted)  
+**(b)** Food – U.S. City Average (not seasonally adjusted)  
+**(c)** Energy – U.S. City Average (not seasonally adjusted)  
+**(d)** All Items Less Food & Energy (Core CPI) – U.S. City Average (not seasonally adjusted)
+
+Which of these CPI‑U series are you interested in for June 2023?",incorrect,within_scope
+How many nonfarm payroll jobs were reported for December 2023?,156857,"**Answer**
+
+The BLS reports **6,330.7 thousand non‑farm payroll jobs** for **December 2023**.
+
+| Year | Month | Non‑farm payrolls (thousands) |
+|------|-------|-------------------------------|
+| 2023 | Dec   | **6,330.7** |
+
+**Source:** U.S. Bureau of Labor Statistics (BLS), Current Employment Statistics (CES) survey, series **SMU06310800000000001** (State and Metro Area Employment – Not seasonally adjusted).  
+
+*Note: Values are shown in thousands of persons; the figure above is the most recent published value for December 2023.*",incorrect,within_scope
+What was the U.S. national unemployment rate in January 2024?,3.7,"**U.S. national unemployment rate (U‑3, seasonally adjusted)**  
+- **Series ID:** `LNS14000000` (Labor Force Statistics from the Current Population Survey)  
+
+| Year | Month | Unemployment Rate (%) |
+|------|-------|-----------------------|
+| 2024 | January | **3.7** |
+
+*Source: U.S. Bureau of Labor Statistics* (BLS Public Data API, series `LNS14000000`).",correct,out_of_scope
+Look up the BLS area code for New York City metro in the SM survey,35620,"**BLS Area Code for New York City (SM Survey)**  
+
+| Area Code | Name                | Survey |
+|-----------|---------------------|--------|
+| 93561     | New York City, NY   | SM     |
+
+**Source:** U.S. Bureau of Labor Statistics.",incorrect,within_scope
+What is the NAICS industry code for Healthcare and Social Assistance?,620000,"The NAICS sector code for **Healthcare and Social Assistance** is **62**. This two‑digit code represents the broad sector that includes establishments providing health care and social assistance services (e.g., hospitals, nursing and residential care facilities, outpatient care centers, and social assistance providers).
+
+**Source:** U.S. Bureau of Labor Statistics – NAICS coding system (standard industry classification).",incorrect,within_scope
+What area code does BLS use for Los Angeles in the SM survey?,31080,"The SM (Current Employment Statistics) survey uses the following area codes for Los Angeles:
+
+| Area Code | Description |
+|-----------|-------------|
+| **31080** | Los Angeles‑Long Beach‑Anaheim, CA (metropolitan area) |
+| **31084** | Los Angeles‑Long Beach‑Glendale, CA (metropolitan division) |
+
+**Source:** U.S. Bureau of Labor Statistics (BLS) – SM area code lookup.",correct,within_scope
+Build the BLS series ID for seasonally adjusted total nonfarm employment nationally in the CE survey,CES0000000001,"The BLS series ID for **seasonally adjusted total non‑farm employment (national) in the Current Employment Statistics (CE) survey** is:
+
+**`CES0000000001`**
+
+- **Survey:** Current Employment Statistics (CE)  
+- **Seasonal adjustment:** Seasonally adjusted (the default for CE flagship series)  
+- **Geography:** United States (national)  
+- **Industry:** Total non‑farm (all industries)  
+
+You can retrieve the data for this series with the `get_series_data` tool, e.g.:
+
+```json
+{
+  ""series_ids"": [""CES0000000001""],
+  ""start_year"": 2020,
+  ""end_year"": 2024
+}
+```
+
+**Source:** U.S. Bureau of Labor Statistics.",correct,within_scope
+What industry code represents Total Nonfarm in the CE survey?,00000000,The CE (Current Employment Statistics) survey uses the industry code **`00000000`** to represent **“Total nonfarm.”** This code refers to the aggregate of all non‑farm employment reported in the CE survey.,correct,within_scope
+What is the BLS area code for Chicago in the SM survey?,16980,"The BLS area code for Chicago in the **Current Population Survey (SM)** is:
+
+| Area Code | Description |
+|-----------|-------------|
+| **16980** | Chicago‑Naperville‑Elgin, IL‑IN (Metropolitan Area) |
+
+Source: U.S. Bureau of Labor Statistics.",correct,within_scope
+What is the measure type for series LNS11300000?,rate,"The series **LNS11300000** belongs to the **Labor Force Statistics (LN) survey** from the Current Population Survey.
+
+- **Measure type / data element:** The series code **11300000** corresponds to **“Labor force (civilian) – total population”** (the total number of people in the labor force).  
+
+- **Seasonal adjustment:** The series is **seasonally adjusted (S)**.
+
+**Series ID:** `LNS11300000`  
+**Survey:** Labor Force Statistics (LN) – Current Population Survey  
+
+Source: U.S. Bureau of Labor Statistics.",incorrect,within_scope
+What does the series LAUST060000000000003 measure?,unemployment rate,"The series **LAUST060000000000003** is a **Local Area Unemployment Statistics (LAU) series** that reports the **unemployment rate for the state of California**.  
+
+- **Survey:** Local Area Unemployment Statistics (LA)  
+- **Geography:** California (state‑level)  
+- **Measure:** Unemployment rate  
+- **Seasonal adjustment:** Not seasonally adjusted (U)  
+
+**Series ID:** `LAUST060000000000003`  
+
+*Source: U.S. Bureau of Labor Statistics*",correct,within_scope
+Is the series ID XYZ123 valid?,No,"The series ID **XYZ123** is **not valid**.
+
+**Why it’s invalid**
+
+- The prefix “XY” is not a recognized BLS survey prefix. Valid prefixes include CE, CU, JT, LA, SM, and others.
+
+**Source:** BLS series‑ID validation (local catalog).",correct,within_scope
+What is the unit of measurement for series CUUR0000SA0?,index 1982-84=100,"The series **CUUR0000SA0** is the **Consumer Price Index (CPI) for All Urban Consumers – All Items, U.S. city average**.
+
+- **Unit of measurement:** **Index (relative) value** – the CPI is expressed as an index where the base period (typically 1982‑84 = 100) serves as the reference point. All reported numbers are index points, not percentages or dollars.  
+
+*Source: U.S. Bureau of Labor Statistics*",correct,within_scope
+Is the series LNS14000000 seasonally adjusted?,Yes,"The series **LNS14000000** is **seasonally adjusted** (indicated by the “S” in its ID).  
+
+Source: U.S. Bureau of Labor Statistics.",correct,within_scope
+What survey does the series CES0000000001 belong to?,Current Employment Statistics,"The series **CES0000000001** is part of the **Current Employment Statistics (CES) survey**. 
+
+Source: U.S. Bureau of Labor Statistics.",correct,within_scope
+Suggest a series for tracking U.S. producer prices,WPUFD49104,"Here are a few flagship BLS series that are often used to track U.S. producer‑price‑related inflation.  While the BLS does not have a single “producer‑price” series, the Consumer Price Index (CPI) series below are the standard references for overall price movements, food, energy, and core (excluding food & energy) – all of which are closely watched by analysts of producer‑price trends.
+
+| Series ID | Survey (Name) | Description | Seasonal Adjustment | Unit |
+|-----------|---------------|-------------|---------------------|------|
+| **CUUR0000SA0** | Consumer Price Index – All Urban Consumers (CPI‑U) | All Items – U.S. City Average (Not seasonally adjusted) | Not seasonally adjusted | Index (1982‑84 = 100) |
+| **CUSR0000SA0** | Consumer Price Index – All Urban Consumers (CPI‑U) | All Items – U.S. City Average (Seasonally adjusted) | Seasonally adjusted | Index (1982‑84 = 100) |
+| **CUUR0000SAF1** | Consumer Price Index – All Urban Consumers (CPI‑U) | Food – U.S. City Average (Not seasonally adjusted) | Not seasonally adjusted | Index (1982‑84 = 100) |
+| **CUUR0000SA0E** | Consumer Price Index – All Urban Consumers (CPI‑U) | Energy – U.S. City Average (Not seasonally adjusted) | Not seasonally adjusted | Index (1982‑84 = 100) |
+| **CUUR0000SA0L1E** | Consumer Price Index – All Urban Consumers (CPI‑U) | Core CPI (All Items less Food & Energy) – U.S. City Average (Not seasonally adjusted) | Not seasonally adjusted | Index (1982‑84 = 100) |
+
+**Why these series?**  
+* They are the flagship CPI series that capture broad price movements across the economy, which are the primary proxy for producer‑price inflation.  
+* Seasonal‑adjusted and non‑adjusted versions are both provided so you can choose the version that best fits your analysis.  
+* The “Food,” “Energy,” and “Core CPI” series let you isolate the most volatile components (food & energy) and focus on the underlying trend.
+
+**Next steps**  
+If you need the actual monthly observations for any of these series (e.g., the latest values or a multi‑year history), just let me know the series ID(s) and the date range you’re interested in, and I’ll retrieve the data for you.
+
+*Source: U.S. Bureau of Labor Statistics*",incorrect,within_scope
+What series measures U.S. labor force participation rate?,LNS11300000,"**Series:** `LNS11300000` – *Labor Force Statistics from the Current Population Survey (CPS), Seasonally Adjusted – Labor Force Participation Rate*  
+
+| Year | Period | Value (%) | Note |
+|------|--------|-----------|------|
+| 2026 | Jan | 62.1 | Revised (footnote 12) |
+| 2026 | Feb | 62.0 |  |
+| 2026 | Mar | 61.9 |  |
+| 2026 | Apr | 61.8 |  |
+| 2026 | May | 61.8 |  |
+| 2026 | Jun | 61.5 |  |
+| 2026 | Jul | 61.4 |  |
+| 2026 | Aug | 61.6 |  |
+| 2026 | Sep | 61.8 |  |
+| 2026 | Oct | **61.9** | **most recent value** |
+| 2025 | Jan | 62.6 |  |
+| 2025 | Feb | 62.5 |  |
+| … | … | … | (values for 2025–2024 continue in the same pattern) |
+
+**Key points**
+
+* The series **LNS11300000** tracks the U.S. labor‑force participation rate as a percentage of the civilian population aged 16 +.
+* Values are seasonally adjusted (the default for the LN survey).
+* Footnote “P” would indicate a preliminary estimate; “R” indicates a revised figure (e.g., Jan 2026 was revised).
+* The most recent published value (October 2026) is **61.9 %**.
+
+**Source:** U.S. Bureau of Labor Statistics (CPS – Current Population Survey).",correct,within_scope
+Find a BLS series for job openings in the United States,JTS000000000000000JOL,"**Job Openings (U.S.) – JTS Survey**
+
+| Year | Month | Value (thousands) | Footnote |
+|------|-------|-------------------|----------|
+| 2026 | Jan   | 7 240 | |
+| 2026 | Feb   | 6 922 | |
+| 2026 | Mar   | 6 887 | |
+| 2026 | Apr   | 7 585 | |
+| 2026 | May   | 7 537 | |
+| 2026 | Jun   | 7 182 | |
+| 2026 | Jul   | 7 335 | |
+| 2026 | Aug   | 7 190 | |
+| 2026 | Sep   | **7 523** (preliminary) | P |
+| 2025 | Jan   | 7 431 | |
+| 2025 | Feb   | 7 242 | |
+| 2025 | Mar   | 6 952 | |
+| 2025 | Apr   | 7 098 | |
+| 2025 | May   | 7 310 | |
+| 2025 | Jun   | 7 204 | |
+| 2025 | Jul   | 7 089 | |
+| 2025 | Aug   | 6 919 | |
+| 2025 | Sep   | 7 169 | |
+| 2025 | Oct   | 7 170 | |
+| 2025 | Nov   | 6 846 | |
+| 2025 | Dec   | 6 550 | |
+| 2024 | Jan   | 8 378 | |
+| 2024 | Feb   | 8 440 | |
+| 2024 | Mar   | 8 206 | |
+| 2024 | Apr   | 7 529 | |
+| 2024 | May   | 7 782 | |
+| 2024 | Jun   | 7 416 | |
+| 2024 | Jul   | 7 426 | |
+| 2024 | Aug   | 7 520 | |
+| 2024 | Sep   | 6 943 | |
+| 2024 | Oct   | 7 379 | |
+| 2024 | Nov   | 7 566 | |
+| 2024 | Dec   | 7 295 | |
+
+**Series ID:** `JTS000000000000000JOL`  
+**Series label:** Job Openings and Labor Turnover Survey — Seasonally Adjusted, Total U.S., Total non‑farm  
+
+**Notes**  
+* The most recent value (September 2026) is marked **preliminary (P)**.  
+* Values are in thousands of job openings.  
+
+Source: U.S. Bureau of Labor Statistics.",correct,within_scope
+What series tracks total nonfarm payroll employment nationally?,CES0000000001,"**Series:** `CES0000000001` – *Current Employment Statistics (CE) – Seasonally Adjusted, Total non‑farm payroll employment (thousands)*  
+
+| Year | Month | Value (thousands) | Footnote |
+|------|-------|-------------------|----------|
+| 2026 | Jan   | 158,592 |  |
+| 2026 | Feb   | 158,436 |  |
+| 2026 | Mar   | 158,650 |  |
+| 2026 | Apr   | 158,798 |  |
+| 2026 | May   | 158,861 |  |
+| 2026 | Jun   | 158,892 |  |
+| 2026 | Jul   | 158,882 |  |
+| 2026 | Aug   | 159,068 |  |
+| 2026 | Sep   | 159,128 |  |
+| 2026 | Oct   | **159,293** (preliminary) | **P** |
+| 2025 | Jan   | 158,268 |  |
+| …    | …     | …                 | … |
+| 2024 | Dec   | 158,316 |  |
+
+*The most recent value (October 2026) is **159,293 thousand** and is marked preliminary (footnote **P**).*
+
+**Source:** U.S. Bureau of Labor Statistics (Current Employment Statistics survey).",correct,within_scope
+Suggest a BLS series for tracking U.S. consumer prices,CUUR0000SA0,"Here are a few flagship BLS series that are commonly used to track U.S. consumer prices. Each series is listed with its ID, a brief description, and why it’s a good choice for monitoring inflation.
+
+| Series ID | Survey | Description | Seasonal Adjustment | Unit |
+|-----------|--------|-------------|--------------------|------|
+| **CUUR0000SA0** | Consumer Price Index – All Urban Consumers (CPI‑U) | All‑items CPI (U.S. City Average) – **Not** seasonally adjusted | Not seasonally adjusted (U) | Index (1982‑84 = 100) |
+| **CUSR0000SA0** | CPI‑U | All‑items CPI – Seasonally adjusted | Seasonally adjusted (S) | Index (1982‑84 = 100) |
+| **CUUR0000SAF1** | CPI‑U | Food component of CPI – Not seasonally adjusted | Not seasonally adjusted (U) | Index (1982‑84 = 100) |
+| **CUUR0000SA0E** | CPI‑U | Energy component of CPI – Not seasonally adjusted | Not seasonally adjusted (U) | Index (1982‑84 = 100) |
+| **CUUR0000SA0L1E** | CPI‑U | Core CPI (All items less food & energy) – Not seasonally adjusted | Not seasonally adjusted (U) | Index (1982‑84 = 100) |
+
+**Why these series?**  
+* They are the flagship CPI‑U series used by the BLS and most analysts.  
+* Monthly observations are available for the full history of the index.  
+* Both seasonally adjusted and non‑adjusted versions are provided, letting you choose the version that best fits your analysis.  
+* Sub‑components (Food, Energy, Core) let you drill into the drivers of inflation.
+
+You can retrieve the actual data for any of these series with the `get_series_data` tool, specifying a year range if you’d like (e.g., 2020‑2024).  
+
+*Source: U.S. Bureau of Labor Statistics*",incorrect,within_scope
+What BLS series covers the national unemployment rate?,LNS14000000,"**Series ID:** `LNS14000000`  
+**Series label:** Labor Force Statistics from the Current Population Survey — Seasonally Adjusted, 14000000 (Unemployment Rate, U‑3)
+
+**Recent observations (national, seasonally adjusted):**
+
+| Year | Month | Value (%) | Footnote |
+|------|-------|-----------|----------|
+| 2026 | Oct   | 4.1 | – |
+| 2026 | Sep   | 4.2 | – |
+| 2026 | Aug   | 4.1 | – |
+| 2026 | Jul   | 4.1 | – |
+| 2026 | Jun   | 4.2 | – |
+| 2026 | May   | 4.3 | – |
+| 2026 | Apr   | 4.3 | – |
+| 2026 | Mar   | 4.3 | – |
+| 2026 | Feb   | 4.4 | – |
+| 2026 | Jan   | 4.3 | Revised (see footnote 12) |
+| 2025 | Dec   | 4.4 | – |
+| 2025 | Nov   | 4.5 | – |
+| 2025 | Oct   | –   | Data unavailable (footnote 9) |
+| 2025 | Sep   | 4.4 | – |
+| …    | …     | …   | … |
+
+*The most recent value (October 2026) is **4.1 %**.*
+
+**Notes**
+
+* This series reports the official U‑3 unemployment rate (percentage of the labor force that is unemployed).  
+* Values are seasonally adjusted, which is the standard presentation for this series.  
+* Footnotes indicate revisions (e.g., “R”) or preliminary estimates (“P”) when present.
+
+**Source:** U.S. Bureau of Labor Statistics (BLS) – Current Population Survey (CPS) via the BLS Public Data API.",correct,within_scope
