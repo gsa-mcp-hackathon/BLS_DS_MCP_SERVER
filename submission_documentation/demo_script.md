@@ -71,9 +71,12 @@ What is the current annual inflation rate based on the Consumer Price Index?
 a
 ```
 
-> "I'll select All Items — the headline CPI — and now the agent fetches the live data and returns the annual inflation rate with full provenance, sourced directly from the BLS."
+**[While waiting for the response:]**
+> "While it's making that live call to the BLS API — what's happening behind the scenes is the server is taking my selection, mapping it to the correct series, making a single validated request to the BLS Public Data API, and packaging the result back with the source and series information attached. No hallucination, no stale data — just the number, straight from BLS."
 
 **[Pause — point out the result]**
+
+> "And there it is — the annual inflation rate, sourced directly from the BLS."
 
 ---
 
