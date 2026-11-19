@@ -64,13 +64,20 @@ What is the current annual inflation rate based on the Consumer Price Index?
 
 > "This one demonstrates another key feature — ambiguity detection. Rather than guessing what I mean by 'inflation rate,' the agent asks which CPI measure I'm interested in: All Items, Food, Energy, or Core CPI. It knows that 'inflation' can mean different things, and it asks before retrieving data rather than silently picking one."
 
-**[TYPE IN CHAT — select option (a)]**
+**[ALTERNATIVE — if the agent asks about measure type instead of CPI category:]**
+> "This one demonstrates another key feature — ambiguity detection. Rather than guessing what I mean by 'inflation rate,' the agent asks me to clarify what I'm looking for: the raw CPI index level, the month-over-month change, or the 12-month percent change — the year-over-year rate most commonly reported as the annual inflation rate. It surfaces that distinction before making any API call."
+
+**[TYPE IN CHAT — select option (a) or 3 depending on which clarification appears]**
 ```
 a
 ```
+*or*
+```
+3
+```
 
 **[While waiting for the response:]**
-> "While it's making that live call to the BLS API — behind the scenes, the server is mapping my selection to the correct series, making a validated request to the BLS Public Data API, and packaging the result back with the source attached. No hallucination, no stale data."
+> "It's now making the live call to BLS — pulling the real number, straight from the source."
 
 **[Pause — point out the result]**
 
