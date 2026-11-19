@@ -17,11 +17,13 @@ Before hitting record, have these tabs/windows open and ready:
 
 **[On screen: Title slide or repo README / blank workspace]**
 
-> "Hi, everyone. My name is [YOUR NAME] and I work in [YOUR ROLE] at the General Services Administration.
+> "Hi, everyone. My name is Vicky, and I'm here with my colleagues Angel and Ayme. We're all Data Scientists with the Bureau of Labor Statistics.
 >
-> Today I'm going to walk you through our submission for the government-wide MCP Server Hackathon — a **BLS Public Data MCP Server** that gives AI agents live, structured access to the Bureau of Labor Statistics time-series data.
+> Today we're walking you through our submission for the government-wide MCP Server Hackathon — a **BLS Public Data MCP Server** built to give AI agents live, structured, and verifiable access to Bureau of Labor Statistics time-series data.
 >
-> The BLS publishes some of the most important economic indicators in the federal government — the unemployment rate, the Consumer Price Index, nonfarm payrolls, and more. But like a lot of federal open data, that information is not easily accessible to AI models out of the box. That's the problem we set out to solve."
+> So what does that mean in practice? The BLS is the principal federal agency responsible for measuring labor market activity, working conditions, and price changes in the U.S. economy. It publishes some of the most widely cited economic indicators in the country — the national unemployment rate, the Consumer Price Index, nonfarm payrolls, job openings, wage data, and much more. These series are updated monthly, freely available through the BLS Public Data API, and used every day by researchers, analysts, and decision-makers across government and the private sector.
+>
+> The challenge is that AI agents, on their own, can't reliably access this data. Their knowledge is frozen at training time, they can't reach live APIs, and when they try to answer questions about recent BLS statistics, they either hedge or hallucinate. Our MCP server solves that by acting as a structured bridge between an AI agent and the BLS API — handling series discovery, ID validation, ambiguity detection, and live data retrieval in a single, trustworthy interface. The result is an agent that can answer real questions about U.S. economic data with accuracy and provenance."
 
 ---
 
@@ -29,7 +31,7 @@ Before hitting record, have these tabs/windows open and ready:
 
 **[Navigate to: watsonx Orchestrate → chat with `gsa_ds_bls_baseline_agent`]**
 
-> "Let's start by showing the problem. Here I have a baseline BLS assistant with no tools — it answers from training data alone. Let me ask it a question that every policy researcher, journalist, or government employee might need to answer."
+> "Let's start by showing the problem. Here I have a baseline BLS assistant with no tools — it answers from training data alone. Let me ask it a question that any user might need to answer."
 
 **[TYPE IN CHAT:]**
 ```
