@@ -59,13 +59,22 @@ def _load_registry() -> dict:
         return yaml.safe_load(f)["datasets"]
 
 
-def _check_env() -> None:
+# UUID of the gsa_ds_bls_baseline_agent in Orchestrate
+_BASELINE_AGENT_ID = "05ae1efe-2067-4aae-a6f7-fd111a7517d5"
+
+
+def _check_env(baseline: bool = False) -> None:
     """Fail fast with clear messages if required env vars are missing."""
     required = {
         "ORCHESTRATE_BASE_URL": "Orchestrate instance base URL",
-        "ORCHESTRATE_AGENT_ID": "UUID of the deployed Orchestrate agent",
         "IBM_CLOUD_API_KEY": "IBM Cloud API key for IAM token exchange",
     }
+    if baseline:
+        required["ORCHESTRATE_BASELINE_AGENT_ID"] = (
+            "UUID of the no-tool baseline agent (set or pass --baseline-agent-id)"
+        )
+    else:
+        required["ORCHESTRATE_AGENT_ID"] = "UUID of the deployed Orchestrate agent"
     missing = {k: v for k, v in required.items() if not os.getenv(k)}
     if missing:
         for var, desc in missing.items():
@@ -82,7 +91,9 @@ def _check_env() -> None:
 # ---------------------------------------------------------------------------
 
 
-def _extract_metrics(exp: dict, run_index: int, tool_counts: list[int] | None = None) -> dict:
+def _extract_metrics(
+    exp: dict, run_index: int, tool_counts: list[int] | None = None
+) -> dict:
     """Compute per-run correctness, scope, latency, and tool-call metrics from a
     Phoenix experiment.
 
@@ -147,9 +158,7 @@ def _extract_metrics(exp: dict, run_index: int, tool_counts: list[int] | None = 
         p95_latency_s = "N/A"
 
     avg_tool_calls: float | str = (
-        round(statistics.mean(tool_counts), 2)
-        if tool_counts
-        else "N/A"
+        round(statistics.mean(tool_counts), 2) if tool_counts else "N/A"
     )
 
     return {
@@ -203,7 +212,9 @@ def _build_average_row(successful: list[dict]) -> dict:
     avg["avg_latency_s"] = statistics.mean(lat_values) if lat_values else "N/A"
     avg["p95_latency_s"] = statistics.mean(p95_values) if p95_values else "N/A"
 
-    tc_values = [r["avg_tool_calls"] for r in successful if r["avg_tool_calls"] != "N/A"]
+    tc_values = [
+        r["avg_tool_calls"] for r in successful if r["avg_tool_calls"] != "N/A"
+    ]
     avg["avg_tool_calls"] = round(statistics.mean(tc_values), 2) if tc_values else "N/A"
 
     return avg
@@ -318,6 +329,23 @@ def main() -> None:
         help="Phoenix server URL. Default: http://localhost:6006.",
     )
     parser.add_argument(
+        "--baseline",
+        action="store_true",
+        help=(
+            "Evaluate the no-tool baseline agent instead of the tool-augmented agent. "
+            "Uses ORCHESTRATE_BASELINE_AGENT_ID (or --baseline-agent-id)."
+        ),
+    )
+    parser.add_argument(
+        "--baseline-agent-id",
+        default=os.getenv("ORCHESTRATE_BASELINE_AGENT_ID", _BASELINE_AGENT_ID),
+        metavar="UUID",
+        help=(
+            "Orchestrate agent ID for the no-tool baseline. "
+            f"Default: {_BASELINE_AGENT_ID}"
+        ),
+    )
+    parser.add_argument(
         "--no-validate",
         action="store_true",
         help="Skip env var validation (use if you know what you are doing).",
@@ -325,7 +353,7 @@ def main() -> None:
     args = parser.parse_args()
 
     if not args.no_validate:
-        _check_env()
+        _check_env(baseline=args.baseline)
 
     # ── Resolve dataset ────────────────────────────────────────────────────
     registry = _load_registry()
@@ -348,6 +376,15 @@ def main() -> None:
             file=sys.stderr,
         )
         raise SystemExit(1) from exc
+
+    # ── Resolve agent ID — baseline overrides the default ─────────────────
+    if args.baseline:
+        os.environ["ORCHESTRATE_AGENT_ID"] = args.baseline_agent_id
+        run_tag = "baseline"
+        agent_label = f"baseline ({args.baseline_agent_id})"
+    else:
+        run_tag = args.system_prompt_version
+        agent_label = os.environ.get("ORCHESTRATE_AGENT_ID", "")
 
     # ── Initialise Phoenix env vars, agent, and tracer ─────────────────────
     os.environ["PHOENIX_PROJECT_NAME"] = args.project_name
@@ -374,6 +411,7 @@ def main() -> None:
     print(
         f"\nMulti-run evaluation:\n"
         f"  Dataset:        {args.dataset_name} ({n_examples} questions)\n"
+        f"  Agent:          {agent_label}\n"
         f"  Prompt version: {args.system_prompt_version}\n"
         f"  Runs:           {args.runs}\n"
         f"  Phoenix:        {args.phoenix_endpoint}\n"
@@ -384,7 +422,7 @@ def main() -> None:
     results: list[dict] = []
 
     for i in range(1, args.runs + 1):
-        experiment_name = f"{args.dataset_name}-{args.system_prompt_version}-run{i}"
+        experiment_name = f"{args.dataset_name}-{run_tag}-run{i}"
         print(f"\nRun {i}/{args.runs}: {experiment_name}")
 
         try:
@@ -409,7 +447,9 @@ def main() -> None:
             )
             exp_id = raw_exp.get("experiment_id", raw_exp.get("id", ""))
             full_exp = client.experiments.get_experiment(experiment_id=exp_id)
-            metrics = _extract_metrics(full_exp, run_index=i, tool_counts=run_tool_counts)
+            metrics = _extract_metrics(
+                full_exp, run_index=i, tool_counts=run_tool_counts
+            )
             results.append(metrics)
 
             lat_display = (
