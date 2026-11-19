@@ -19,11 +19,7 @@ Before hitting record, have these tabs/windows open and ready:
 
 > "Hi, everyone. My name is Vicky, and I'm here with my colleagues Angel and Ayme. We're all Data Scientists with the Bureau of Labor Statistics.
 >
-> Today we're walking you through our submission for the government-wide MCP Server Hackathon — a **BLS Public Data MCP Server** built to give AI agents live, structured, and verifiable access to Bureau of Labor Statistics time-series data.
->
-> So what does that mean in practice? The BLS is the principal federal agency responsible for measuring labor market activity, working conditions, and price changes in the U.S. economy. It publishes some of the most widely cited economic indicators in the country — the national unemployment rate, the Consumer Price Index, nonfarm payrolls, job openings, wage data, and much more. These series are updated monthly, freely available through the BLS Public Data API, and used every day by researchers, analysts, and decision-makers across government and the private sector.
->
-> The BLS organizes its data into dozens of surveys, each with its own series ID format made up of multiple coded segments — a survey prefix, a geographic code, an industry code, a data type code, a seasonal adjustment flag, and more. For a user who is new to BLS data, it can be difficult to know which series actually answers their question.
+> Today we're walking you through our submission for the government-wide MCP Server Hackathon — a **BLS Public Data MCP Server** built to give AI agents live, structured, and verifiable access to BLS time-series data. The BLS publishes some of the most widely cited economic indicators in the country — unemployment, CPI, nonfarm payrolls, job openings, and more — but navigating that data isn't always easy. The BLS organizes its data into dozens of surveys, each with its own series ID format made up of multiple coded segments, and for a user who is new to BLS data, it can be difficult to know which series actually answers their question.
 >
 > The challenge is that AI agents, on their own, can't reliably bridge that gap either. Their knowledge is frozen at training time, they can't reach live APIs, and when they try to answer questions about recent BLS statistics, they either hedge or hallucinate. Our MCP server solves both problems at once — it abstracts away the complexity of BLS series structure so that a user can ask a plain-language question and get back a verified, sourced answer, without ever needing to understand the underlying series ID format."
 
