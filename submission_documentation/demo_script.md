@@ -1,5 +1,5 @@
 # Demo Script: BLS Public Data MCP Server
-## GSA MCP Hackathon — Video Submission (~4 minutes)
+## GSA MCP Hackathon — Video Submission (~3–4 minutes)
 
 ---
 
@@ -8,12 +8,11 @@
 Before hitting record, have these tabs/windows open and ready:
 - [ ] **Tab 1:** watsonx Orchestrate — chat with **`gsa_ds_bls_baseline_agent`** loaded
 - [ ] **Tab 2:** watsonx Orchestrate — chat with **`gsa_ds_bls_agent`** (MCP-augmented) loaded
-- [ ] **Tab 3 (optional):** BLS data homepage — https://data.bls.gov/timeseries/
 - [ ] Clear any prior conversation history from both agent chats before recording
 
 ---
 
-## SECTION 1 — INTRO (0:00–0:40)
+## SECTION 1 — INTRO (0:00–0:35)
 
 **[On screen: Title slide or repo README / blank workspace]**
 
@@ -25,46 +24,42 @@ Before hitting record, have these tabs/windows open and ready:
 
 ---
 
-## SECTION 2 — THE PROBLEM: BASELINE AGENT (0:40–1:30)
+## SECTION 2 — THE PROBLEM: BASELINE AGENT (0:35–1:10)
 
 **[Navigate to: watsonx Orchestrate → chat with `gsa_ds_bls_baseline_agent`]**
 
-> "Let's start by showing the problem. Here I have a baseline BLS assistant with no tools — it answers from training data alone. Let me ask it a question that any user might need to answer."
+> "Let's start by showing the problem. Here I have a baseline BLS assistant with no tools — it answers from training data alone."
 
 **[TYPE IN CHAT:]**
 ```
 What was the U.S. national unemployment rate for each month of 2024?
 ```
 
-> "And here's what the baseline returns — something like: *'I'm sorry, but I don't have the monthly unemployment rate figures for 2024. My training data only includes official BLS statistics up through 2023, and I don't have real-time browsing capability to retrieve newer numbers.'*"
-
-**[Pause on the response — let it land]**
-
-> "The model is being honest — and that's actually the best case. It knows what it doesn't know. But the data it's looking for is publicly available right now on the BLS website. The gap isn't in the data — it's in the agent's ability to reach it. That's exactly the problem our MCP server is designed to solve."
+> "And here's what it returns — something like: *'I'm sorry, but I don't have the monthly unemployment rate figures for 2024. My training data only includes official BLS statistics up through 2023, and I don't have real-time browsing capability to retrieve newer numbers.'* The model is being honest — it knows what it doesn't know. But that data is publicly available right now on the BLS website. The gap isn't in the data — it's in the agent's ability to reach it."
 
 ---
 
-## SECTION 3 — THE SOLUTION: MCP-AUGMENTED AGENT (1:30–3:00)
+## SECTION 3 — THE SOLUTION: MCP-AUGMENTED AGENT (1:10–2:50)
 
 **[Navigate to: watsonx Orchestrate → chat with `gsa_ds_bls_agent`]**
 
-> "Now let's switch to our MCP-augmented agent. This is the same LLM — same model — but it's connected to our BLS Public Data MCP Server running on IBM Code Engine. The server exposes twelve tools that give the agent structured, live access to the BLS Public Data API."
+> "Now let's switch to our MCP-augmented agent — same model, but connected to our BLS Public Data MCP Server. I'll ask it the same question."
 
 **[TYPE IN CHAT — DEMO QUESTION 1:]**
 ```
 What was the U.S. national unemployment rate for each month of 2024?
 ```
 
-> "Instead of guessing from training data, the agent calls our `answer_bls_question` tool — an orchestrator that handles the entire pipeline: it identifies the right BLS series, validates the series ID, fetches live data from the API, and returns the result with full provenance. We get the actual monthly unemployment rate numbers, sourced directly from the BLS, with the series ID cited — in this case `LNS14000000`, the Current Population Survey unemployment rate."
+> "Instead of guessing, the agent calls our `answer_bls_question` tool — an orchestrator that handles the entire pipeline: it identifies the right BLS series, validates the series ID, fetches live data from the API, and returns the result with full provenance. We get the actual monthly numbers, sourced directly from the BLS."
 
-**[Pause — point out the tool call chain in the reasoning or response]**
+**[Pause — point out the tool call and result]**
 
 **[TYPE IN CHAT — DEMO QUESTION 2:]**
 ```
 What is the current annual inflation rate based on the Consumer Price Index?
 ```
 
-> "This one is a great example of the MCP server's data integrity features. Rather than guessing what I mean by 'inflation rate,' the agent surfaces a clarification — asking which CPI measure I'm interested in: All Items, Food, Energy, or Core CPI. This is the ambiguity detection built into our server. It knows that 'inflation' could mean different things depending on what a user is trying to understand, and it asks before retrieving data rather than silently picking one."
+> "This one demonstrates another key feature — ambiguity detection. Rather than guessing what I mean by 'inflation rate,' the agent asks which CPI measure I'm interested in: All Items, Food, Energy, or Core CPI. It knows that 'inflation' can mean different things, and it asks before retrieving data rather than silently picking one."
 
 **[TYPE IN CHAT — select option (a)]**
 ```
@@ -72,52 +67,19 @@ a
 ```
 
 **[While waiting for the response:]**
-> "While it's making that live call to the BLS API — what's happening behind the scenes is the server is taking my selection, mapping it to the correct series, making a single validated request to the BLS Public Data API, and packaging the result back with the source and series information attached. No hallucination, no stale data — just the number, straight from BLS."
+> "While it's making that live call to the BLS API — behind the scenes, the server is mapping my selection to the correct series, making a validated request to the BLS Public Data API, and packaging the result back with the source attached. No hallucination, no stale data."
 
 **[Pause — point out the result]**
 
-> "And there it is — the annual inflation rate, sourced directly from the BLS."
+> "And there it is — the annual inflation rate, sourced directly from the BLS. You'll notice it returns December 2024 as the most recent figure — that's a known LLM behavior where the model can anchor on a date that isn't quite current. The data itself is accurate, but how the model reasons about 'current' is something we're continuing to refine."
 
 ---
 
-## SECTION 4 — DEPTH: DATA INTEGRITY & DISCOVERY TOOLS (3:00–3:50)
+## SECTION 4 — CLOSING (2:50–3:15)
 
-**[Stay in `gsa_ds_bls_agent` chat]**
+**[Optional: return to the presentation slide]**
 
-> "One of the unique things about this MCP server is that it's not just a data fetcher — it's a full data integrity toolkit. Let me show two more tools quickly."
-
-**[TYPE IN CHAT — DEMO QUESTION 3:]**
-```
-What BLS data is available about job openings and hiring trends?
-```
-
-> "When a user doesn't know exactly which series they need, the agent calls our `suggest_series` tool — which searches a curated flagship series catalog locally, with no API call needed. It returns ranked suggestions with the series ID, the survey name, and a plain-language rationale."
-
-**[Pause — point out the ranked suggestions in the response]**
-
-**[TYPE IN CHAT — DEMO QUESTION 4:]**
-```
-Decode this BLS series ID for me: CES0000000001
-```
-
-> "And for data professionals who are working directly with BLS series IDs, the agent can call our `decode_series_id` tool to break down what every segment of a series ID means — the survey, the seasonal adjustment, the industry, the data type. All of this happens locally, with no API call, using our embedded BLS catalog."
-
-**[Pause — point out the decoded segments in the response]**
-
----
-
-## SECTION 5 — CLOSING (3:50–4:15)
-
-**[Optional: show the BLS data homepage briefly OR return to the presentation slide]**
-
-> "So to summarize — we built a BLS Public Data MCP Server that:
->
-> - Gives AI agents **live, structured access** to BLS time-series data across twelve surveys — unemployment, CPI, nonfarm payrolls, job openings, wages, producer prices, and more
-> - Includes **data integrity safeguards** — ambiguity detection, series ID validation, and a no-fabrication rule that prevents the model from inventing BLS values
-> - Runs on **IBM Code Engine** and integrates natively with watsonx Orchestrate
-> - Is **entirely open** — the server code is publicly available and built to be a reusable template for other federal data programs
->
-> We hope this demonstrates how an MCP server can close the gap between authoritative government open data and the AI tools that people are already using to do their work. Thank you."
+> "So to summarize — we built a BLS Public Data MCP Server that gives AI agents live, structured access to BLS time-series data, with built-in data integrity safeguards like ambiguity detection and series validation. It runs on IBM Code Engine, integrates with watsonx Orchestrate, and is fully open source — built to be a reusable template for other federal data programs. We hope this shows how an MCP server can close the gap between authoritative government open data and the AI tools people are already using. Thank you."
 
 ---
 
@@ -127,14 +89,11 @@ Use these if you have extra time or want to show additional capabilities:
 
 | Question | Tool it exercises |
 |---|---|
+| `What BLS data is available about job openings and hiring trends?` | `suggest_series` — discovery |
 | `How many nonfarm payroll jobs were added in the most recent month?` | `answer_bls_question` → CE survey |
+| `Decode this BLS series ID for me: CES0000000001` | `decode_series_id` |
 | `What is the BLS area code for the Chicago metropolitan area?` | `lookup_area_code` |
-| `What industry code does BLS use for the healthcare sector?` | `lookup_industry_code` |
-| `Is the series ID LNS14000000 valid?` | `validate_series_id` |
-| `Get me the raw data for series CUUR0000SA0 from 2022 to 2024` | `get_series_data` |
 | `What was the labor force participation rate in 2023?` | `answer_bls_question` → LN survey |
-| `Compare payrolls in January 2020 versus January 2024` | `answer_bls_question` + date range |
-| `What does the series ID SMU36356200000000001 describe?` | `decode_series_id` → NYC metro |
 
 ---
 
@@ -142,20 +101,18 @@ Use these if you have extra time or want to show additional capabilities:
 
 | Section | Target Time | Cumulative |
 |---|---|---|
-| Intro | 0:40 | 0:40 |
-| Baseline agent (problem) | 0:50 | 1:30 |
-| MCP agent — Question 1 (unemployment) | 0:45 | 2:15 |
-| MCP agent — Question 2 (inflation) | 0:45 | 3:00 |
-| Discovery + decode tools | 0:50 | 3:50 |
-| Closing | 0:25 | 4:15 |
+| Intro | 0:35 | 0:35 |
+| Baseline agent (problem) | 0:35 | 1:10 |
+| MCP agent — Q1 (unemployment) | 0:45 | 1:55 |
+| MCP agent — Q2 (inflation + ambiguity) | 0:55 | 2:50 |
+| Closing | 0:25 | 3:15 |
 
-**Total target: ~4 minutes**
+**Total target: ~3–3.5 minutes**
 
 ---
 
 ## TIPS
 
 - Keep both agent tabs side by side if screen space allows — it makes the contrast more visual
-- If a tool call takes more than ~10 seconds, fill the silence by narrating what the tool is doing ("…it's now validating the series ID locally, then making the live API call to BLS…")
 - The key narrative contrast is always: **baseline = frozen training data → MCP agent = live verified data**
-- Emphasize the series ID citation in every response — it's the proof of provenance that makes the data trustworthy
+- If a tool call takes longer than expected, the filler text under "While waiting for the response" is there to fill the silence naturally
