@@ -208,6 +208,7 @@ class OrchestrateAgent:
         tracer_provider = phoenix_register(
             project_name=project_name,
             endpoint=otlp_endpoint,
+            auto_instrument=True,
         )
         LangChainInstrumentor().instrument(tracer_provider=tracer_provider)
         logger.info(

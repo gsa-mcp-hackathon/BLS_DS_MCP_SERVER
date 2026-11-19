@@ -1,0 +1,3 @@
+run,experiment_id,n_questions,n_correct,correctness_rate,n_within_scope,scope_adherence_rate,avg_latency_s,p95_latency_s,avg_tool_calls,error
+1,RXhwZXJpbWVudDoyMg==,30,21,0.7000,28,0.9333,11.35,18.78,0.93,False
+AVERAGE,,30,21,0.7000,28,0.9333,11.35,18.78,0.93,

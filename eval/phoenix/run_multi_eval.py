@@ -82,16 +82,18 @@ def _check_env() -> None:
 # ---------------------------------------------------------------------------
 
 
-def _extract_metrics(exp: dict, run_index: int) -> dict:
-    """Compute per-run correctness, scope, and latency metrics from a Phoenix
-    experiment.
+def _extract_metrics(exp: dict, run_index: int, tool_counts: list[int] | None = None) -> dict:
+    """Compute per-run correctness, scope, latency, and tool-call metrics from a
+    Phoenix experiment.
 
     Replicates the build_table join logic from phoenix_query.py inline so there
     is no cross-file dependency on that script.
 
     Args:
-        exp:       Full experiment dict from client.experiments.get_experiment().
-        run_index: The 1-based run number, stored in the returned dict.
+        exp:         Full experiment dict from client.experiments.get_experiment().
+        run_index:   The 1-based run number, stored in the returned dict.
+        tool_counts: Per-question tool call counts collected from agent_v2.
+                     When None or empty, avg_tool_calls is reported as "N/A".
 
     Returns:
         A dict with all _CSV_FIELDNAMES populated.
@@ -144,6 +146,12 @@ def _extract_metrics(exp: dict, run_index: int) -> dict:
         avg_latency_s = "N/A"
         p95_latency_s = "N/A"
 
+    avg_tool_calls: float | str = (
+        round(statistics.mean(tool_counts), 2)
+        if tool_counts
+        else "N/A"
+    )
+
     return {
         "run": run_index,
         "experiment_id": exp.get("id", exp.get("experiment_id", "")),
@@ -154,8 +162,7 @@ def _extract_metrics(exp: dict, run_index: int) -> dict:
         "scope_adherence_rate": scope_adherence_rate,
         "avg_latency_s": avg_latency_s,
         "p95_latency_s": p95_latency_s,
-        # Orchestrate does not expose per-call tool counts via chat completions
-        "avg_tool_calls": "N/A",
+        "avg_tool_calls": avg_tool_calls,
         "error": False,
     }
 
@@ -165,7 +172,6 @@ def _build_average_row(successful: list[dict]) -> dict:
     avg: dict = {
         "run": "AVERAGE",
         "experiment_id": "",
-        "avg_tool_calls": "N/A",
         "error": "",
     }
 
@@ -197,6 +203,9 @@ def _build_average_row(successful: list[dict]) -> dict:
     avg["avg_latency_s"] = statistics.mean(lat_values) if lat_values else "N/A"
     avg["p95_latency_s"] = statistics.mean(p95_values) if p95_values else "N/A"
 
+    tc_values = [r["avg_tool_calls"] for r in successful if r["avg_tool_calls"] != "N/A"]
+    avg["avg_tool_calls"] = round(statistics.mean(tc_values), 2) if tc_values else "N/A"
+
     return avg
 
 
@@ -221,7 +230,7 @@ def _print_summary_table(results: list[dict]) -> None:
     """Print a fixed-width summary table to stdout."""
     header = (
         f"{'Run':<10} {'Correctness':>13} {'Scope':>13} "
-        f"{'Avg Lat(s)':>12} {'P95 Lat(s)':>12}  {'Experiment ID'}"
+        f"{'Avg Lat(s)':>12} {'P95 Lat(s)':>12} {'Avg Tools':>11}  {'Experiment ID'}"
     )
     print("\n" + header)
     print("-" * len(header))
@@ -247,10 +256,15 @@ def _print_summary_table(results: list[dict]) -> None:
             if isinstance(r["p95_latency_s"], float)
             else str(r["p95_latency_s"])
         )
+        avg_tc = (
+            f"{r['avg_tool_calls']:.2f}"
+            if isinstance(r["avg_tool_calls"], float)
+            else str(r["avg_tool_calls"])
+        )
         exp_id = str(r.get("experiment_id", ""))
         print(
             f"{run_label:<10} {correctness:>13} {scope:>13} "
-            f"{avg_lat:>12} {p95_lat:>12}  {exp_id}"
+            f"{avg_lat:>12} {p95_lat:>12} {avg_tc:>11}  {exp_id}"
         )
 
 
@@ -325,7 +339,7 @@ def main() -> None:
 
     # ── Deferred imports (so --help works without the full dep stack) ──────
     try:
-        from agent import OrchestrateAgent
+        from agent_v2 import OrchestrateAgentV2
         from judges import check_answer_scope, match_expected_response
         from phoenix.client import Client
     except ImportError as exc:
@@ -339,7 +353,7 @@ def main() -> None:
     os.environ["PHOENIX_PROJECT_NAME"] = args.project_name
     os.environ["PHOENIX_ENDPOINT"] = args.phoenix_endpoint
 
-    agent = OrchestrateAgent(system_prompt_version=args.system_prompt_version)
+    agent = OrchestrateAgentV2(system_prompt_version=args.system_prompt_version)
     agent.initialize()
 
     # ── Load Phoenix client and dataset (once, reused across all runs) ─────
@@ -374,16 +388,28 @@ def main() -> None:
         print(f"\nRun {i}/{args.runs}: {experiment_name}")
 
         try:
-            task = agent.create_experiment_task()
+            run_tool_counts: list[int] = []
+            inner_task = agent.create_experiment_task()
+
+            def task_with_counts(
+                example,
+                _inner=inner_task,
+                _counts=run_tool_counts,
+            ) -> str:
+                result = _inner(example)
+                if agent.last_run_result is not None:
+                    _counts.append(agent.last_run_result.tool_call_count)
+                return result
+
             raw_exp = client.experiments.run_experiment(
                 dataset=dataset,
-                task=task,
+                task=task_with_counts,
                 evaluators=[check_answer_scope, match_expected_response],
                 experiment_name=experiment_name,
             )
             exp_id = raw_exp.get("experiment_id", raw_exp.get("id", ""))
             full_exp = client.experiments.get_experiment(experiment_id=exp_id)
-            metrics = _extract_metrics(full_exp, run_index=i)
+            metrics = _extract_metrics(full_exp, run_index=i, tool_counts=run_tool_counts)
             results.append(metrics)
 
             lat_display = (
