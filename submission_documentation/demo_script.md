@@ -50,9 +50,12 @@ What was the U.S. national unemployment rate for each month of 2024?
 What was the U.S. national unemployment rate for each month of 2024?
 ```
 
-> "Instead of guessing, the agent calls our `answer_bls_question` tool — an orchestrator that handles the entire pipeline: it identifies the right BLS series, validates the series ID, fetches live data from the API, and returns the result with full provenance. We get the actual monthly numbers, sourced directly from the BLS."
+**[While waiting for the response:]**
+> "Instead of guessing, the agent is now calling our `answer_bls_question` tool — an orchestrator that runs the full pipeline in one call. First it parses the question to identify what kind of data is being asked for. Then it searches our curated series catalog to find the right match. It validates the series ID locally before ever touching the API. And then it makes a single live call to the BLS Public Data API to retrieve the actual observations. All of that happens automatically, behind the scenes, in response to a plain-language question."
 
 **[Pause — point out the tool call and result]**
+
+> "And we get the actual monthly unemployment rate numbers for 2024, sourced directly from the BLS."
 
 **[TYPE IN CHAT — DEMO QUESTION 2:]**
 ```
