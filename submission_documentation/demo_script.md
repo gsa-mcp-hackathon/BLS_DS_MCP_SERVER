@@ -40,11 +40,11 @@ Before hitting record, have these tabs/windows open and ready:
 What was the U.S. national unemployment rate for each month of 2024?
 ```
 
-> "Watch what happens. The model gives us an answer — but it's pulling from frozen training data. It may not have 2024 numbers at all, it might hedge or hallucinate specific monthly values, and it has no way to tell us whether the figures are preliminary or revised."
+> "And here's what the baseline returns — something like: *'I'm sorry, but I don't have the monthly unemployment rate figures for 2024. My training data only includes official BLS statistics up through 2023, and I don't have real-time browsing capability to retrieve newer numbers.'*"
 
-**[Pause while response loads — point out the hedging or stale/incorrect data]**
+**[Pause on the response — let it land]**
 
-> "This is the core challenge: a lot of these federal datasets — like the BLS Public Data API — are authoritative, up-to-date, and open to the public. But standard AI models have no way to reach them reliably. They either admit they don't know, or worse, they confidently give you the wrong number."
+> "The model is being honest — and that's actually the best case. It knows what it doesn't know. But the data it's looking for is publicly available right now on the BLS website. The gap isn't in the data — it's in the agent's ability to reach it. That's exactly the problem our MCP server is designed to solve."
 
 ---
 
