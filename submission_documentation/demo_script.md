@@ -64,11 +64,16 @@ What was the U.S. national unemployment rate for each month of 2024?
 What is the current annual inflation rate based on the Consumer Price Index?
 ```
 
-> "Let me ask about inflation. This one is a great example of where the MCP server's data integrity features really shine. Inflation is a measure that people commonly confuse — is it the CPI index level, or the percent change over twelve months?"
+> "This one is a great example of the MCP server's data integrity features. Rather than guessing what I mean by 'inflation rate,' the agent surfaces a clarification — asking which CPI measure I'm interested in: All Items, Food, Energy, or Core CPI. This is the ambiguity detection built into our server. It knows that 'inflation' could mean different things depending on what a user is trying to understand, and it asks before retrieving data rather than silently picking one."
 
-**[Pause while tool runs]**
+**[TYPE IN CHAT — select option (a)]**
+```
+a
+```
 
-> "The server's ambiguity detection surfaces this distinction. The agent calls our `answer_bls_question` tool, which internally runs an intent parsing step to determine that 'inflation rate' means a twelve-month percent change — not just the index value. It fetches from series `CUUR0000SA0` — the CPI-U All Items — and returns the most recent data with the correct framing."
+> "I'll select All Items — the headline CPI — and now the agent fetches the live data and returns the annual inflation rate with full provenance, sourced directly from the BLS."
+
+**[Pause — point out the result]**
 
 ---
 
