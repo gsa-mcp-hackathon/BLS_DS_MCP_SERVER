@@ -55,11 +55,9 @@ What was the U.S. national unemployment rate for each month of 2024?
 What was the U.S. national unemployment rate for each month of 2024?
 ```
 
-> "Watch what it does now. Instead of guessing from training data, it calls our `answer_bls_question` tool — which is an orchestrator that handles the entire pipeline: it identifies the right BLS series, validates the series ID, fetches live data from the API, and returns the result with full provenance."
+> "Instead of guessing from training data, the agent calls our `answer_bls_question` tool — an orchestrator that handles the entire pipeline: it identifies the right BLS series, validates the series ID, fetches live data from the API, and returns the result with full provenance. We get the actual monthly unemployment rate numbers, sourced directly from the BLS, with the series ID cited — in this case `LNS14000000`, the Current Population Survey unemployment rate."
 
 **[Pause — point out the tool call chain in the reasoning or response]**
-
-> "We get the actual monthly unemployment rate numbers, sourced directly from the BLS, with the series ID cited — in this case `LNS14000000`, the Current Population Survey unemployment rate — and the agent flags any preliminary values marked with a P footnote."
 
 **[TYPE IN CHAT — DEMO QUESTION 2:]**
 ```
