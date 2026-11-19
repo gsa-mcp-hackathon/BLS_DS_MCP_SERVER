@@ -23,7 +23,9 @@ Before hitting record, have these tabs/windows open and ready:
 >
 > So what does that mean in practice? The BLS is the principal federal agency responsible for measuring labor market activity, working conditions, and price changes in the U.S. economy. It publishes some of the most widely cited economic indicators in the country — the national unemployment rate, the Consumer Price Index, nonfarm payrolls, job openings, wage data, and much more. These series are updated monthly, freely available through the BLS Public Data API, and used every day by researchers, analysts, and decision-makers across government and the private sector.
 >
-> The challenge is that AI agents, on their own, can't reliably access this data. Their knowledge is frozen at training time, they can't reach live APIs, and when they try to answer questions about recent BLS statistics, they either hedge or hallucinate. Our MCP server solves that by acting as a structured bridge between an AI agent and the BLS API — handling series discovery, ID validation, ambiguity detection, and live data retrieval in a single, trustworthy interface. The result is an agent that can answer real questions about U.S. economic data with accuracy and provenance."
+> The BLS organizes its data into dozens of surveys, each with its own series ID format made up of multiple coded segments — a survey prefix, a geographic code, an industry code, a data type code, a seasonal adjustment flag, and more. For a user who is new to BLS data, it can be difficult to know which series actually answers their question.
+>
+> The challenge is that AI agents, on their own, can't reliably bridge that gap either. Their knowledge is frozen at training time, they can't reach live APIs, and when they try to answer questions about recent BLS statistics, they either hedge or hallucinate. Our MCP server solves both problems at once — it abstracts away the complexity of BLS series structure so that a user can ask a plain-language question and get back a verified, sourced answer, without ever needing to understand the underlying series ID format."
 
 ---
 
